@@ -1,0 +1,1950 @@
+<!doctype html>
+<html lang="bg">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light">
+<meta name="theme-color" content="#F3E9D9">
+<meta name="description" content="Дълбок Прочит — превръща книга в компресирана версия: карта на идеите, концепциите в дълбочина, критика на аргументацията и концентрат за 20 минути.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23F3E9D9'/%3E%3Cpath d='M6 7h8a3 3 0 013 3v16a3 3 0 00-3-2.5H6z' fill='none' stroke='%238A2F3E' stroke-width='2' stroke-linejoin='round'/%3E%3Cpath d='M26 7h-8a3 3 0 00-3 3v16a3 3 0 013-2.5h8z' fill='none' stroke='%238A2F3E' stroke-width='2' stroke-linejoin='round'/%3E%3C/svg%3E">
+<title>Дълбок Прочит</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Vollkorn:ital,wght@0,500;0,600;0,700;1,500&family=Literata:opsz,wght@7..72,400;7..72,500;7..72,600&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F3E9D9; --raised:#FCF7EC; --sunk:#EADDC7;
+  --ink:#2A201B; --ink2:#6B594B; --ink3:#93816F;
+  --rule:#DCC9AC; --wine:#8A2F3E; --saffron:#C98A21; --pine:#3F5A4C;
+  --shadow:0 1px 0 rgba(42,32,27,.06), 0 8px 24px -18px rgba(42,32,27,.5);
+  --fs:16px;
+  --top: calc(env(safe-area-inset-top, 0px) + 66px);
+  --bot: calc(env(safe-area-inset-bottom, 0px) + 64px);
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;padding:0;background:var(--paper)}
+body{
+  font-family:'Literata',Georgia,serif;color:var(--ink);font-size:var(--fs);
+  line-height:1.62;-webkit-font-smoothing:antialiased;
+  padding-top:var(--top);padding-bottom:var(--bot);min-height:100vh;
+}
+button{font-family:inherit;cursor:pointer;color:inherit;font-size:inherit}
+input,select,textarea{font-family:inherit;font-size:16px;color:var(--ink)}
+.mono{font-family:'JetBrains Mono',ui-monospace,monospace}
+.disp{font-family:'Vollkorn',Georgia,serif}
+:focus-visible{outline:2px solid var(--wine);outline-offset:2px}
+
+/* заглавна лента — марката е централна, без бутони, за да не се крие под чуждо меню */
+.head{position:fixed;top:0;left:0;right:0;z-index:30;background:rgba(243,233,217,.96);
+  backdrop-filter:blur(8px);border-bottom:1px solid var(--rule);
+  padding:calc(env(safe-area-inset-top, 0px) + 11px) 16px 9px;
+  display:flex;flex-direction:column;align-items:center;gap:1px}
+.brand{font-family:'Vollkorn',Georgia,serif;font-size:21px;font-weight:600;
+  line-height:1.05;letter-spacing:-.005em;white-space:nowrap}
+.brand i{font-style:italic;color:var(--wine)}
+.hsub{font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--ink3);max-width:92vw;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+/* голямата марка на началния екран */
+.lock{text-align:center;padding:14px 0 22px;border-bottom:1px solid var(--rule);margin-bottom:24px}
+.lock .w{font-family:'Vollkorn',Georgia,serif;font-weight:600;
+  font-size:clamp(40px,13vw,76px);line-height:.98;letter-spacing:-.025em;display:block}
+.lock .w i{font-style:italic;color:var(--wine);display:block}
+.lock .r{width:54px;height:2px;background:var(--saffron);margin:16px auto 14px;border-radius:2px}
+.lock .t{font-family:'Vollkorn',serif;font-style:italic;font-size:19px;color:var(--ink2)}
+
+/* долна лента — всички менюта са тук, в обсега на палеца */
+.nav{position:fixed;bottom:0;left:0;right:0;z-index:35;background:var(--raised);
+  border-top:1px solid var(--rule);display:flex;
+  padding:8px 10px calc(env(safe-area-inset-bottom, 0px) + 8px);gap:6px}
+.nav button{flex:1;border:none;background:none;border-radius:4px;padding:9px 4px;
+  display:flex;flex-direction:column;align-items:center;gap:4px;
+  font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--ink2)}
+.nav button:active{background:var(--sunk)}
+.nav button.on{color:var(--wine)}
+.nav button[disabled]{opacity:.35}
+
+.wrap{max-width:820px;margin:0 auto;padding:22px 16px 40px}
+h1.big{font-family:'Vollkorn',serif;font-weight:600;font-size:clamp(30px,7vw,46px);
+  line-height:1.06;margin:0 0 14px;letter-spacing:-.015em}
+h1.big i{font-style:italic;color:var(--wine)}
+h2.sec{font-family:'Vollkorn',serif;font-size:24px;font-weight:600;margin:0 0 4px;line-height:1.2}
+.eyebrow{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--ink3);margin-bottom:14px}
+p.lead{color:var(--ink2);margin:0 0 22px;font-size:16.5px;max-width:52ch}
+.muted{color:var(--ink2)}
+.stat{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.08em;
+  color:var(--ink3);text-transform:uppercase}
+
+.btn{border:1px solid var(--rule);background:var(--raised);border-radius:3px;
+  padding:11px 16px;font-size:15px;display:inline-flex;align-items:center;
+  justify-content:center;gap:8px;min-height:46px}
+.btn:active{background:#fff}
+.btn.pri{background:var(--wine);color:#FCF7EC;border-color:var(--wine)}
+.btn.wide{width:100%}
+.btn[disabled]{opacity:.45}
+.row{display:flex;gap:10px;flex-wrap:wrap}
+.row .btn{flex:1;min-width:130px}
+
+.card{background:var(--raised);border:1px solid var(--rule);border-radius:3px;
+  padding:16px;margin-bottom:12px;box-shadow:var(--shadow)}
+.card.wine{border-left:4px solid var(--wine)}
+.card.saf{border-left:4px solid var(--saffron)}
+.drop{border:1.5px dashed var(--rule);background:var(--raised);border-radius:3px;
+  padding:26px 18px;text-align:center}
+.drop h3{font-family:'Vollkorn',serif;font-size:20px;margin:0 0 6px;font-weight:600}
+.drop p{color:var(--ink2);font-size:14px;margin:0 0 16px}
+
+label.f{display:block;font-family:'JetBrains Mono',monospace;font-size:10px;
+  letter-spacing:.16em;text-transform:uppercase;color:var(--ink3);margin:18px 0 7px}
+input.f,select.f,textarea.f{width:100%;border:1px solid var(--rule);background:var(--raised);
+  border-radius:3px;padding:12px;min-height:48px}
+textarea.f{min-height:110px;resize:vertical;font-size:15px}
+.hint{font-size:13.5px;color:var(--ink2);margin:7px 0 0}
+
+.pill{border:1px solid var(--rule);background:var(--raised);border-radius:99px;
+  padding:8px 14px;font-size:13.5px;color:var(--ink2);min-height:40px}
+.pill.on{background:var(--wine);color:#FCF7EC;border-color:var(--wine)}
+
+.list{display:grid;gap:10px}
+.bookrow{display:flex;align-items:stretch;gap:0;background:var(--raised);
+  border:1px solid var(--rule);border-left:5px solid var(--wine);border-radius:3px;
+  box-shadow:var(--shadow);overflow:hidden}
+.bookrow.part{border-left-color:var(--saffron)}
+.bookrow .main{flex:1;text-align:left;border:none;background:none;padding:14px 14px 12px}
+.bookrow h4{font-family:'Vollkorn',serif;font-size:17px;margin:0 0 3px;font-weight:600;line-height:1.25}
+.bookrow .aut{color:var(--ink2);font-size:13px;margin:0 0 9px}
+.bookrow .meta{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--ink3);
+  display:flex;gap:10px;flex-wrap:wrap}
+.bookrow .del{border:none;border-left:1px solid var(--rule);background:none;
+  color:var(--ink3);padding:0 15px;font-size:12px}
+.bookrow .del.armed{background:var(--wine);color:#FCF7EC;font-family:'JetBrains Mono',monospace;font-size:10px}
+
+.bar{height:6px;background:var(--sunk);border-radius:99px;overflow:hidden;margin:16px 0 8px}
+.bar span{display:block;height:100%;background:var(--wine);transition:width .4s ease}
+.log{border:1px solid var(--rule);background:var(--raised);border-radius:3px;
+  max-height:280px;overflow:auto;margin:18px 0}
+.log div{padding:9px 13px;border-bottom:1px solid var(--sunk);font-size:13.5px;display:flex;gap:9px}
+.log div:last-child{border-bottom:none}
+.log .n{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--ink3);padding-top:3px;min-width:22px}
+.log .now{background:#fff;color:var(--wine)}
+.log .warn{color:var(--saffron)}
+.log .fail{color:var(--wine)}
+.err{border:1px solid var(--wine);background:#fff;border-left:4px solid var(--wine);
+  padding:14px;border-radius:3px;font-size:14.5px;margin-bottom:16px}
+
+table.plan{width:100%;border-collapse:collapse;font-size:14px}
+table.plan td{padding:8px 0;border-bottom:1px solid var(--sunk);vertical-align:top}
+table.plan td:first-child{color:var(--ink2);width:44%}
+table.plan tr:last-child td{border-bottom:none}
+.big-num{font-family:'Vollkorn',serif;font-size:30px;font-weight:600;line-height:1}
+
+/* четене */
+.toc{background:var(--raised);border:1px solid var(--rule);border-radius:3px;
+  padding:8px;margin-bottom:16px}
+.toc button{display:block;width:100%;text-align:left;border:none;background:none;
+  padding:9px 10px;font-size:14px;color:var(--ink2);border-radius:3px;line-height:1.35}
+.toc button:active{background:var(--sunk)}
+.toc .g{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--ink3);padding:12px 10px 4px}
+.art{background:var(--raised);border:1px solid var(--rule);border-radius:3px;
+  padding:20px 18px;margin-bottom:14px;box-shadow:var(--shadow);scroll-margin-top:calc(var(--top) + 10px)}
+.art.read{border-left:3px solid var(--pine)}
+.ah{display:flex;align-items:flex-start;gap:10px;margin-bottom:14px;
+  padding-bottom:12px;border-bottom:1px solid var(--sunk)}
+.ah .num{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--wine);padding-top:6px}
+.ah h2{font-family:'Vollkorn',serif;font-size:21px;font-weight:600;margin:0;line-height:1.22;flex:1}
+.tools{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px}
+.tool{border:1px solid var(--rule);background:var(--raised);border-radius:99px;
+  padding:7px 13px;font-size:12.5px;color:var(--ink2);min-height:38px;
+  display:inline-flex;align-items:center;gap:6px}
+.tool.on{background:var(--wine);color:#FCF7EC;border-color:var(--wine)}
+.tool.ok{background:var(--pine);color:#FCF7EC;border-color:var(--pine)}
+.tool.saf{background:var(--saffron);color:#2A201B;border-color:var(--saffron)}
+h3.mdh{font-family:'Vollkorn',serif;font-size:17px;margin:22px 0 7px;color:var(--wine);font-weight:600}
+h4.mdh{font-family:'Vollkorn',serif;font-size:15.5px;margin:18px 0 6px;font-weight:600}
+.art p{margin:0 0 12px}
+.art ul,.art ol{margin:0 0 13px;padding-left:20px}
+.art li{margin-bottom:5px}
+.art blockquote{margin:13px 0;padding:2px 0 2px 14px;border-left:3px solid var(--saffron);
+  color:var(--ink2);font-style:italic}
+.art hr{border:none;height:1px;background:var(--rule);margin:18px 0}
+code{font-family:'JetBrains Mono',monospace;font-size:.86em;background:var(--sunk);
+  padding:1px 5px;border-radius:2px}
+.notes{margin-top:14px;padding-top:13px;border-top:1px dashed var(--rule)}
+.note{background:#FFFDF7;border:1px solid var(--rule);border-left:3px solid var(--saffron);
+  border-radius:3px;padding:11px 12px;margin-bottom:9px;font-size:14.5px;position:relative}
+.note .q{color:var(--ink2);font-style:italic;font-size:13.5px;margin-bottom:6px;
+  padding-left:9px;border-left:2px solid var(--sunk)}
+.note .ts{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--ink3);margin-top:7px}
+.note .x{position:absolute;top:6px;right:8px;border:none;background:none;color:var(--ink3);
+  padding:6px 8px;font-size:15px}
+.empty{text-align:center;padding:40px 16px;color:var(--ink2)}
+.empty h3{font-family:'Vollkorn',serif;font-size:19px;margin:0 0 6px;color:var(--ink)}
+#toast{position:fixed;left:50%;bottom:calc(var(--bot) + 14px);transform:translateX(-50%);
+  background:var(--ink);color:var(--paper);padding:11px 18px;border-radius:4px;
+  font-size:14px;z-index:80;display:none;max-width:88vw;text-align:center}
+#float{position:fixed;z-index:70;transform:translate(-50%,-100%);background:var(--ink);
+  color:var(--paper);border:none;border-radius:4px;padding:10px 15px;font-size:13.5px;
+  box-shadow:0 6px 20px -6px rgba(0,0,0,.5);display:none}
+@media (min-width:760px){ .wrap{padding:30px 20px 60px} .art{padding:26px 28px} }
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+@media print{.head,.nav,.tools,.toc,#float,#toast{display:none!important}
+  body{padding:0;background:#fff}.art{break-inside:avoid;box-shadow:none;border:none;border-bottom:1px solid #ccc}}
+</style>
+</head>
+<body>
+
+<header class="head">
+  <div class="brand">Дълбок <i>Прочит</i></div>
+  <div class="hsub" id="htitle"></div>
+</header>
+<main id="app"></main>
+<nav class="nav" id="nav"></nav>
+<button id="float"></button>
+<div id="toast"></div>
+
+<script>
+"use strict";
+/* =====================================================================
+   ДЪЛБОК ПРОЧИТ 2 — без рамки, без Babel, зарежда мигновено.
+   Цената е свалена с три лоста: кеширане на общия контекст,
+   Haiku за извличането, и нула продължения (дълъг max_tokens).
+   ===================================================================== */
+
+const $ = (s, r) => (r || document).querySelector(s);
+const uid = () => Math.random().toString(36).slice(2, 10);
+const esc = s => String(s == null ? "" : s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+const nf = n => n.toLocaleString("bg-BG");
+
+function toast(m) {
+  const t = $("#toast");
+  t.textContent = m; t.style.display = "block";
+  clearTimeout(t._t); t._t = setTimeout(() => (t.style.display = "none"), 2400);
+}
+
+/* ---------- 1. ХРАНИЛИЩЕ (IndexedDB + резерви) ---------- */
+
+const DB = (() => {
+  let db = null, ready = null;
+  const mem = new Map();
+  function open() {
+    if (ready) return ready;
+    ready = new Promise(res => {
+      let rq;
+      try { rq = indexedDB.open("dulbok-prochit", 1); }
+      catch (e) { return res(null); }
+      rq.onupgradeneeded = () => { rq.result.createObjectStore("kv"); };
+      rq.onsuccess = () => { db = rq.result; res(db); };
+      rq.onerror = () => res(null);
+      setTimeout(() => res(db), 2500);
+    });
+    return ready;
+  }
+  const tx = (mode, fn) => new Promise((res, rej) => {
+    const t = db.transaction("kv", mode);
+    const r = fn(t.objectStore("kv"));
+    r.onsuccess = () => res(r.result);
+    r.onerror = () => rej(r.error);
+  });
+  return {
+    async get(k) {
+      await open();
+      if (db) { try { const v = await tx("readonly", s => s.get(k)); return v === undefined ? null : v; } catch (e) {} }
+      try { const v = localStorage.getItem("dp:" + k); return v ? JSON.parse(v) : (mem.has(k) ? mem.get(k) : null); }
+      catch (e) { return mem.has(k) ? mem.get(k) : null; }
+    },
+    async set(k, v) {
+      mem.set(k, v);
+      await open();
+      if (db) { try { await tx("readwrite", s => s.put(v, k)); return; } catch (e) {} }
+      try { localStorage.setItem("dp:" + k, JSON.stringify(v)); } catch (e) {}
+    },
+    async del(k) {
+      mem.delete(k);
+      await open();
+      if (db) { try { await tx("readwrite", s => s.delete(k)); } catch (e) {} }
+      try { localStorage.removeItem("dp:" + k); } catch (e) {}
+    },
+    /* чете по точен ключ — за книгите, записани от предишната версия */
+    async raw(k) {
+      await open();
+      if (db) { try { const v = await tx("readonly", s => s.get(k)); if (v !== undefined) return v; } catch (e) {} }
+      try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : null; } catch (e) { return null; }
+    }
+  };
+})();
+
+const IDX = "index";
+const bkey = id => "book:" + id;
+const JOB = "job";
+
+/* ---------- 2. НАСТРОЙКИ ---------- */
+
+const MODELS = {
+  "claude-haiku-4-5-20251001": { name: "Haiku 4.5", in: 1, out: 5, speed: 1 },
+  "claude-sonnet-5": { name: "Sonnet 5", in: 2, out: 10, speed: 1.6 },
+  "claude-opus-5": { name: "Opus 5", in: 5, out: 25, speed: 2.6 }
+};
+const ls = (k, d) => { try { return localStorage.getItem("dpc:" + k) ?? d; } catch (e) { return d; } };
+const lset = (k, v) => { try { localStorage.setItem("dpc:" + k, v); } catch (e) {} };
+
+const CFG = {
+  get source() { return ls("source", "key"); },        /* key | claude */
+  set source(v) { lset("source", v); },
+  get key() { return ls("key", ""); },
+  set key(v) { lset("key", v); },
+  get auto() { return ls("auto", "1") === "1"; },
+  set auto(v) { lset("auto", v ? "1" : "0"); },
+  get readModel() { return ls("readModel", "claude-haiku-4-5-20251001"); },
+  set readModel(v) { lset("readModel", v); },
+  get thinkModel() { return ls("thinkModel", "claude-sonnet-5"); },
+  set thinkModel(v) { lset("thinkModel", v); },
+  get depth() { return ls("depth", "normal"); },        /* light | normal | deep */
+  set depth(v) { lset("depth", v); }
+};
+
+/* ---------- 3. ВРЪЗКА С МОДЕЛА ---------- */
+
+const SYSTEM = `Ти си експертен аналитичен четец. Задачата ти не е резюме, а „интелектуална реконструкция" на книга: какво твърди авторът, защо го твърди, как стига до изводите си и какво следва практически.
+
+Правила:
+- Пишеш на български: ясно, конкретно, без академичен жаргон и празни фрази.
+- Не измисляш нищо извън подадения материал. Липсва ли нещо, го казваш.
+- Разграничаваш чия е мисълта: „Авторът твърди…", „Примерът на автора показва…", „Моя интерпретация:", „Допълнителен пример (не е от книгата):".
+- Максимална информационна плътност. Без повтаряне на една идея с други думи.
+- Пазиш конкретиката: числа, имена, термини, срокове.
+- Markdown: ## и ### за заглавия, - за списъци, **удебелено** за ключови термини.`;
+
+const USE = { in: 0, out: 0, cr: 0, cw: 0, calls: 0, cost: 0 };
+let CANCEL = false;
+
+function addUsage(model, u) {
+  if (!u) return;
+  const m = MODELS[model] || MODELS["claude-sonnet-5"];
+  const i = u.input_tokens || 0, o = u.output_tokens || 0;
+  const cw = u.cache_creation_input_tokens || 0, cr = u.cache_read_input_tokens || 0;
+  USE.in += i; USE.out += o; USE.cw += cw; USE.cr += cr; USE.calls++;
+  USE.cost += (i * m.in + cw * m.in * 1.25 + cr * m.in * 0.1 + o * m.out) / 1e6;
+}
+
+async function call(model, user, opts) {
+  opts = opts || {};
+  if (CANCEL) throw new Error("__cancel__");
+  const sys = opts.cache
+    ? [{ type: "text", text: SYSTEM }, { type: "text", text: opts.cache, cache_control: { type: "ephemeral" } }]
+    : SYSTEM;
+  const headers = { "content-type": "application/json" };
+  if (CFG.source === "key") {
+    if (!CFG.key) { const e = new Error("Няма въведен API ключ."); e.needKey = true; e.fatal = true; throw e; }
+    headers["x-api-key"] = CFG.key;
+    headers["anthropic-version"] = "2023-06-01";
+    headers["anthropic-dangerous-direct-browser-access"] = "true";
+  }
+  const body = JSON.stringify({
+    model, max_tokens: opts.max || 8000, system: sys,
+    messages: [{ role: "user", content: user }]
+  });
+
+  let res;
+  try {
+    res = await fetch("https://api.anthropic.com/v1/messages", { method: "POST", headers, body });
+  } catch (e) {
+    const err = new Error(navigator.onLine
+      ? "Заявката не тръгна. Ако файлът е отворен направо от папката (file://), браузърът я блокира — пусни го през прост локален сървър."
+      : "Няма интернет. Анализът иска връзка; вече готовите книги се четат и офлайн.");
+    err.fatal = true; throw err;
+  }
+  if (!res.ok) {
+    let d = ""; try { d = (await res.text()).slice(0, 240); } catch (e) {}
+    const err = new Error("HTTP " + res.status + (d ? " · " + d : ""));
+    err.status = res.status;
+    if (res.status === 401 || res.status === 403) { err.needKey = true; err.fatal = true; }
+    throw err;
+  }
+  const data = await res.json();
+  addUsage(model, data.usage);
+  return (data.content || []).filter(b => b.type === "text").map(b => b.text).join("").trim();
+}
+
+/* Повторни опити при мрежов проблем или задръстване */
+async function ask(model, user, opts) {
+  opts = opts || {};
+  let last = null;
+  for (let a = 0; a < 3; a++) {
+    try { return await call(model, user, opts); }
+    catch (e) {
+      if (e.message === "__cancel__" || e.fatal) throw e;
+      last = e;
+      if (e.status && e.status >= 400 && e.status < 500 && e.status !== 429) throw e;
+      await sleep((e.status === 429 ? 3000 : 1000) * (a + 1));
+    }
+  }
+  throw last;
+}
+
+async function pool(items, limit, fn) {
+  const out = new Array(items.length);
+  let n = 0;
+  const w = async () => {
+    while (true) {
+      const i = n++;
+      if (i >= items.length) return;
+      if (CANCEL) throw new Error("__cancel__");
+      out[i] = await fn(items[i], i);
+    }
+  };
+  await Promise.all(Array.from({ length: Math.min(limit, items.length) }, w));
+  return out;
+}
+
+/* ---------- 4. ТЕКСТ ---------- */
+
+function clean(s) {
+  return String(s || "")
+    .replace(/[\uD800-\uDBFF](?![\uDC00-\uDFFF])/g, "")
+    .replace(/([^\uD800-\uDBFF]|^)[\uDC00-\uDFFF]/g, "$1")
+    .replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F]/g, " ")
+    .replace(/\uFFFD/g, "")
+    .replace(/[ \t\u00A0]+/g, " ")
+    .replace(/\n{3,}/g, "\n\n");
+}
+function fit(t, max) {
+  t = String(t || "");
+  if (t.length <= max) return t;
+  const c = t.slice(0, max), b = c.lastIndexOf("\n\n");
+  return (b > max * 0.6 ? c.slice(0, b) : c) + "\n[…]";
+}
+function stripHeads(text) {
+  const lines = text.split("\n"), f = {};
+  lines.forEach(l => { const t = l.trim(); if (t.length > 3 && t.length < 90) f[t] = (f[t] || 0) + 1; });
+  const junk = new Set(Object.keys(f).filter(k => f[k] > 6));
+  return lines.filter(l => !junk.has(l.trim())).join("\n");
+}
+function chunkText(text, size) {
+  const out = [];
+  let i = 0;
+  while (i < text.length) {
+    let end = Math.min(i + size, text.length);
+    if (end < text.length) {
+      const cut = Math.max(text.lastIndexOf("\n\n", end), text.lastIndexOf(". ", end));
+      if (cut > i + size * 0.6) end = cut + 1;
+    }
+    out.push(text.slice(i, end));
+    i = end;
+  }
+  return out.filter(p => p.replace(/\s/g, "").length > 300);
+}
+/* знаци на токен — кирилицата дели на повече токени от латиницата */
+function charsPerToken(text) {
+  const s = text.slice(0, 40000);
+  const cyr = (s.match(/[\u0400-\u04FF]/g) || []).length / Math.max(1, s.length);
+  return cyr > 0.3 ? 2.6 : 3.9;
+}
+
+const PDFJS = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js";
+const PDFJS_W = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+function loadPdf() {
+  return new Promise((res, rej) => {
+    if (window.pdfjsLib) return res(window.pdfjsLib);
+    const s = document.createElement("script");
+    s.src = PDFJS;
+    s.onload = () => { window.pdfjsLib.GlobalWorkerOptions.workerSrc = PDFJS_W; res(window.pdfjsLib); };
+    s.onerror = () => rej(new Error("PDF четецът не се зареди — трябва интернет само първия път."));
+    document.head.appendChild(s);
+  });
+}
+async function pdfToText(file, onp) {
+  const lib = await loadPdf();
+  const doc = await lib.getDocument({ data: await file.arrayBuffer() }).promise;
+  const parts = [];
+  for (let p = 1; p <= doc.numPages; p++) {
+    const pg = await doc.getPage(p);
+    const c = await pg.getTextContent();
+    parts.push(c.items.map(i => i.str).join(" "));
+    if (p % 10 === 0 || p === doc.numPages) { onp(p, doc.numPages); await sleep(0); }
+  }
+  return { text: parts.join("\n\n"), pages: doc.numPages };
+}
+
+/* ---------- 5. ПОДКАНИ ---------- */
+
+const P = {
+  scan: s => `Разгледай това начало на книга и върни САМО JSON, без ограждащи знаци:
+{"title":"заглавие","author":"автор","kind":"практическа|теоретична|художествена|учебник|мемоари","density":"ниска|средна|висока","topic":"тема в 5-8 думи","core":["1-3 неща, които изглеждат най-съществени за цялата книга"],"catch":"едно изречение: кое прави тази книга трудна или лесна за анализ"}
+"density" е плътността на идеите: колко нови понятия и аргументи има на страница.
+
+${s}`,
+
+  digest: (c, i, n) => `Част ${i} от ${n} от книгата. Извлечи суровината за анализ — телеграфно, плътно, без увод:
+1. Тези и твърдения на автора, точно.
+2. Ключови понятия и дефиниции.
+3. Аргументи и предпоставки.
+4. Примери: казуси, изследвания, числа, процедури, истории. Пази конкретиката.
+5. Практически изводи.
+За художествен текст: какво показва за света и човека, повтарящи се мотиви, най-показателните случки.
+
+--- ТЕКСТ ---
+${c}`,
+
+  merge: d => `Слей тази суровина в по-компактно цяло. Запази тезите, понятията, аргументите, най-силните примери с числата им и практическите изводи. Махни повторенията. Не обобщавай до общи фрази — това е работен материал.
+
+${d}`,
+
+  map: `Изгради КАРТАТА НА КНИГАТА по подадения материал. Точно тези заглавия:
+
+## Централен въпрос
+## Основният отговор на автора
+Тезата в 3-5 изречения.
+## Предпоставки, върху които авторът стъпва
+## Ключови идеи
+{{N}} идеи. Всяка с име, 1-3 изречения и етикет [КРИТИЧНО ВАЖНО], [ВАЖНО] или [ПОДКРЕПЯЩО].
+## Логическа схема
+Вериги във вида: Идея А → води до Идея Б → която обяснява Идея В → оттук следва Извод Г.`,
+
+  list: n => `По подадената карта избери концепциите за отделен дълбок анализ.
+Върни САМО JSON масив, без ограждащи знаци:
+[{"name":"име","why":"едно изречение защо е ключова"}]
+Точно ${n} концепции по важност. Без дублиране, без заглавия като „въведение". Всяка да е идея, а не глава.`,
+
+  concepts: names => `Анализирай в дълбочина ${names.length === 1 ? "концепцията" : "тези " + names.length + " концепции"}: ${names.map(n => "„" + n + "\u201c").join(", ")}.
+
+Преди всяка концепция сложи ред: @@ Име на концепцията
+После точно тази структура с ### заглавия:
+
+### Какво означава
+### Какво точно твърди авторът
+### Защо авторът смята това
+### Как се стига до извода
+Причинно-следствената верига стъпка по стъпка.
+### Пример от книгата
+Най-показателният случай, число или процедура. Няма ли пример, кажи го.
+### Какво трябва да разберем от примера
+Смисълът, не преразказ.
+### Допълнителен пример от реалния живот
+Твой собствен, конкретен, който НЕ е от книгата. С числа, ако темата го позволява.
+### Връзка с други идеи
+### Практическо значение
+### Какво да запомниш
+1-3 изречения.`,
+
+  links: `Покажи как идеите се държат заедно:
+## Кои идеи са фундаментални
+## Кои са следствие от други
+Посочи от какво следват.
+## Кои идеи се допълват
+## Кои си противоречат или са в напрежение
+## Кои се повтарят в различен контекст
+## Логическата схема на книгата
+Верига от фундаменталните идеи до основната теза.`,
+
+  argument: `Разгледай как е построена аргументацията. Вземи 3-5 от най-важните тези и за всяка проследи веригата:
+**Твърдение** → **предпоставка** → **аргумент** → **доказателство или пример** → **извод** → **практическо следствие**
+Където има логически скок или недоказана предпоставка, го отбележи на място. ## за всяка теза.`,
+
+  critique: `Критичен анализ. Съди книгата по самата нея, без външни доказателства:
+## Кои твърдения са добре обосновани
+## Кои зависят от определени предположения
+## Кои са спорни или недоказани
+## Къде авторът вероятно преувеличава
+## Логически слабости и противоречия
+## Ограничения на приложимостта
+При какви условия идеите работят и при какви не. Конкретно.
+## Какво книгата не разглежда`,
+
+  synthesis: `Синтез на книгата като цяло, по същество:
+## Какъв е истинският проблем, който книгата решава
+## Какъв е централният отговор на автора
+## Кои са фундаменталните идеи
+## Как авторът доказва тези идеи
+## Какво човек ще разбира различно за света
+## Какво би променил в поведението си
+## Най-важните практически приложения`,
+
+  condensed: `Напиши „КНИГАТА В 20 МИНУТИ" — концентрираната версия. Човек я чете 15-20 минути и получава цялостна представа: тезата, ключовите концепции, най-важните примери, практическите изводи. Свързан текст с подзаглавия (##), който води читателя през мисленето на автора. Не съдържание, не списък от глави. Без увод от типа „в тази книга авторът разглежда".`,
+
+  memory: `Напиши „НЕЩАТА, КОИТО ТРЯБВА ДА ЗАПОМНИШ". 10-15 принципа във вида:
+**N. Кратко име** — 1-2 изречения с най-същественото и конкретиката. Подредени по важност, всеки полезен сам за себе си.`,
+
+  explain: `Напиши „АКО ТРЯБВА ДА ОБЯСНИШ КНИГАТА НА ДРУГ ЧОВЕК":
+## В едно изречение
+## В една минута
+## В пет минути
+С един-два примера и практическото значение. Говорим език, все едно обясняваш на колега.`
+};
+
+function parseJSON(raw) {
+  let t = String(raw || "").trim().replace(/^```(?:json)?/i, "").replace(/```$/, "").trim();
+  const a = t.indexOf("["), o = t.indexOf("{");
+  const s = a >= 0 && (a < o || o < 0) ? a : o;
+  const e = t.lastIndexOf("]") > t.lastIndexOf("}") ? t.lastIndexOf("]") : t.lastIndexOf("}");
+  if (s >= 0 && e > s) t = t.slice(s, e + 1);
+  try { return JSON.parse(t); } catch (x) { return null; }
+}
+
+/* ---------- 6. ПЛАН: приложението избира конфигурацията ---------- */
+
+const DEPTH = { light: { c: [5, 7] }, normal: { c: [7, 10] }, deep: { c: [10, 14] } };
+
+function buildPlan(text, scan, ov) {
+  ov = ov || {};
+  const cpt = charsPerToken(text);
+  const tok = Math.round(text.length / cpt);
+  const kind = (scan && scan.kind) || "практическа";
+  const dens = (scan && scan.density) || "средна";
+
+  /* дълбочина: художественото иска по-малко концепции, плътната теория — повече */
+  let depth = CFG.auto
+    ? (kind === "художествена" || kind === "мемоари" ? "light" : dens === "висока" ? "deep" : "normal")
+    : CFG.depth;
+
+  /* модели: извличането е механична работа → Haiku; анализът иска повече ум */
+  let read = CFG.auto ? "claude-haiku-4-5-20251001" : CFG.readModel;
+  let think = CFG.auto
+    ? (dens === "висока" && kind !== "художествена" ? "claude-opus-5" : "claude-sonnet-5")
+    : CFG.thinkModel;
+  /* малка книга: няма смисъл от икономии, чети я направо с умния модел */
+  if (CFG.auto && tok < 25000) read = think;
+
+  if (ov.depth) depth = ov.depth;
+  if (ov.read) read = ov.read;
+  if (ov.think) think = ov.think;
+
+  let concepts = Math.round((DEPTH[depth].c[0] + DEPTH[depth].c[1]) / 2);
+  if (ov.concepts) concepts = ov.concepts;
+  const perCall = 2;
+  const chunkChars = Math.round((read.includes("haiku") ? 55000 : 40000) * (cpt / 3));
+  const chunks = Math.max(1, Math.ceil(text.length / chunkChars));
+
+  /* прогноза */
+  const digOut = Math.min(6000, Math.round((tok / chunks) / 7));
+  const digIn = tok + chunks * 200;
+  const digestTok = digOut * chunks;
+  const needMerge = digestTok > 26000;
+  const mergeGroups = needMerge ? Math.ceil(digestTok / 22000) : 0;
+  const shared = Math.min(26000, digestTok) + 2500;
+  const analysisCalls = Math.ceil(concepts / perCall) + 7;
+  const inCost = m => MODELS[m].in, outCost = m => MODELS[m].out;
+
+  const cost =
+    (digIn * inCost(read) + digestTok * outCost(read)) / 1e6 +
+    (needMerge ? (digestTok * inCost(read) + digestTok * 0.6 * outCost(read)) / 1e6 : 0) +
+    (shared * 1.25 * inCost(think) + shared * 0.1 * (analysisCalls - 1) * inCost(think)) / 1e6 +
+    ((concepts * 1500 + 6 * 2600) * outCost(think)) / 1e6;
+
+  const par = 6;
+  const secs = (chunks / par) * 22 * (MODELS[read].speed) + (mergeGroups / 3) * 25 + analysisCalls / 3 * 40 * MODELS[think].speed;
+
+  return {
+    tok, kind, dens, depth, read, think, concepts, perCall, chunkChars, chunks,
+    needMerge, calls: chunks + mergeGroups + analysisCalls + 1,
+    cost, minutes: Math.max(1, Math.round(secs / 60)), par
+  };
+}
+
+/* ---------- 6б. СЪВЕТ: кой модел и коя дълбочина, и защо ---------- */
+
+function variants(text, scan) {
+  const rec = buildPlan(text, scan);
+  const eco = buildPlan(text, scan, {
+    read: "claude-haiku-4-5-20251001", think: "claude-haiku-4-5-20251001",
+    depth: "light", concepts: Math.max(5, rec.concepts - 2)
+  });
+  const max = buildPlan(text, scan, {
+    read: rec.read, think: "claude-opus-5",
+    depth: "deep", concepts: Math.min(14, rec.concepts + 3)
+  });
+  return { eco, rec, max };
+}
+
+/* Обяснението е сглобено от същите правила, по които се взима решението —
+   не е отделен текст, който може да се разминава с реалността. */
+function reasons(pl, scan) {
+  const kind = pl.kind, dens = pl.dens;
+  const r = [];
+
+  r.push({
+    t: "Четене: " + MODELS[pl.read].name,
+    d: pl.read.includes("haiku")
+      ? "През този модел минава целият текст на книгата — ${tok} токена. Работата тук е извличане: намери тезите, понятията, числата и примерите. Това не иска разсъждение, а внимание, и Haiku го върши на $1 за милион токена вместо $2 или $5. Оттук идва по-голямата част от икономията."
+        .replace("${tok}", nf(pl.tok))
+      : "Книгата е достатъчно малка, за да няма смисъл от икономия — чете я направо моделът, който после и мисли. Спестява едно ниво прехвърляне и суровината излиза по-точна."
+  });
+
+  r.push({
+    t: "Анализ: " + MODELS[pl.think].name,
+    d: pl.think.includes("opus")
+      ? "Плътността на идеите е висока — много нови понятия и аргументи на страница. При такъв текст разликата между моделите се вижда: по-слабият изрежда, по-силният свързва. Тук се плаща за връзките между идеите и за критиката на аргументацията."
+      : pl.think.includes("haiku")
+        ? "Избран е най-евтиният и за анализа. Ще получиш вярна карта и коректни концепции, но връзките между идеите и критичният раздел ще са по-плоски."
+        : kind === "художествена" || kind === "мемоари"
+          ? "Художественият текст няма аргументативен скелет за разплитане — има мотиви и случки. Sonnet се справя с това; Opus не би добавил достатъчно, за да оправдае двойната цена."
+          : "Балансът за практическа книга със средна плътност. Opus си струва само когато текстът е теоретично натоварен."
+  });
+
+  r.push({
+    t: pl.concepts + " концепции",
+    d: kind === "художествена" || kind === "мемоари"
+      ? "Мемоарите и художественото рядко държат повече от 5-7 носещи идеи. Повече концепции тук значи повторение с други думи, а всяка струва пари."
+      : dens === "висока"
+        ? "При тази плътност книгата носи повече самостоятелни идеи, отколкото се събират в 8 раздела. Свиването им би слепило различни неща в едно."
+        : "Толкова обикновено побират носещите идеи на практическа книга, без да се стигне до разтягане."
+  });
+
+  r.push({
+    t: pl.chunks + " части, по " + pl.par + " наведнъж",
+    d: "Частите се четат едновременно, затова времето не расте право пропорционално на дебелината. По-едри части значат по-малко заявки, но и по-грубо извличане — размерът е нагласен според модела, който чете."
+  });
+
+  r.push({
+    t: "Кеширан общ контекст",
+    d: "Суровината и картата се пращат веднъж и се маркират за кеш. Всяка следваща от ~" + (pl.calls - pl.chunks) + " заявки ги чете на 10% от цената, вместо да ги плаща наново. Без това същият анализ струва между три и пет пъти повече."
+  });
+
+  if (scan && scan.catch) r.push({ t: "Особеното при тази книга", d: String(scan.catch) });
+  return r;
+}
+
+/* ---------- 7. КОНВЕЙЕР (с точки на възстановяване) ---------- */
+
+const GROUPS = ["Карта", "Концепции", "Връзки и критика", "Концентрат"];
+let JOBDATA = null;
+
+async function saveJob() { if (JOBDATA) await DB.set(JOB, JOBDATA); }
+
+async function once(key, fn) {
+  if (JOBDATA.res[key] != null) return JOBDATA.res[key];
+  const v = await fn();
+  JOBDATA.res[key] = v;
+  JOBDATA.usage = { ...USE };
+  await saveJob();
+  return v;
+}
+
+function log(text, cls) {
+  JOBDATA.log.push({ text, cls });
+  if (SCREEN === "run") paintRun();
+}
+function stat(s) { JOBDATA.stat = s; if (SCREEN === "run") paintRun(); }
+function pct(p) { JOBDATA.pct = Math.max(JOBDATA.pct, Math.min(99, Math.round(p))); if (SCREEN === "run") paintRun(); }
+
+async function addSection(sec) {
+  const b = JOBDATA.book;
+  if (b.sections.some(s => s.id === sec.id)) return;
+  b.sections.push(sec);
+  await persistBook(b);
+  await saveJob();
+}
+
+async function runJob() {
+  const J = JOBDATA;
+  const pl = J.plan;
+  const text = J.text;
+  CANCEL = false;
+  J.running = true;
+
+  /* 1. Извличане на суровината — паралелно, с евтиния модел */
+  const chunks = chunkText(text, pl.chunkChars);
+  if (!J.res.dig) J.res.dig = [];
+  let doneN = J.res.dig.filter(x => x != null).length;
+  if (doneN < chunks.length) log("Чета книгата на " + chunks.length + " части с " + MODELS[pl.read].name);
+  const times = [];
+  await pool(chunks, pl.par, async (c, i) => {
+    if (J.res.dig[i] != null) return;
+    const t = Date.now();
+    try {
+      J.res.dig[i] = await ask(pl.read, P.digest(c, i + 1, chunks.length), { max: 6000 });
+    } catch (e) {
+      if (e.message === "__cancel__" || e.fatal) throw e;
+      J.res.dig[i] = "";
+      log("Част " + (i + 1) + " не се прочете — продължавам без нея", "warn");
+    }
+    times.push(Date.now() - t);
+    doneN++;
+    const avg = times.reduce((a, b) => a + b, 0) / times.length;
+    const left = Math.round(((chunks.length - doneN) / pl.par) * avg / 1000);
+    stat("Прочетени " + doneN + "/" + chunks.length + " · остават ~" + (left > 90 ? Math.ceil(left / 60) + " мин" : Math.max(left, 5) + " сек"));
+    pct(4 + (doneN / chunks.length) * 40);
+    J.usage = { ...USE };
+    await saveJob();
+  });
+
+  /* 2. Свиване до работна суровина */
+  let level = J.res.dig.filter(d => d && d.trim());
+  if (!level.length) throw new Error("Нито една част не беше прочетена.");
+  let round = 0;
+  while (level.join("\n\n").length > 78000 && round < 3) {
+    const per = Math.max(2, Math.ceil(level.length / Math.ceil(level.join("").length / 70000)));
+    const groups = [];
+    for (let i = 0; i < level.length; i += per) groups.push(level.slice(i, i + per).join("\n\n"));
+    if (groups.length >= level.length) break;
+    log("Сливам прочетеното: " + level.length + " → " + groups.length);
+    stat("Сливам прочетеното");
+    const rk = "mg" + round;
+    level = await once(rk, () => pool(groups, 3, g => ask(pl.read, P.merge(fit(g, 90000)), { max: 6000 })));
+    round++;
+  }
+  const digest = fit(level.join("\n\n"), 78000);
+  pct(48);
+
+  /* Общият контекст се кешира — оттук нататък всяка заявка го чете
+     на 10% от цената, вместо да го плаща наново. */
+  const CTX = "Ето суровината, извлечена от цялата книга „" + (J.book.title || "") + "“.\n\n" + digest;
+
+  /* 3. Карта */
+  stat("Картата на книгата");
+  log("Изграждам картата на идеите с " + MODELS[pl.think].name);
+  const map = await once("map", () => ask(pl.think, P.map.replace("{{N}}", pl.depth === "light" ? "6-8" : pl.depth === "deep" ? "10-15" : "8-12"), { cache: CTX, max: 5000 }));
+  await addSection({ id: "map", group: 0, title: "Карта на книгата", body: map });
+  pct(54);
+
+  /* Картата влиза в кеша, за да не се праща наново при всяка концепция */
+  const CTX2 = CTX + "\n\n=== КАРТА НА КНИГАТА ===\n" + map;
+
+  /* 4. Концепции — по няколко в една заявка */
+  stat("Избирам концепциите");
+  let list = await once("list", async () => {
+    const v = parseJSON(await ask(pl.think, P.list(pl.concepts), { cache: CTX2, max: 1500 }));
+    return Array.isArray(v) && v.length ? v.filter(x => x && x.name).slice(0, 14) : [{ name: "Основната теза", why: "носещата идея" }];
+  });
+
+  const batches = [];
+  for (let i = 0; i < list.length; i += pl.perCall) batches.push(list.slice(i, i + pl.perCall));
+  stat("Разгръщам концепциите");
+  let bdone = 0;
+  const parsedAll = [];
+  for (let bi = 0; bi < batches.length; bi++) {
+    const names = batches[bi].map(x => x.name);
+    const raw = await once("cb" + bi, () => ask(pl.think, P.concepts(names), { cache: CTX2, max: 8000 }));
+    const parts = String(raw).split(/^@@\s*/m).map(s => s.trim()).filter(Boolean);
+    for (let k = 0; k < names.length; k++) {
+      const p = parts[k] || "";
+      const nl = p.indexOf("\n");
+      const body = nl > 0 ? p.slice(nl + 1).trim() : p;
+      parsedAll.push({ name: names[k], body: body || "Тази концепция не се получи — пусни анализа пак." });
+      await addSection({ id: "c" + (bi * pl.perCall + k), group: 1, title: names[k], body: body || "…" });
+    }
+    bdone += names.length;
+    stat("Концепции: " + bdone + "/" + list.length);
+    pct(54 + (bdone / list.length) * 22);
+  }
+  const conceptText = fit(parsedAll.map(c => "### " + c.name + "\n" + c.body).join("\n\n"), 40000);
+  const CTX3 = CTX2 + "\n\n=== АНАЛИЗИРАНИ КОНЦЕПЦИИ ===\n" + conceptText;
+
+  /* 5. Връзки, аргументация, критика — паралелно, върху същия кеш */
+  stat("Връзки, аргументация, критика");
+  log("Свързвам идеите и проверявам аргументацията");
+  const trio = await once("trio", () => pool(
+    [["links", P.links], ["arg", P.argument], ["crit", P.critique]], 3,
+    x => ask(pl.think, x[1], { cache: CTX3, max: 5000 })
+  ));
+  await addSection({ id: "links", group: 2, title: "Как се свързват идеите", body: trio[0] });
+  await addSection({ id: "arg", group: 2, title: "Структура на аргументацията", body: trio[1] });
+  await addSection({ id: "crit", group: 2, title: "Критичен анализ", body: trio[2] });
+  pct(84);
+
+  /* 6. Синтез и концентрат */
+  stat("Пиша концентрата");
+  const fin = await once("fin", () => pool(
+    [["syn", P.synthesis], ["cond", P.condensed], ["memo", P.memory], ["expl", P.explain]], 4,
+    x => ask(pl.think, x[1], { cache: CTX3, max: 8000 })
+  ));
+  await addSection({ id: "syn", group: 2, title: "Книгата като цяло", body: fin[0] });
+  await addSection({ id: "cond", group: 3, title: "Книгата в 20 минути", body: fin[1] });
+  await addSection({ id: "memo", group: 3, title: "Какво трябва да запомниш", body: fin[2] });
+  await addSection({ id: "expl", group: 3, title: "Ако трябва да обясниш книгата на друг", body: fin[3] });
+
+  J.book.done = true;
+  J.book.cost = USE.cost;
+  await persistBook(J.book);
+  J.pct = 100;
+  J.running = false;
+  J.finished = true;
+  await DB.del(JOB);
+  const mins = Math.round((Date.now() - J.startedAt) / 60000);
+  log("Готово за " + (mins < 1 ? "под минута" : mins + " мин") + " · " + money(USE.cost));
+}
+
+function money(c) { return "$" + c.toFixed(2) + " (~" + (c * 0.92).toFixed(2) + " €)"; }
+
+/* ---------- 8. КНИГИ ---------- */
+
+let INDEX = [];
+async function persistBook(b) {
+  await DB.set(bkey(b.id), b);
+  const e = {
+    id: b.id, title: b.title, author: b.author, createdAt: b.createdAt,
+    sections: b.sections.length, done: !!b.done, cost: b.cost || 0,
+    favs: Object.values(b.ann.fav).filter(Boolean).length,
+    notes: Object.values(b.ann.notes).reduce((a, c) => a + c.length, 0)
+  };
+  INDEX = [e].concat(INDEX.filter(x => x.id !== b.id));
+  await DB.set(IDX, INDEX);
+}
+
+/* ---------- 9б. ПРЕНАСЯНЕ ОТ ПРЕДИШНАТА ВЕРСИЯ И ВНАСЯНЕ ---------- */
+
+/* Старият файл пише в същата база, но с ключове „dp:index“ и „dp:book:…“.
+   Стига двата файла да са отваряни от един и същ адрес, книгите се виждат. */
+async function importOld() {
+  let idx = await DB.raw("dp:index");
+  if (!Array.isArray(idx)) idx = [];
+  let n = 0;
+  for (const e of idx) {
+    if (!e || !e.id) continue;
+    if (INDEX.some(x => x.id === e.id)) continue;
+    const b = await DB.raw("dp:book:" + e.id);
+    if (!b || !Array.isArray(b.sections) || !b.sections.length) continue;
+    b.ann = b.ann || { fav: {}, notes: {}, read: {} };
+    b.ann.fav = b.ann.fav || {}; b.ann.notes = b.ann.notes || {}; b.ann.read = b.ann.read || {};
+    b.done = b.done !== false;
+    await persistBook(b);
+    n++;
+  }
+  return n;
+}
+
+const GRP = {
+  "Карта на книгата": 0,
+  "Как се свързват идеите": 2, "Структура на аргументацията": 2,
+  "Критичен анализ": 2, "Книгата като цяло": 2,
+  "Книгата в 20 минути": 3, "Какво трябва да запомниш": 3,
+  "Ако трябва да обясниш книгата на друг": 3
+};
+
+/* Разчита файла, който старата версия сваля с бутона „Свали“ */
+function parseExport(text) {
+  const lines = text.split("\n");
+  let title = "", author = "", i = 0;
+  for (; i < lines.length; i++) {
+    const t = lines[i].trim();
+    if (!t) continue;
+    if (t.startsWith("# ")) { title = t.slice(2).trim(); i++; break; }
+  }
+  for (; i < lines.length; i++) {
+    const t = lines[i].trim();
+    if (!t) continue;
+    if (t.startsWith("## ") || t === "---") break;
+    if (!t.startsWith("_")) { author = t; i++; }
+    break;
+  }
+  const sections = [];
+  let cur = null, mode = "body";
+  const push = () => { if (cur) { cur.body = cur.body.replace(/\n+---\s*$/, "").trim(); sections.push(cur); } };
+  for (; i < lines.length; i++) {
+    const raw = lines[i], t = raw.trim();
+    if (t.startsWith("## ")) {
+      push();
+      cur = { title: t.slice(3).replace(/^★\s*/, "").trim(), body: "", notes: [] };
+      mode = "body";
+      continue;
+    }
+    if (!cur) continue;
+    if (/^\*\*Мои бележки:?\*\*/.test(t)) { mode = "notes"; continue; }
+    if (mode === "notes") {
+      if (t.startsWith("> ")) cur.notes.push({ id: uid(), quote: t.slice(2).trim(), text: "", ts: Date.now() });
+      else if (t.startsWith("- ")) cur.notes.push({ id: uid(), quote: "", text: t.slice(2).trim(), ts: Date.now() });
+      else if (t === "---") mode = "body";
+      continue;
+    }
+    if (t === "---") continue;
+    cur.body += raw + "\n";
+  }
+  push();
+  if (!sections.length) return null;
+  const book = {
+    id: uid(), title: title || "Внесен анализ", author, topic: "",
+    createdAt: Date.now(), sections: [], ann: { fav: {}, notes: {}, read: {} }, done: true
+  };
+  sections.forEach((s, k) => {
+    const id = "i" + k;
+    book.sections.push({ id, group: GRP[s.title] != null ? GRP[s.title] : 1, title: s.title, body: s.body });
+    if (s.notes.length) book.ann.notes[id] = s.notes;
+  });
+  return book;
+}
+
+async function importFile(file) {
+  const text = await file.text();
+  if (/\.json$/i.test(file.name)) {
+    const data = parseJSON(text);
+    const arr = Array.isArray(data) ? data : data && data.books ? data.books : data ? [data] : [];
+    let n = 0;
+    for (const b of arr) {
+      if (!b || !Array.isArray(b.sections)) continue;
+      b.id = b.id || uid();
+      b.ann = b.ann || { fav: {}, notes: {}, read: {} };
+      await persistBook(b); n++;
+    }
+    return n;
+  }
+  const b = parseExport(text);
+  if (!b) return 0;
+  await persistBook(b);
+  return 1;
+}
+
+async function exportAll() {
+  const books = [];
+  for (const e of INDEX) {
+    const b = await DB.get(bkey(e.id));
+    if (b) books.push(b);
+  }
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(new Blob([JSON.stringify({ books }, null, 1)], { type: "application/json" }));
+  a.download = "dulbok-prochit-backup.json";
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(a.href), 1500);
+}
+
+/* ---------- 9в. MARKDOWN ---------- */
+
+function inline(s) {
+  return esc(s)
+    .replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>")
+    .replace(/(^|[^*])\*([^*]+)\*/g, "$1<em>$2</em>")
+    .replace(/`([^`]+)`/g, "<code>$1</code>");
+}
+function md(text) {
+  let html = "", list = null;
+  const close = () => { if (list) { html += "</" + list + ">"; list = null; } };
+  String(text || "").split("\n").forEach(raw => {
+    const t = raw.trim();
+    if (!t) return close();
+    let m;
+    if ((m = t.match(/^(#{1,4})\s+(.*)$/))) {
+      close();
+      const tag = m[1].length <= 2 ? "h3" : "h4";
+      html += "<" + tag + ' class="mdh">' + inline(m[2]) + "</" + tag + ">";
+      return;
+    }
+    if (/^(-{3,}|_{3,})$/.test(t)) { close(); html += "<hr>"; return; }
+    if (/^>\s?/.test(t)) { close(); html += "<blockquote>" + inline(t.replace(/^>\s?/, "")) + "</blockquote>"; return; }
+    if ((m = t.match(/^[-*•]\s+(.*)$/))) {
+      if (list !== "ul") { close(); html += "<ul>"; list = "ul"; }
+      html += "<li>" + inline(m[1]) + "</li>"; return;
+    }
+    if ((m = t.match(/^\d+[.)]\s+(.*)$/))) {
+      if (list !== "ol") { close(); html += "<ol>"; list = "ol"; }
+      html += "<li>" + inline(m[1]) + "</li>"; return;
+    }
+    close();
+    html += "<p>" + inline(t) + "</p>";
+  });
+  close();
+  return html;
+}
+
+/* ---------- 10. ЕКРАНИ ---------- */
+
+let SCREEN = "library";
+const VER = "2.1 · август 2026";
+let STACK = [];
+let BOOK = null;
+let PEND = null;         /* подготвен план преди старт */
+let UI = { q: "", onlyFav: false, open: {}, armed: null, sel: null };
+
+function goto(s, push) {
+  if (push !== false && SCREEN !== s) STACK.push(SCREEN);
+  SCREEN = s;
+  window.scrollTo(0, 0);
+  paint();
+}
+function back() {
+  const prev = STACK.pop() || "library";
+  SCREEN = prev;
+  window.scrollTo(0, 0);
+  paint();
+}
+
+function paint() {
+  $("#htitle").textContent =
+    SCREEN === "reader" && BOOK ? BOOK.title :
+    SCREEN === "run" && JOBDATA ? JOBDATA.book.title :
+    SCREEN === "settings" ? "Настройки" :
+    SCREEN === "help" ? "Как се използва" :
+    SCREEN === "about" ? "За този файл" :
+    SCREEN === "advice" ? "Съвет" :
+    SCREEN === "plan" ? "План на анализа" :
+    "интелектуална реконструкция на книги";
+  paintNav();
+  if (SCREEN === "library") paintLibrary();
+  else if (SCREEN === "settings") paintSettings();
+  else if (SCREEN === "help") paintHelp();
+  else if (SCREEN === "about") paintAbout();
+  else if (SCREEN === "advice") paintAdvice();
+  else if (SCREEN === "plan") paintPlan();
+  else if (SCREEN === "run") paintRun();
+  else if (SCREEN === "reader") paintReader();
+  else if (SCREEN === "notes") paintNotes();
+}
+
+const ICO = {
+  back: "&#8592;", lib: "&#9776;", gear: "&#9881;", note: "&#9998;", up: "&#8593;"
+};
+
+function paintNav() {
+  const b = (id, label, icon, on, dis) =>
+    '<button data-nav="' + id + '"' + (dis ? " disabled" : "") + ' class="' + (on ? "on" : "") + '">' +
+    '<span style="font-size:17px;line-height:1">' + icon + "</span>" + label + "</button>";
+  let html = "";
+  html += b("back", "Назад", ICO.back, false, SCREEN === "library" && !STACK.length);
+  html += b("library", "Библиотека", ICO.lib, SCREEN === "library");
+  if (SCREEN === "reader") {
+    html += b("notes", "Бележки", ICO.note, false);
+    html += b("top", "Нагоре", ICO.up, false);
+  } else if (JOBDATA && JOBDATA.running) {
+    html += b("run", "Анализът", "&#9679;", SCREEN === "run");
+  } else {
+    html += b("help", "Помощ", "?", SCREEN === "help" || SCREEN === "about");
+  }
+  html += b("settings", "Настройки", ICO.gear, SCREEN === "settings");
+  $("#nav").innerHTML = html;
+}
+
+/* --- библиотека --- */
+function paintLibrary() {
+  const resume = JOBDATA && !JOBDATA.finished;
+  $("#app").innerHTML = `
+  <div class="wrap">
+    <div class="lock">
+      <span class="w">Дълбок<i>Прочит</i></span>
+      <div class="r"></div>
+      <div class="t">Не резюме. Компресирана книга.</div>
+    </div>
+    <p class="lead">Приложението чете книгата на части, изгражда картата на идеите, разгръща всяка ключова концепция със собствен пример, критикува аргументацията и я побира в 20 минути четене.</p>
+
+    ${!CFG.key && CFG.source === "key" ? `<div class="card saf">
+      <b>Първо нещо: API ключ</b>
+      <p class="hint">Без него файлът няма с какво да работи. Отнема две минути.</p>
+      <div class="row" style="margin-top:12px">
+        <button class="btn pri" data-nav="settings">Сложи ключ</button>
+        <button class="btn" data-act="help">Как става</button>
+      </div></div>` : ""}
+
+    ${resume ? `<div class="card saf">
+      <b>Недовършен анализ: ${esc(JOBDATA.book.title)}</b>
+      <p class="hint">Спрян на ${JOBDATA.pct}%. Готовото е запазено — продължава оттам, без да плащаш повторно.</p>
+      <div class="row" style="margin-top:12px">
+        <button class="btn pri" data-act="resume">Продължи</button>
+        <button class="btn" data-act="dropjob">Откажи се</button>
+      </div></div>` : ""}
+
+    <div class="drop" id="drop">
+      <h3>Добави книга</h3>
+      <p>PDF или текстов файл. Работи и с 800 страници.</p>
+      <button class="btn pri wide" data-act="pick">Избери файл</button>
+      <input type="file" id="file" accept=".pdf,.txt,.md,application/pdf,text/plain" hidden>
+      <button class="btn wide" data-act="advise" style="margin-top:8px">Само съвет — коя настройка е най-подходяща</button>
+      <p class="hint" id="note"></p>
+    </div>
+
+    <details style="margin-top:14px">
+      <summary class="stat" style="padding:10px 0">Или залепи текст</summary>
+      <textarea class="f" id="paste" placeholder="Залепи съдържанието, ако PDF-ът е сканиран…"></textarea>
+      <button class="btn wide" data-act="paste" style="margin-top:8px">Анализирай залепения текст</button>
+    </details>
+
+    <div class="row" style="margin-top:12px">
+      <button class="btn" data-act="import">Внеси готов анализ</button>
+      <button class="btn" data-act="findold">Потърси стари книги</button>
+    </div>
+    <input type="file" id="impfile" accept=".md,.json,.txt" hidden>
+    <p class="hint" id="impnote"></p>
+
+    <div class="eyebrow" style="margin:28px 0 12px">Библиотека · ${INDEX.length}</div>
+    <div class="list">
+      ${INDEX.length ? INDEX.map(b => `
+        <div class="bookrow ${b.done ? "" : "part"}">
+          <button class="main" data-open="${b.id}">
+            <h4>${esc(b.title)}</h4>
+            <p class="aut">${esc(b.author || "неизвестен автор")}</p>
+            <div class="meta">
+              <span>${b.sections} РАЗДЕЛА</span>
+              ${b.done ? "" : "<span>НЕЗАВЪРШЕН</span>"}
+              ${b.favs ? "<span>★ " + b.favs + "</span>" : ""}
+              ${b.notes ? "<span>" + b.notes + " БЕЛЕЖКИ</span>" : ""}
+              ${b.cost ? "<span>$" + b.cost.toFixed(2) + "</span>" : ""}
+            </div>
+          </button>
+          <button class="del ${UI.armed === b.id ? "armed" : ""}" data-del="${b.id}">${UI.armed === b.id ? "ИЗТРИЙ" : "✕"}</button>
+        </div>`).join("")
+      : '<div class="empty"><h3>Тук ще стоят анализираните книги</h3><p>Всяка пази бележките и любимите ти раздели, и се чете офлайн.</p></div>'}
+    </div>
+
+    <div class="row" style="margin-top:30px">
+      <button class="btn" data-act="help">Как се използва</button>
+      <button class="btn" data-act="about">За този файл</button>
+    </div>
+    <p class="stat" style="text-align:center;margin-top:18px">Дълбок Прочит · ${VER}<br>създаден от благодарност към Svet M.</p>
+  </div>`;
+
+  const drop = $("#drop");
+  ["dragover", "drop"].forEach(ev => drop.addEventListener(ev, e => e.preventDefault()));
+  drop.addEventListener("drop", e => { if (e.dataTransfer.files[0]) prepare({ file: e.dataTransfer.files[0] }); });
+  $("#file").onchange = e => e.target.files[0] && prepare({ file: e.target.files[0] });
+  $("#impfile").onchange = async e => {
+    const f = e.target.files[0];
+    if (!f) return;
+    const note = $("#impnote");
+    note.textContent = "Внасям…";
+    try {
+      const n = await importFile(f);
+      note.textContent = "";
+      if (n) { toast("Внесени: " + n); paintLibrary(); }
+      else note.textContent = "Файлът не съдържа разпознат анализ.";
+    } catch (err) { note.textContent = "Не се прочете: " + err.message; }
+  };
+}
+
+/* --- настройки --- */
+function paintSettings() {
+  const opt = (v, cur, label) => '<option value="' + v + '"' + (v === cur ? " selected" : "") + ">" + label + "</option>";
+  $("#app").innerHTML = `
+  <div class="wrap">
+    <div class="eyebrow">Настройки</div>
+    <h2 class="sec">Откъде минават заявките</h2>
+    <p class="hint">Ключът стои само в този браузър и се праща единствено към api.anthropic.com.</p>
+
+    <div class="row" style="margin-top:14px">
+      <button class="pill ${CFG.source === "key" ? "on" : ""}" data-src="key">Мой API ключ</button>
+      <button class="pill ${CFG.source === "claude" ? "on" : ""}" data-src="claude">През Claude, без ключ</button>
+    </div>
+    ${CFG.source === "claude" ? '<p class="hint">Работи само когато приложението е отворено вътре в Claude. Като самостоятелен файл в браузър тази връзка е затворена — натисни „Провери“, за да видиш.</p>' : ""}
+
+    <label class="f">API ключ</label>
+    <input class="f" id="key" type="password" placeholder="sk-ant-…" value="${esc(CFG.key)}" autocomplete="off">
+    <p class="hint">Взима се от console.anthropic.com → API keys, след зареден кредит. Плаща се на разход — около $0.60–1.20 за книга.</p>
+
+    <label class="f">Избор на настройки</label>
+    <div class="row">
+      <button class="pill ${CFG.auto ? "on" : ""}" data-auto="1">Автоматично</button>
+      <button class="pill ${CFG.auto ? "" : "on"}" data-auto="0">Ръчно</button>
+    </div>
+    <p class="hint">При автоматично приложението разглежда книгата и само избира модел и дълбочина: художественото получава по-малко концепции, плътната теория — повече и по-силен модел.</p>
+
+    ${CFG.auto ? "" : `
+      <label class="f">Модел за четене на частите</label>
+      <select class="f" id="readModel">
+        ${Object.keys(MODELS).map(m => opt(m, CFG.readModel, MODELS[m].name + " — $" + MODELS[m].in + "/$" + MODELS[m].out)).join("")}
+      </select>
+      <p class="hint">Тук отива целият текст на книгата. Haiku е достатъчен — това е извличане, не мислене.</p>
+
+      <label class="f">Модел за анализа</label>
+      <select class="f" id="thinkModel">
+        ${Object.keys(MODELS).map(m => opt(m, CFG.thinkModel, MODELS[m].name + " — $" + MODELS[m].in + "/$" + MODELS[m].out)).join("")}
+      </select>
+
+      <label class="f">Дълбочина</label>
+      <select class="f" id="depth">
+        ${opt("light", CFG.depth, "Лека — 5-7 концепции")}
+        ${opt("normal", CFG.depth, "Нормална — 7-10 концепции")}
+        ${opt("deep", CFG.depth, "Дълбока — 10-14 концепции")}
+      </select>`}
+
+    <div class="row" style="margin-top:22px">
+      <button class="btn pri" data-act="savecfg">Запази</button>
+      <button class="btn" data-act="testcfg">Провери връзката</button>
+    </div>
+    <p class="hint" id="cfgnote"></p>
+
+    <div class="card" style="margin-top:24px">
+      <div class="stat">Книгите ти</div>
+      <p class="hint" style="margin-top:8px">Пазят се в паметта на браузъра за този адрес. Смениш ли адреса или изчистиш ли данните, изчезват — затова си направи резервно копие.</p>
+      <div class="row" style="margin-top:12px">
+        <button class="btn" data-act="backup">Изнеси всичко</button>
+        <button class="btn" data-act="findold">Потърси стари книги</button>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:16px">
+      <div class="stat">Как се пести</div>
+      <p class="hint" style="margin-top:8px">
+        Общата суровина се праща веднъж и се <b>кешира</b> — всяка следваща заявка я чете на 10% от цената.
+        Извличането минава през евтиния модел, а мисленето — през умния.
+        Концепциите се пишат по няколко в една заявка. Отговорите са дълги, за да няма продължения,
+        при които целият промпт се праща наново.
+      </p>
+    </div>
+
+    <div class="row" style="margin-top:16px">
+      <button class="btn" data-act="help">Как се използва</button>
+      <button class="btn" data-act="about">За този файл</button>
+    </div>
+  </div>`;
+}
+
+/* --- съвет --- */
+function paintAdvice() {
+  const p = PEND;
+  if (!p) return goto("library", false);
+  const V = p.vars;
+  const pl = p.plan;
+  const sc = p.scan || {};
+  const hist = !!p.history;
+
+  const opt = (key, name, plan, note) => `
+    <div class="card ${key === "rec" ? "wine" : ""}">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;gap:10px">
+        <b class="disp" style="font-size:17px">${name}</b>
+        <span class="mono" style="font-size:13px">${money(plan.cost)}</span>
+      </div>
+      <div class="stat" style="margin-top:6px">${MODELS[plan.think].name} · ${plan.concepts} концепции · ~${plan.minutes} мин</div>
+      <p class="hint" style="margin-top:8px">${note}</p>
+      ${hist ? "" : '<button class="btn ' + (key === "rec" ? "pri " : "") + 'wide" data-run="' + key + '" style="margin-top:10px">Пусни този</button>'}
+    </div>`;
+
+  $("#app").innerHTML = `
+  <div class="wrap">
+    <div class="eyebrow">${hist ? "Как е анализирана" : "Съвет за тази книга"}</div>
+    <h2 class="sec">${esc(p.title)}</h2>
+    <p class="hint">${esc(p.author || "неизвестен автор")}${p.pages ? " · " + p.pages + " стр." : ""}</p>
+
+    <div class="card" style="margin-top:16px">
+      <div class="stat">Какво е книгата</div>
+      <table class="plan" style="margin-top:8px">
+        <tr><td>Вид</td><td>${esc(pl.kind)}</td></tr>
+        <tr><td>Плътност на идеите</td><td>${esc(pl.dens)}</td></tr>
+        <tr><td>Обем</td><td>≈ ${nf(pl.tok)} токена</td></tr>
+        ${sc.topic ? "<tr><td>Тема</td><td>" + esc(sc.topic) + "</td></tr>" : ""}
+      </table>
+      ${Array.isArray(sc.core) && sc.core.length ? `
+        <div class="stat" style="margin-top:16px">Най-съществено в нея</div>
+        <ul style="margin:8px 0 0;padding-left:20px">${sc.core.map(c => "<li>" + esc(c) + "</li>").join("")}</ul>
+        <p class="hint" style="margin-top:8px">Първо впечатление от началото на книгата — пълната картина идва след анализа.</p>` : ""}
+    </div>
+
+    <div class="eyebrow" style="margin:24px 0 10px">${hist ? "Използвана настройка" : "Препоръка"}</div>
+    <div class="card wine">
+      <div class="big-num">${MODELS[pl.think].name}</div>
+      <div class="stat" style="margin-top:8px">${MODELS[pl.read].name} за четенето · ${pl.concepts} концепции · ${pl.chunks} части</div>
+      <div class="stat" style="margin-top:4px">${hist ? "струваше " + money(p.spent || pl.cost) : "≈ " + money(pl.cost) + " · ~" + pl.minutes + " мин"}</div>
+    </div>
+
+    <div class="eyebrow" style="margin:24px 0 10px">Защо точно това</div>
+    ${reasons(pl, sc).map(x => `
+      <div class="card">
+        <b class="disp" style="font-size:16px">${esc(x.t)}</b>
+        <p class="hint" style="margin-top:6px">${esc(x.d)}</p>
+      </div>`).join("")}
+
+    ${V ? `
+      <div class="eyebrow" style="margin:24px 0 10px">Трите варианта</div>
+      ${opt("eco", "Икономичен", V.eco, "Всичко на Haiku и по-малко концепции. Картата и концепциите остават верни; губиш дълбочината на връзките и остротата на критиката.")}
+      ${opt("rec", "Препоръчан", V.rec, "Балансът между двете: евтин модел там, където работата е механична, силен там, където се мисли.")}
+      ${opt("max", "Максимален", V.max, "Opus за целия анализ и повече концепции. Струва си при плътна теория или когато книгата ще ти трябва дълго.")}
+    ` : ""}
+
+    ${hist ? '<button class="btn wide" data-act="tolib" style="margin-top:16px">Към библиотеката</button>' : ""}
+  </div>`;
+}
+
+/* --- помощ --- */
+function paintHelp() {
+  $("#app").innerHTML = `
+  <div class="wrap">
+    <div class="eyebrow">Как се използва</div>
+    <h2 class="sec">За четири стъпки</h2>
+
+    <div class="card wine" style="margin-top:16px">
+      <b class="disp" style="font-size:17px">Какво прави този файл</b>
+      <p class="hint" style="margin-top:6px">Качваш книга в PDF. Приложението я прочита на части, изважда тезите, понятията и примерите, и от тях сглобява: карта на идеите, всяка ключова концепция в дълбочина със собствен пример, схема как идеите се държат заедно, разбор на аргументацията, критичен поглед и накрая концентрат за 20 минути четене. Не е резюме — целта е да разбереш какво твърди авторът, защо го твърди и какво следва от това.</p>
+    </div>
+
+    <div class="card"><b class="disp" style="font-size:16px">1 · Сложи API ключ</b>
+      <p class="hint" style="margin-top:6px">Настройки → API ключ → Запази → Провери връзката. Прави се веднъж.</p></div>
+
+    <div class="card"><b class="disp" style="font-size:16px">2 · Добави книга</b>
+      <p class="hint" style="margin-top:6px">Библиотека → Избери файл. Трябва PDF с текстов слой — такъв, в който можеш да маркираш текст. Сканираните книги са снимки и няма какво да се прочете от тях без OCR. Ако имаш текста другаде, има и поле за залепяне.</p></div>
+
+    <div class="card"><b class="disp" style="font-size:16px">3 · Виж плана и започни</b>
+      <p class="hint" style="margin-top:6px">Показва прогнозна цена, време и брой заявки, преди да е похарчено нещо. През „Съвет и варианти“ виждаш защо са избрани тези настройки и какво се променя при по-евтин или по-скъп вариант. Дръж екрана включен: свиеш ли приложението, телефонът спира кода — готовото се пази и има бутон „Продължи“.</p></div>
+
+    <div class="card"><b class="disp" style="font-size:16px">4 · Чети и си води бележки</b>
+      <p class="hint" style="margin-top:6px">Маркирай пасаж с пръст и го запази като бележка, или пиши бележка под всеки раздел. Има любими, отметка „прочетено“, търсене, сваляне като файл и печат. A− и A+ менят големината на текста.</p></div>
+
+    <div class="eyebrow" style="margin:26px 0 10px">За API ключа</div>
+    <div class="card">
+      <p class="hint" style="margin:0">Ключът е паролата, с която файлът говори с модела. Взима се от <b>console.anthropic.com → API keys</b>, след като заредиш кредит в сметката си. Плаща се на разход — колкото токена си минал, толкова. Една книга излиза около <b>$0.60 – $1.20</b> при препоръчаните настройки.</p>
+      <p class="hint" style="margin-top:10px">Ключът се записва само в паметта на браузъра ти и се праща единствено към api.anthropic.com. Не минава през чужд сървър, защото такъв няма — файлът е сам за себе си. Ако споделиш файла, ключът не тръгва с него.</p>
+    </div>
+
+    <div class="eyebrow" style="margin:26px 0 10px">Настройките накратко</div>
+    <table class="plan">
+      <tr><td>Откъде минават заявките</td><td>„Мой API ключ“ е нормалният начин. „През Claude“ работи само ако файлът е отворен вътре в Claude.</td></tr>
+      <tr><td>Автоматично</td><td>Приложението разглежда книгата и само избира модел и дълбочина. Препоръчано е да остане включено.</td></tr>
+      <tr><td>Модел за четене</td><td>През него минава целият текст. Haiku стига — работата е извличане. Оттук идва основната икономия.</td></tr>
+      <tr><td>Модел за анализа</td><td>Тук се мисли. Sonnet за практични книги, Opus при плътна теория.</td></tr>
+      <tr><td>Дълбочина</td><td>Колко концепции да се разгърнат: 5-7, 7-10 или 10-14.</td></tr>
+      <tr><td>Изнеси всичко</td><td>Резервно копие на книгите. Струва си, защото данните живеят само в този браузър.</td></tr>
+    </table>
+
+    <div class="eyebrow" style="margin:26px 0 10px">Ако нещо заяжда</div>
+    <table class="plan">
+      <tr><td>„Няма текстов слой“</td><td>PDF-ът е сканиран. Мине ли през OCR, става.</td></tr>
+      <tr><td>Заявката не тръгва</td><td>Ако файлът е отворен направо от папката (адрес file://), браузърът я блокира. Пусни го през прост локален сървър или го качи някъде.</td></tr>
+      <tr><td>HTTP 401 / 403</td><td>Ключът не се приема — провери го или виж дали има кредит в сметката.</td></tr>
+      <tr><td>HTTP 429</td><td>Твърде много заявки наведнъж. Изчакай минута и натисни „Продължи“.</td></tr>
+      <tr><td>Книгите изчезнаха</td><td>Пазят се за адреса, от който отваряш файла. Смениш ли го или изчистиш данните на браузъра, ги няма. Затова има „Изнеси всичко“ и „Внеси готов анализ“.</td></tr>
+    </table>
+
+    <div class="row" style="margin-top:24px">
+      <button class="btn pri" data-nav="settings">Към настройките</button>
+      <button class="btn" data-act="about">За този файл</button>
+    </div>
+  </div>`;
+}
+
+/* --- за файла --- */
+function paintAbout() {
+  $("#app").innerHTML = `
+  <div class="wrap">
+    <div class="lock" style="border:none;margin-bottom:10px;padding-bottom:6px">
+      <span class="w">Дълбок<i>Прочит</i></span>
+      <div class="r"></div>
+      <div class="t">създаден от благодарност към Svet M.</div>
+    </div>
+
+    <div class="card">
+      <p class="hint" style="margin:0">Файлът е свободен за ползване, копиране и споделяне. Никой не печели от него. За да работи самостоятелно, е нужен собствен API ключ — разходите по него се плащат от този, който го ползва, направо към доставчика на модела. Авторът на файла не получава част от тях и няма достъп до ключа ти.</p>
+    </div>
+
+    <div class="eyebrow" style="margin:24px 0 10px">Отговорност за съдържанието</div>
+    <div class="card">
+      <p class="hint" style="margin:0">Този файл не съдържа и не разпространява книги. Всеки потребител сам избира какъв текст да качи и сам отговаря да има законно основание да го ползва — купено копие, собствен документ или свободно достъпно произведение. Полученият анализ е за лично ползване; публикуването или разпространението му може да засяга авторските права върху оригинала. Авторът на файла не носи отговорност за материалите, които потребителите обработват с него, нито за начина, по който използват резултата.</p>
+    </div>
+
+    <div class="eyebrow" style="margin:24px 0 10px">За точността</div>
+    <div class="card">
+      <p class="hint" style="margin:0">Анализът се произвежда от езиков модел. Възможни са грешки, пропуски, неточни твърдения и приписване на автора на неща, които не е казал. Резултатът не замества четенето на оригинала и не е професионален съвет — правен, медицински, финансов, инвестиционен или друг. Проверявай всичко, на което ще стъпиш сериозно.</p>
+    </div>
+
+    <div class="eyebrow" style="margin:24px 0 10px">Данни</div>
+    <div class="card">
+      <p class="hint" style="margin:0">Текстът на книгата, анализите и бележките се пазят единствено в паметта на браузъра върху твоето устройство. Файлът няма сървър и не изпраща нищо на автора си. Текстът пътува само до api.anthropic.com, за да бъде обработен, и подлежи на условията на Anthropic. Изтриеш ли данните на браузъра, изчезват и книгите — прави си резервно копие от Настройки.</p>
+    </div>
+
+    <div class="eyebrow" style="margin:24px 0 10px">Без гаранция</div>
+    <div class="card">
+      <p class="hint" style="margin:0">Файлът се предоставя „както е“, без гаранция за годност за определена цел, за непрекъсваемост или за безгрешност. Авторът не носи отговорност за преки или косвени вреди, за направени разходи по API, за загуба на данни или за пропуснати ползи вследствие на ползването му.</p>
+    </div>
+
+    <p class="hint" style="margin-top:22px;text-align:center">Claude и Anthropic са марки на Anthropic PBC. Този файл е независим и няма връзка с тях.</p>
+    <p class="stat" style="text-align:center;margin-top:10px">Дълбок Прочит · версия ${VER}</p>
+  </div>`;
+}
+
+/* --- план --- */
+function paintPlan() {
+  const p = PEND;
+  if (!p) return goto("library", false);
+  const pl = p.plan;
+  $("#app").innerHTML = `
+  <div class="wrap">
+    <div class="eyebrow">Преди да започна</div>
+    <h2 class="sec">${esc(p.title)}</h2>
+    <p class="hint">${esc(p.author || "неизвестен автор")}${p.pages ? " · " + p.pages + " стр." : ""}</p>
+
+    <div class="card" style="margin-top:18px">
+      <div style="display:flex;gap:22px;flex-wrap:wrap">
+        <div><div class="stat">Прогнозна цена</div><div class="big-num">${money(pl.cost)}</div></div>
+        <div><div class="stat">Прогнозно време</div><div class="big-num">~${pl.minutes} мин</div></div>
+      </div>
+    </div>
+
+    <table class="plan">
+      <tr><td>Вид на книгата</td><td>${esc(pl.kind)}, плътност ${esc(pl.dens)}</td></tr>
+      <tr><td>Обем</td><td>≈ ${nf(pl.tok)} токена текст</td></tr>
+      <tr><td>Четене на частите</td><td>${MODELS[pl.read].name} · ${pl.chunks} части, по ${pl.par} наведнъж</td></tr>
+      <tr><td>Анализ</td><td>${MODELS[pl.think].name} · ${pl.concepts} концепции</td></tr>
+      <tr><td>Общо заявки</td><td>≈ ${pl.calls}</td></tr>
+    </table>
+
+    <div class="row" style="margin-top:22px">
+      <button class="btn pri" data-act="startjob">Започни</button>
+      <button class="btn" data-act="advice">Съвет и варианти</button>
+    </div>
+    <p class="hint">„Съвет и варианти“ показва защо са избрани точно тези настройки и какво губиш или печелиш с по-евтин или по-скъп вариант.</p>
+  </div>`;
+}
+
+/* --- работа --- */
+function paintRun() {
+  const J = JOBDATA;
+  if (!J) return goto("library", false);
+  $("#app").innerHTML = `
+  <div class="wrap">
+    <div class="eyebrow">${J.running ? "Анализът тече" : J.error ? "Анализът спря" : "Готово"}</div>
+    <h2 class="sec">${esc(J.book.title)}</h2>
+    <div class="bar"><span style="width:${J.pct}%"></span></div>
+    <div class="stat">${J.pct}%${J.stat ? " · " + esc(J.stat) : ""}</div>
+    <div class="stat" style="margin-top:6px">${USE.calls} заявки · ${nf(USE.in + USE.cr + USE.cw)} вход · ${nf(USE.out)} изход · ${money(USE.cost)}</div>
+
+    ${J.running ? '<p class="hint" style="margin-top:12px">Дръж екрана включен. Свие ли се приложението, телефонът спира кода — но всичко готово е запазено и продължава оттам, щом се върнеш.</p>' : ""}
+
+    ${J.error ? `<div class="err" style="margin-top:16px"><b>Спря.</b> ${esc(J.error)}
+      <div class="row" style="margin-top:12px">
+        <button class="btn pri" data-act="resume">Продължи</button>
+        ${J.book.sections.length ? '<button class="btn" data-act="readjob">Отвори готовото</button>' : ""}
+      </div></div>` : ""}
+
+    <div class="log">${J.log.map((l, i) =>
+      '<div class="' + (l.cls || (i === J.log.length - 1 && J.running ? "now" : "")) + '"><span class="n">' +
+      String(i + 1).padStart(2, "0") + "</span><span>" + esc(l.text) + "</span></div>").join("")}</div>
+
+    <div class="row">
+      ${J.book.sections.length ? '<button class="btn" data-act="readjob">Чети готовото</button>' : ""}
+      ${J.running ? '<button class="btn" data-act="stopjob">Спри</button>' : ""}
+    </div>
+  </div>`;
+  const lg = $(".log"); if (lg) lg.scrollTop = lg.scrollHeight;
+}
+
+/* --- четене --- */
+function visible() {
+  const q = UI.q.trim().toLowerCase();
+  return BOOK.sections.filter(s => {
+    if (UI.onlyFav && !BOOK.ann.fav[s.id]) return false;
+    if (!q) return true;
+    return (s.title + " " + s.body).toLowerCase().includes(q);
+  });
+}
+
+function paintReader() {
+  const b = BOOK;
+  if (!b) return goto("library", false);
+  b.ann = b.ann || { fav: {}, notes: {}, read: {} };
+  const ann = b.ann;
+  const shown = visible();
+  const favs = Object.values(ann.fav).filter(Boolean).length;
+  const notes = Object.values(ann.notes).reduce((a, c) => a + c.length, 0);
+  const readN = Object.values(ann.read).filter(Boolean).length;
+
+  const toc = GROUPS.map((g, gi) => {
+    const it = shown.filter(s => s.group === gi);
+    if (!it.length) return "";
+    return '<div class="g">' + g + "</div>" +
+      it.map(s => '<button data-goto="' + s.id + '">' + esc(s.title) + (ann.fav[s.id] ? " ★" : "") + "</button>").join("");
+  }).join("");
+
+  const arts = shown.map(s => {
+    const ns = ann.notes[s.id] || [];
+    const open = UI.open[s.id];
+    return `
+    <article class="art ${ann.read[s.id] ? "read" : ""}" id="s-${s.id}" data-sid="${s.id}">
+      <header class="ah">
+        <span class="num">${String(b.sections.indexOf(s) + 1).padStart(2, "0")}</span>
+        <h2>${esc(s.title)}</h2>
+      </header>
+      <div>${md(s.body)}</div>
+      <div class="tools" style="margin-top:16px">
+        <button class="tool ${ann.fav[s.id] ? "saf" : ""}" data-fav="${s.id}">★ ${ann.fav[s.id] ? "В любими" : "Любимо"}</button>
+        <button class="tool ${open ? "on" : ""}" data-note="${s.id}">✎ Бележка${ns.length ? " (" + ns.length + ")" : ""}</button>
+        <button class="tool ${ann.read[s.id] ? "ok" : ""}" data-read="${s.id}">✓ Прочетено</button>
+        <button class="tool" data-copy="${s.id}">⧉ Копирай</button>
+      </div>
+      ${(open || ns.length) ? `<div class="notes">
+        ${ns.map(n => `<div class="note">
+          <button class="x" data-delnote="${s.id}|${n.id}">✕</button>
+          ${n.quote ? '<div class="q">' + esc(n.quote) + "</div>" : ""}
+          ${n.text ? "<div>" + esc(n.text) + "</div>" : ""}
+          <div class="ts">${new Date(n.ts).toLocaleString("bg-BG", { dateStyle: "short", timeStyle: "short" })}</div>
+        </div>`).join("")}
+        ${open ? `<textarea class="f" id="d-${s.id}" placeholder="Твоя бележка към този раздел…"></textarea>
+          <button class="btn pri wide" data-savenote="${s.id}" style="margin-top:8px">Запази бележката</button>` : ""}
+      </div>` : ""}
+    </article>`;
+  }).join("");
+
+  $("#app").innerHTML = `
+  <div class="wrap">
+    <div class="tools">
+      <button class="tool ${UI.onlyFav ? "on" : ""}" data-act="favfilter">★ Само любими${favs ? " (" + favs + ")" : ""}</button>
+      <button class="tool" data-act="export">↓ Свали</button>
+      <button class="tool" data-act="print">⎙ Печат</button>
+      <button class="tool" data-act="fminus">A−</button>
+      <button class="tool" data-act="fplus">A+</button>
+      ${b.plan ? '<button class="tool" data-act="howmade">? Как е анализирана</button>' : ""}
+    </div>
+    <input class="f" id="q" placeholder="Търси в анализа…" value="${esc(UI.q)}" style="margin-bottom:14px">
+    <div class="stat" style="margin-bottom:12px">${b.sections.length} раздела · ${readN} прочетени · ${notes} бележки${b.done ? "" : " · незавършен"}</div>
+    <div class="toc">${toc}</div>
+    ${shown.length ? arts : '<div class="empty"><h3>Няма съвпадения</h3></div>'}
+  </div>`;
+
+  const q = $("#q");
+  let t = null;
+  q.oninput = e => {
+    UI.q = e.target.value;
+    clearTimeout(t);
+    t = setTimeout(() => { const p = q.selectionStart; paintReader(); const n = $("#q"); if (n) { n.focus(); n.setSelectionRange(p, p); } }, 300);
+  };
+}
+
+/* --- всички бележки --- */
+function paintNotes() {
+  const b = BOOK;
+  if (!b) return goto("library", false);
+  const items = [];
+  b.sections.forEach(s => (b.ann.notes[s.id] || []).forEach(n => items.push({ s, n })));
+  items.sort((a, c) => c.n.ts - a.n.ts);
+  $("#app").innerHTML = `
+  <div class="wrap">
+    <div class="eyebrow">Бележки · ${items.length}</div>
+    <h2 class="sec">${esc(b.title)}</h2>
+    ${items.length ? items.map(x => `
+      <div class="card">
+        <div class="stat">${esc(x.s.title)}</div>
+        ${x.n.quote ? '<div class="q" style="margin:8px 0;font-style:italic;color:var(--ink2);padding-left:10px;border-left:2px solid var(--sunk)">' + esc(x.n.quote) + "</div>" : ""}
+        ${x.n.text ? "<p style='margin:8px 0 0'>" + esc(x.n.text) + "</p>" : ""}
+        <div class="row" style="margin-top:12px">
+          <button class="btn" data-jump="${x.s.id}">Към раздела</button>
+          <button class="btn" data-delnote="${x.s.id}|${x.n.id}">Изтрий</button>
+        </div>
+      </div>`).join("")
+    : '<div class="empty"><h3>Няма бележки</h3><p>Маркирай пасаж в текста или натисни „Бележка“ под раздел.</p></div>'}
+  </div>`;
+}
+
+/* ---------- 11. ДЕЙСТВИЯ ---------- */
+
+document.addEventListener("click", async e => {
+  const t = e.target.closest("[data-nav],[data-act],[data-open],[data-del],[data-goto],[data-fav],[data-note],[data-read],[data-copy],[data-savenote],[data-delnote],[data-src],[data-auto],[data-jump],[data-run]");
+  if (!t) return;
+  const d = t.dataset;
+
+  if (d.nav) {
+    if (d.nav === "back") return back();
+    if (d.nav === "top") return window.scrollTo({ top: 0, behavior: "smooth" });
+    if (d.nav === "notes") return goto("notes");
+    if (d.nav === "run") return goto("run");
+    if (d.nav === "library") { STACK = []; return goto("library", false); }
+    if (d.nav === "help") return goto("help");
+    if (d.nav === "settings") return goto("settings");
+  }
+
+  if (d.open) {
+    const b = await DB.get(bkey(d.open));
+    if (!b) return toast("Книгата не се намери");
+    b.ann = b.ann || { fav: {}, notes: {}, read: {} };
+    BOOK = b; UI.q = ""; UI.open = {};
+    return goto("reader");
+  }
+  if (d.del) {
+    if (UI.armed === d.del) {
+      UI.armed = null;
+      await DB.del(bkey(d.del));
+      INDEX = INDEX.filter(x => x.id !== d.del);
+      await DB.set(IDX, INDEX);
+    } else {
+      UI.armed = d.del;
+      setTimeout(() => { if (UI.armed === d.del) { UI.armed = null; if (SCREEN === "library") paintLibrary(); } }, 4000);
+    }
+    return paintLibrary();
+  }
+  if (d.goto) { const el = $("#s-" + d.goto); if (el) el.scrollIntoView({ behavior: "smooth", block: "start" }); return; }
+  if (d.jump) {
+    const id = d.jump;
+    goto("reader");
+    setTimeout(() => { const el = $("#s-" + id); if (el) el.scrollIntoView({ block: "start" }); }, 60);
+    return;
+  }
+  if (d.fav) { BOOK.ann.fav[d.fav] = !BOOK.ann.fav[d.fav]; await persistBook(BOOK); return paintReader(); }
+  if (d.read) { BOOK.ann.read[d.read] = !BOOK.ann.read[d.read]; await persistBook(BOOK); return paintReader(); }
+  if (d.note) {
+    UI.open[d.note] = !UI.open[d.note];
+    paintReader();
+    if (UI.open[d.note]) { const ta = $("#d-" + d.note); if (ta) { ta.focus(); ta.scrollIntoView({ block: "center" }); } }
+    return;
+  }
+  if (d.copy) {
+    const s = BOOK.sections.find(x => x.id === d.copy);
+    try { await navigator.clipboard.writeText(s.title + "\n\n" + s.body); toast("Копирано"); }
+    catch (err) { toast("Копирането е блокирано тук"); }
+    return;
+  }
+  if (d.savenote) {
+    const ta = $("#d-" + d.savenote);
+    const v = ta ? ta.value.trim() : "";
+    if (!v) return toast("Празна бележка");
+    await addNote(d.savenote, v, "");
+    return;
+  }
+  if (d.delnote) {
+    const [sid, nid] = d.delnote.split("|");
+    BOOK.ann.notes[sid] = (BOOK.ann.notes[sid] || []).filter(n => n.id !== nid);
+    await persistBook(BOOK);
+    return SCREEN === "notes" ? paintNotes() : paintReader();
+  }
+  if (d.src) { CFG.source = d.src; return paintSettings(); }
+  if (d.auto) { CFG.auto = d.auto === "1"; return paintSettings(); }
+
+  if (d.run) { startJob(d.run); return; }
+
+  switch (d.act) {
+    case "pick": PICKMODE = "run"; $("#file").click(); break;
+    case "advise": PICKMODE = "advice"; $("#file").click(); break;
+    case "advice": goto("advice"); break;
+    case "about": goto("about"); break;
+    case "help": goto("help"); break;
+    case "tolib": STACK = []; goto("library", false); break;
+    case "howmade": {
+      if (!BOOK || !BOOK.plan) return toast("За тази книга няма запазен план");
+      PEND = {
+        title: BOOK.title, author: BOOK.author, pages: 0, history: true,
+        plan: BOOK.plan, scan: BOOK.scan || {}, vars: BOOK.vars || null, spent: BOOK.cost
+      };
+      goto("advice");
+      break;
+    }
+    case "paste": {
+      const v = $("#paste").value.trim();
+      if (v.length < 1000) return toast("Нужни са поне 1000 знака");
+      prepare({ raw: v, name: "Залепен текст" });
+      break;
+    }
+    case "savecfg": {
+      const k = $("#key"); if (k) CFG.key = k.value.trim();
+      const rm = $("#readModel"); if (rm) CFG.readModel = rm.value;
+      const tm = $("#thinkModel"); if (tm) CFG.thinkModel = tm.value;
+      const dp = $("#depth"); if (dp) CFG.depth = dp.value;
+      toast("Запазено");
+      break;
+    }
+    case "testcfg": {
+      const n = $("#cfgnote");
+      n.textContent = "Проверявам…";
+      const k = $("#key"); if (k) CFG.key = k.value.trim();
+      try {
+        await call("claude-haiku-4-5-20251001", "Отговори само с думата ОК.", { max: 16 });
+        n.textContent = "Връзката работи.";
+      } catch (err) { n.textContent = "Не става: " + err.message; }
+      break;
+    }
+    case "import": $("#impfile").click(); break;
+    case "findold": {
+      const note = $("#impnote");
+      if (note) note.textContent = "Търся…";
+      const n = await importOld();
+      if (note) note.textContent = n
+        ? ""
+        : "Не намерих стари книги. Те живеят в паметта на адреса, от който си отварял стария файл — ако този е отворен от друго място, изнеси анализа оттам с „Свали“ и го внеси тук.";
+      if (n) { toast("Пренесени: " + n); paintLibrary(); }
+      break;
+    }
+    case "backup": exportAll(); break;
+    case "startjob": startJob(false); break;
+    case "resume": resumeJob(); break;
+    case "dropjob": JOBDATA = null; await DB.del(JOB); paintLibrary(); break;
+    case "readjob": BOOK = JOBDATA.book; goto("reader"); break;
+    case "stopjob": CANCEL = true; JOBDATA.running = false; toast("Спирам…"); paintRun(); break;
+    case "favfilter": UI.onlyFav = !UI.onlyFav; paintReader(); break;
+    case "export": exportMd(); break;
+    case "print": window.print(); break;
+    case "fplus": setFont(1); break;
+    case "fminus": setFont(-1); break;
+  }
+});
+
+async function addNote(sid, text, quote) {
+  BOOK.ann.notes[sid] = (BOOK.ann.notes[sid] || []).concat([{ id: uid(), text, quote, ts: Date.now() }]);
+  UI.open[sid] = true;
+  await persistBook(BOOK);
+  paintReader();
+  toast("Бележката е запазена");
+}
+
+function setFont(d) {
+  const cur = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--fs")) || 16;
+  document.documentElement.style.setProperty("--fs", Math.min(22, Math.max(14, cur + d)) + "px");
+}
+
+function exportMd() {
+  const b = BOOK;
+  let out = "# " + b.title + "\n\n" + (b.author || "") + "\n\n---\n\n";
+  b.sections.forEach(s => {
+    out += "## " + (b.ann.fav[s.id] ? "★ " : "") + s.title + "\n\n" + s.body + "\n\n";
+    const ns = b.ann.notes[s.id] || [];
+    if (ns.length) {
+      out += "**Мои бележки:**\n\n";
+      ns.forEach(n => { if (n.quote) out += "> " + n.quote + "\n\n"; if (n.text) out += "- " + n.text + "\n"; });
+      out += "\n";
+    }
+    out += "---\n\n";
+  });
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(new Blob([out], { type: "text/markdown;charset=utf-8" }));
+  a.download = (b.title || "analiz").replace(/[^\wа-яА-Я\s-]/gi, "").slice(0, 60) + ".md";
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(a.href), 1500);
+}
+
+/* ---------- 12. ПОДГОТОВКА И СТАРТ ---------- */
+
+async function prepare(source) {
+  const note = $("#note");
+  const say = m => { if (note) note.textContent = m; };
+  let text = source.raw || "", pages = 0;
+  const name = source.name || (source.file && source.file.name) || "Книга";
+
+  if (source.file) {
+    say("Отварям файла…");
+    try {
+      if (/\.pdf$/i.test(source.file.name) || source.file.type === "application/pdf") {
+        const r = await pdfToText(source.file, (p, n) => say("Чета страница " + p + " от " + n + "…"));
+        text = r.text; pages = r.pages;
+      } else text = await source.file.text();
+    } catch (e) { return say("Файлът не се прочете: " + e.message); }
+  }
+  text = clean(stripHeads(clean(text)));
+  if (text.replace(/\s/g, "").length < 800) return say("Няма текстов слой — PDF-ът е сканиран. Нужен е OCR.");
+
+  say("Разглеждам книгата…");
+  let scan = {};
+  try {
+    scan = parseJSON(await ask("claude-haiku-4-5-20251001", P.scan(fit(text, 6000)), { max: 300 })) || {};
+  } catch (e) {
+    if (e.needKey) { say(""); toast("Първо въведи API ключ"); return goto("settings"); }
+    say("Проверката не мина: " + e.message); return;
+  }
+  say("");
+  const scan2 = scan || {};
+  PEND = {
+    text, pages,
+    title: (scan2.title || "").trim() || name.replace(/\.[^.]+$/, ""),
+    author: (scan2.author || "").trim(),
+    topic: (scan2.topic || "").trim(),
+    scan: scan2,
+    plan: buildPlan(text, scan2),
+    vars: variants(text, scan2)
+  };
+  goto(PICKMODE === "advice" ? "advice" : "plan");
+}
+
+let PICKMODE = "run";
+
+async function startJob(which) {
+  if (!PEND) return;
+  const key = which === "eco" || which === "max" ? which : "rec";
+  const pl = (PEND.vars && PEND.vars[key]) || PEND.plan;
+  USE.in = USE.out = USE.cr = USE.cw = USE.calls = USE.cost = 0;
+  JOBDATA = {
+    startedAt: Date.now(),
+    text: PEND.text,
+    plan: pl,
+    res: {},
+    log: [],
+    stat: "",
+    pct: 0,
+    running: false,
+    finished: false,
+    error: null,
+    book: {
+      id: uid(), title: PEND.title, author: PEND.author, topic: PEND.topic,
+      createdAt: Date.now(), sections: [], ann: { fav: {}, notes: {}, read: {} }, done: false,
+      plan: pl, scan: PEND.scan || {},
+      vars: PEND.vars ? {
+        eco: { cost: PEND.vars.eco.cost, minutes: PEND.vars.eco.minutes, think: PEND.vars.eco.think, read: PEND.vars.eco.read, concepts: PEND.vars.eco.concepts },
+        rec: { cost: PEND.vars.rec.cost, minutes: PEND.vars.rec.minutes, think: PEND.vars.rec.think, read: PEND.vars.rec.read, concepts: PEND.vars.rec.concepts },
+        max: { cost: PEND.vars.max.cost, minutes: PEND.vars.max.minutes, think: PEND.vars.max.think, read: PEND.vars.max.read, concepts: PEND.vars.max.concepts }
+      } : null
+    }
+  };
+  await persistBook(JOBDATA.book);
+  await saveJob();
+  goto("run");
+  drive();
+}
+
+async function resumeJob() {
+  if (!JOBDATA) return;
+  JOBDATA.error = null;
+  if (JOBDATA.usage) Object.assign(USE, JOBDATA.usage);
+  goto("run");
+  drive();
+}
+
+async function drive() {
+  await wake();
+  try {
+    JOBDATA.error = null;
+    await runJob();
+    BOOK = JOBDATA.book;
+    goto("reader");
+  } catch (e) {
+    JOBDATA.running = false;
+    if (e.message === "__cancel__") { log("Спряно.", "fail"); }
+    else {
+      log("Спиране: " + e.message, "fail");
+      JOBDATA.error = e.needKey ? "Ключът не се приема. Провери го в Настройки." : e.message;
+    }
+    JOBDATA.usage = { ...USE };
+    await saveJob();
+    paintRun();
+  } finally { unwake(); }
+}
+
+/* екранът да не заспива, докато анализът тече */
+let LOCK = null;
+async function wake() {
+  try { if (navigator.wakeLock) LOCK = await navigator.wakeLock.request("screen"); } catch (e) {}
+}
+function unwake() { try { if (LOCK) { LOCK.release(); LOCK = null; } } catch (e) {} }
+document.addEventListener("visibilitychange", () => {
+  if (document.visibilityState === "visible" && JOBDATA && JOBDATA.running) wake();
+});
+
+/* ---------- 13. МАРКИРАН ПАСАЖ → БЕЛЕЖКА ---------- */
+
+function onSelect() {
+  if (SCREEN !== "reader") return;
+  const f = $("#float");
+  const sel = window.getSelection();
+  const txt = sel && sel.toString().trim();
+  if (!txt || txt.length < 12) { f.style.display = "none"; UI.sel = null; return; }
+  let node = sel.anchorNode;
+  while (node && !(node.dataset && node.dataset.sid)) node = node.parentElement;
+  if (!node) { f.style.display = "none"; return; }
+  const r = sel.getRangeAt(0).getBoundingClientRect();
+  UI.sel = { text: txt.slice(0, 400), sid: node.dataset.sid };
+  f.textContent = "✎ Запази пасажа";
+  f.style.left = (r.left + r.width / 2) + "px";
+  f.style.top = Math.max(r.top - 8, 60) + "px";
+  f.style.display = "block";
+}
+document.addEventListener("mouseup", () => setTimeout(onSelect, 10));
+document.addEventListener("touchend", () => setTimeout(onSelect, 10));
+$("#float").onclick = async () => {
+  if (!UI.sel) return;
+  const s = UI.sel;
+  $("#float").style.display = "none";
+  UI.sel = null;
+  try { window.getSelection().removeAllRanges(); } catch (e) {}
+  await addNote(s.sid, "", s.text);
+};
+
+/* ---------- 14. СТАРТ ---------- */
+
+(async function init() {
+  INDEX = (await DB.get(IDX)) || [];
+  const j = await DB.get(JOB);
+  if (j && !j.finished) { JOBDATA = j; JOBDATA.running = false; }
+  /* първо отваряне: показваме инструкциите, вместо празен екран */
+  if (!INDEX.length && !CFG.key && ls("seen", "") !== "1") { lset("seen", "1"); SCREEN = "help"; STACK = ["library"]; }
+  paint();
+  /* книгите от предишната версия се пренасят сами, ако са на същия адрес */
+  try {
+    const n = await importOld();
+    if (n) { toast("Пренесени от старата версия: " + n); if (SCREEN === "library") paintLibrary(); }
+  } catch (e) {}
+})();
+
+window.addEventListener("beforeunload", e => {
+  if (JOBDATA && JOBDATA.running) { e.preventDefault(); e.returnValue = ""; }
+});
+</script>
+</body>
+</html>
