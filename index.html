@@ -39,12 +39,13 @@ input,select,textarea{font-family:inherit;font-size:16px;color:var(--ink)}
   backdrop-filter:blur(8px);border-bottom:1px solid var(--rule);
   padding:calc(env(safe-area-inset-top, 0px) + 11px) 16px 9px;
   display:flex;flex-direction:column;align-items:center;gap:1px}
-.brand{font-family:'Vollkorn',Georgia,serif;font-size:21px;font-weight:600;
+.brand{font-family:'Vollkorn',Georgia,serif;font-size:19px;font-weight:600;
   line-height:1.05;letter-spacing:-.005em;white-space:nowrap}
 .brand i{font-style:italic;color:var(--wine)}
-.hsub{font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.18em;
-  text-transform:uppercase;color:var(--ink3);max-width:92vw;
+.hsub{font-family:'Vollkorn',Georgia,serif;font-size:15.5px;font-weight:600;
+  color:var(--wine);max-width:92vw;margin-top:2px;
   overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.hsub:empty{display:none}
 
 /* голямата марка на началния екран */
 .lock{text-align:center;padding:14px 0 22px;border-bottom:1px solid var(--rule);margin-bottom:24px}
@@ -58,13 +59,15 @@ input,select,textarea{font-family:inherit;font-size:16px;color:var(--ink)}
 .nav{position:fixed;bottom:0;left:0;right:0;z-index:35;background:var(--raised);
   border-top:1px solid var(--rule);display:flex;
   padding:8px 10px calc(env(safe-area-inset-bottom, 0px) + 8px);gap:6px}
-.nav button{flex:1;border:none;background:none;border-radius:4px;padding:9px 4px;
-  display:flex;flex-direction:column;align-items:center;gap:4px;
-  font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.1em;
+.nav button{flex:1;border:none;background:none;border-radius:6px;padding:8px 3px;
+  display:flex;flex-direction:column;align-items:center;gap:5px;
+  font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.08em;
   text-transform:uppercase;color:var(--ink2)}
+.nav button svg{opacity:.9}
 .nav button:active{background:var(--sunk)}
 .nav button.on{color:var(--wine)}
-.nav button[disabled]{opacity:.35}
+.nav button.on svg{opacity:1}
+.nav button[disabled]{opacity:.3}
 
 .wrap{max-width:820px;margin:0 auto;padding:22px 16px 40px}
 h1.big{font-family:'Vollkorn',serif;font-weight:600;font-size:clamp(30px,7vw,46px);
@@ -147,8 +150,10 @@ table.plan tr:last-child td{border-bottom:none}
 .toc button{display:block;width:100%;text-align:left;border:none;background:none;
   padding:9px 10px;font-size:14px;color:var(--ink2);border-radius:3px;line-height:1.35}
 .toc button:active{background:var(--sunk)}
-.toc .g{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.16em;
-  text-transform:uppercase;color:var(--ink3);padding:12px 10px 4px}
+.toc .g{font-family:'JetBrains Mono',monospace;font-size:11.5px;letter-spacing:.15em;
+  text-transform:uppercase;color:var(--ink);font-weight:700;
+  padding:16px 10px 7px;margin-top:4px;border-bottom:1px solid var(--rule)}
+.toc .g:first-child{margin-top:0;padding-top:8px}
 .art{background:var(--raised);border:1px solid var(--rule);border-radius:3px;
   padding:20px 18px;margin-bottom:14px;box-shadow:var(--shadow);scroll-margin-top:calc(var(--top) + 10px)}
 .art.read{border-left:3px solid var(--pine)}
@@ -158,13 +163,20 @@ table.plan tr:last-child td{border-bottom:none}
 .ah h2{font-family:'Vollkorn',serif;font-size:21px;font-weight:600;margin:0;line-height:1.22;flex:1}
 .tools{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px}
 .tool{border:1px solid var(--rule);background:var(--raised);border-radius:99px;
-  padding:7px 13px;font-size:12.5px;color:var(--ink2);min-height:38px;
-  display:inline-flex;align-items:center;gap:6px}
+  padding:7px 14px 7px 11px;font-size:13px;color:var(--ink2);min-height:40px;
+  display:inline-flex;align-items:center;gap:7px}
+.tool svg{width:18px;height:18px;flex-shrink:0}
+.btn svg{width:19px;height:19px}
+.bookrow .del svg{width:17px;height:17px}
 .tool.on{background:var(--wine);color:#FCF7EC;border-color:var(--wine)}
 .tool.ok{background:var(--pine);color:#FCF7EC;border-color:var(--pine)}
 .tool.saf{background:var(--saffron);color:#2A201B;border-color:var(--saffron)}
 h3.mdh{font-family:'Vollkorn',serif;font-size:17px;margin:22px 0 7px;color:var(--wine);font-weight:600}
 h4.mdh{font-family:'Vollkorn',serif;font-size:15.5px;margin:18px 0 6px;font-weight:600}
+/* Двустранното подравняване на тесен екран прави реки от бели дупки —
+   българският почти не се сричкопренася в браузър, затова дясната
+   страна остава свободна, а думите запазват нормалните си разстояния. */
+.art p, .qbody p, .art li, .qbody li{text-align:left;overflow-wrap:break-word;word-break:normal}
 .art p{margin:0 0 12px}
 .art ul,.art ol{margin:0 0 13px;padding-left:20px}
 .art li{margin-bottom:5px}
@@ -181,8 +193,35 @@ code{font-family:'JetBrains Mono',monospace;font-size:.86em;background:var(--sun
 .note .ts{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--ink3);margin-top:7px}
 .note .x{position:absolute;top:6px;right:8px;border:none;background:none;color:var(--ink3);
   padding:6px 8px;font-size:15px}
+.turn{background:var(--raised);border:1px solid var(--rule);border-radius:3px;
+  margin-bottom:9px;box-shadow:var(--shadow);overflow:hidden}
+.turn.open{border-left:4px solid var(--wine)}
+.qhead{display:flex;width:100%;text-align:left;border:none;background:none;
+  padding:13px 12px;gap:10px;align-items:flex-start}
+.qhead .qn{font-family:'JetBrains Mono',monospace;font-size:10.5px;color:var(--ink3);padding-top:3px}
+.qhead .qt{flex:1;font-size:15px;line-height:1.4}
+.turn.open .qhead .qt{font-weight:600}
+.qhead .qc{font-family:'JetBrains Mono',monospace;font-size:17px;color:var(--wine);line-height:1}
+.qbody{padding:2px 14px 16px;border-top:1px solid var(--sunk);margin-top:2px}
+.qbody h3.mdh{margin-top:14px}
+.meta .cat{background:var(--sunk);color:var(--ink2);padding:2px 7px;border-radius:99px;letter-spacing:.04em}
 .empty{text-align:center;padding:40px 16px;color:var(--ink2)}
 .empty h3{font-family:'Vollkorn',serif;font-size:19px;margin:0 0 6px;color:var(--ink)}
+#toTop{position:fixed;right:16px;bottom:calc(var(--bot) + 14px);z-index:65;
+  width:50px;height:50px;border-radius:50%;border:1px solid var(--rule);
+  background:var(--raised);color:var(--wine);box-shadow:0 6px 18px -8px rgba(42,32,27,.6);
+  display:none;align-items:center;justify-content:center;padding:0}
+#toTop.show{display:flex}
+#toTop:active{background:var(--sunk)}
+#modal{position:fixed;inset:0;z-index:90;background:rgba(42,32,27,.55);
+  display:none;align-items:center;justify-content:center;padding:20px}
+#modal.show{display:flex}
+#modal .box{background:var(--raised);border:1px solid var(--rule);border-radius:5px;
+  padding:22px 20px;max-width:420px;width:100%;box-shadow:0 20px 50px -20px rgba(0,0,0,.6)}
+#modal h3{font-family:'Vollkorn',serif;font-size:20px;font-weight:600;margin:0 0 8px;line-height:1.25}
+#modal p{margin:0 0 6px;font-size:14.5px;color:var(--ink2)}
+#modal .btn{width:100%;margin-top:10px}
+#modal .danger{background:var(--wine);color:#FCF7EC;border-color:var(--wine)}
 #toast{position:fixed;left:50%;bottom:calc(var(--bot) + 14px);transform:translateX(-50%);
   background:var(--ink);color:var(--paper);padding:11px 18px;border-radius:4px;
   font-size:14px;z-index:80;display:none;max-width:88vw;text-align:center}
@@ -191,7 +230,7 @@ code{font-family:'JetBrains Mono',monospace;font-size:.86em;background:var(--sun
   box-shadow:0 6px 20px -6px rgba(0,0,0,.5);display:none}
 @media (min-width:760px){ .wrap{padding:30px 20px 60px} .art{padding:26px 28px} }
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
-@media print{.head,.nav,.tools,.toc,#float,#toast{display:none!important}
+@media print{.head,.nav,.tools,.toc,#float,#toast,#toTop{display:none!important}
   body{padding:0;background:#fff}.art{break-inside:avoid;box-shadow:none;border:none;border-bottom:1px solid #ccc}}
 </style>
 </head>
@@ -203,7 +242,9 @@ code{font-family:'JetBrains Mono',monospace;font-size:.86em;background:var(--sun
 </header>
 <main id="app"></main>
 <nav class="nav" id="nav"></nav>
+<button id="toTop" aria-label="Нагоре"></button>
 <button id="float"></button>
+<div id="modal"><div class="box" id="modalBox"></div></div>
 <div id="toast"></div>
 
 <script>
@@ -304,22 +345,31 @@ const CFG = {
   get thinkModel() { return ls("thinkModel", "claude-sonnet-5"); },
   set thinkModel(v) { lset("thinkModel", v); },
   get depth() { return ls("depth", "normal"); },        /* light | normal | deep */
-  set depth(v) { lset("depth", v); }
+  set depth(v) { lset("depth", v); },
+  get chatModel() { return ls("chatModel", "claude-sonnet-5"); },
+  set chatModel(v) { lset("chatModel", v); }
 };
 
 /* ---------- 3. ВРЪЗКА С МОДЕЛА ---------- */
 
 const SYSTEM = `Ти си експертен аналитичен четец. Задачата ти не е резюме, а „интелектуална реконструкция" на книга: какво твърди авторът, защо го твърди, как стига до изводите си и какво следва практически.
 
-Правила:
+ПЪРВО ПРАВИЛО — ТОЧНОСТ. Читателят не е чел книгата и няма как да те провери. Затова:
+- Приписваш на автора само това, което присъства в подадения материал. Никога не запълваш празнина с общото си знание по темата, дори когато си сигурен какво „обикновено" се твърди в тази област.
+- Не разкрасяваш. Не превръщаш предположение в твърдение, тенденция в закон, пример в правило.
+- Числата, имената, термините и датите се предават както са. Няма ли ги — не ги измисляш и не ги закръгляш по памет.
+- Липсва ли в материала нужното за даден раздел, го казваш направо на съответното място: „Материалът не дава достатъчно за това." Празният раздел е по-добър от измисления.
+- Несигурен ли си дали нещо е позиция на автора или твое допълнение — маркираш го като свое.
+- Всяко твое допълнение, пример или извод стои изрично отделен: „Моя интерпретация:", „Допълнителен пример (не е от книгата):".
+
+Останалите правила:
 - Пишеш на български: ясно, конкретно, без академичен жаргон и празни фрази.
-- Не измисляш нищо извън подадения материал. Липсва ли нещо, го казваш.
-- Разграничаваш чия е мисълта: „Авторът твърди…", „Примерът на автора показва…", „Моя интерпретация:", „Допълнителен пример (не е от книгата):".
+- Разграничаваш чия е мисълта: „Авторът твърди…", „Примерът на автора показва…".
 - Максимална информационна плътност. Без повтаряне на една идея с други думи.
-- Пазиш конкретиката: числа, имена, термини, срокове.
 - Markdown: ## и ### за заглавия, - за списъци, **удебелено** за ключови термини.`;
 
 const USE = { in: 0, out: 0, cr: 0, cw: 0, calls: 0, cost: 0 };
+let LAST_STOP = "";
 let CANCEL = false;
 
 function addUsage(model, u) {
@@ -334,9 +384,10 @@ function addUsage(model, u) {
 async function call(model, user, opts) {
   opts = opts || {};
   if (CANCEL) throw new Error("__cancel__");
+  const head = opts.system || SYSTEM;
   const sys = opts.cache
-    ? [{ type: "text", text: SYSTEM }, { type: "text", text: opts.cache, cache_control: { type: "ephemeral" } }]
-    : SYSTEM;
+    ? [{ type: "text", text: head }, { type: "text", text: opts.cache, cache_control: { type: "ephemeral" } }]
+    : head;
   const headers = { "content-type": "application/json" };
   if (CFG.source === "key") {
     if (!CFG.key) { const e = new Error("Няма въведен API ключ."); e.needKey = true; e.fatal = true; throw e; }
@@ -346,7 +397,7 @@ async function call(model, user, opts) {
   }
   const body = JSON.stringify({
     model, max_tokens: opts.max || 8000, system: sys,
-    messages: [{ role: "user", content: user }]
+    messages: Array.isArray(user) ? user : [{ role: "user", content: user }]
   });
 
   let res;
@@ -367,15 +418,39 @@ async function call(model, user, opts) {
   }
   const data = await res.json();
   addUsage(model, data.usage);
+  LAST_STOP = data.stop_reason || "";
   return (data.content || []).filter(b => b.type === "text").map(b => b.text).join("").trim();
 }
 
-/* Повторни опити при мрежов проблем или задръстване */
+/* Дописване: моделът е спрял, защото е опрял в тавана, а не защото е свършил.
+   Продължението стъпва на кеша, затова е евтино. */
 async function ask(model, user, opts) {
   opts = opts || {};
+  const cont = opts.cont == null ? 1 : opts.cont;
+  const base = () => Array.isArray(user) ? user.slice() : [{ role: "user", content: user }];
+  let out = "";
+  let msgs = base();
+
+  for (let pass = 0; pass <= cont; pass++) {
+    const part = await attempt(model, msgs, opts);
+    out = out ? out.replace(/\s+$/, "") + (/[.!?:»"”]$/.test(out.trim()) ? "\n\n" : " ") + part : part;
+    if (LAST_STOP !== "max_tokens" || !part.trim()) break;
+    if (pass === cont) {
+      out += "\n\n*(отговорът е съкратен — питай „продължи“, за да го дописва)*";
+      break;
+    }
+    msgs = base().concat([
+      { role: "assistant", content: out },
+      { role: "user", content: "Продължи точно оттам, където спря — по средата на изречението, ако е нужно. Без увод и без да повтаряш вече написаното." }
+    ]);
+  }
+  return out;
+}
+
+async function attempt(model, msgs, opts) {
   let last = null;
   for (let a = 0; a < 3; a++) {
-    try { return await call(model, user, opts); }
+    try { return await call(model, msgs, opts); }
     catch (e) {
       if (e.message === "__cancel__" || e.fatal) throw e;
       last = e;
@@ -473,19 +548,31 @@ async function pdfToText(file, onp) {
 /* ---------- 5. ПОДКАНИ ---------- */
 
 const P = {
+  chat: (title, q) => `Въпрос към книгата „${title}": ${q}`,
+
   scan: s => `Разгледай това начало на книга и върни САМО JSON, без ограждащи знаци:
-{"title":"заглавие","author":"автор","kind":"практическа|теоретична|художествена|учебник|мемоари","density":"ниска|средна|висока","topic":"тема в 5-8 думи","core":["1-3 неща, които изглеждат най-съществени за цялата книга"],"catch":"едно изречение: кое прави тази книга трудна или лесна за анализ"}
+{"title":"заглавие","author":"автор","kind":"практическа|теоретична|художествена|учебник|мемоари","category":"една от: Мениджмънт|Бизнес и финанси|Психология|Себеразвитие|Здраве|Наука|История|Философия|Технологии|Художествена|Биография|Учебник|Друго","density":"ниска|средна|висока","topic":"тема в 5-8 думи","core":["1-3 неща, които изглеждат най-съществени за цялата книга"],"catch":"едно изречение: кое прави тази книга трудна или лесна за анализ"}
 "density" е плътността на идеите: колко нови понятия и аргументи има на страница.
 
 ${s}`,
 
+  samples: (title, gist) => `Ето за какво е книгата „${title}":
+${gist}
+
+Върни САМО JSON масив с 3 въпроса, без ограждащи знаци:
+["въпрос","въпрос","въпрос"]
+
+Въпросите са такива, каквито читател би задал за СВОЯ конкретен случай, и на които точно тази книга има какво да отговори. Кратки, на „ти", от първо лице, с реална ситуация. Не общи въпроси за книгата, а лични. Различни един от друг.`,
+
   digest: (c, i, n) => `Част ${i} от ${n} от книгата. Извлечи суровината за анализ — телеграфно, плътно, без увод:
-1. Тези и твърдения на автора, точно.
-2. Ключови понятия и дефиниции.
+1. Тези и твърдения на автора, точно. Където формулировката му е характерна, я запази близо до оригинала.
+2. Ключови понятия и дефиниции — както ги дефинира той, не както се дефинират обикновено.
 3. Аргументи и предпоставки.
-4. Примери: казуси, изследвания, числа, процедури, истории. Пази конкретиката.
+4. Примери: казуси, изследвания, числа, процедури, истории. Пази конкретиката дословно.
 5. Практически изводи.
 За художествен текст: какво показва за света и човека, повтарящи се мотиви, най-показателните случки.
+
+Не добавяй нищо, което не е в текста, и не запълвай пропуски по общо знание. Ако част от текста е нечетима или откъслечна, отбележи го с ред „[непълен текст]" вместо да го досъчиняваш.
 
 --- ТЕКСТ ---
 ${c}`,
@@ -504,6 +591,28 @@ ${d}`,
 {{N}} идеи. Всяка с име, 1-3 изречения и етикет [КРИТИЧНО ВАЖНО], [ВАЖНО] или [ПОДКРЕПЯЩО].
 ## Логическа схема
 Вериги във вида: Идея А → води до Идея Б → която обяснява Идея В → оттук следва Извод Г.`,
+
+  verify: m => `Сверù тази КАРТА срещу подадената суровина от книгата. Търсиш само същински разминавания:
+- твърдение, приписано на автора, което го няма в суровината;
+- централен въпрос или теза, които не отговарят на това, което книгата всъщност прави;
+- ключова идея, изкривена или заменена с общоприетото схващане по темата;
+- важно число, име или термин, предаден неточно.
+
+Не отбелязвай стилистика, подредба или липса на подробности. Върни САМО JSON, без ограждащи знаци:
+{"ok":true} — ако няма същински разминавания
+{"ok":false,"issues":["конкретно разминаване и как е в суровината", "..."]} — до 5 най-важни
+
+--- КАРТА ---
+${m}`,
+
+  fixmap: (m, issues) => `Ето картата на книгата и намерени разминавания със суровината:
+
+${issues.map((x, i) => (i + 1) + ". " + x).join("\n")}
+
+Върни поправената карта в същата структура и със същите заглавия. Поправи само посоченото и каквото пряко зависи от него; останалото остава дословно. Без коментар преди или след картата.
+
+--- КАРТА ---
+${m}`,
 
   list: n => `По подадената карта избери концепциите за отделен дълбок анализ.
 Върни САМО JSON масив, без ограждащи знаци:
@@ -587,6 +696,12 @@ function parseJSON(raw) {
 
 /* ---------- 6. ПЛАН: приложението избира конфигурацията ---------- */
 
+/* Таваните за изход стоят на едно място: прогнозата и конвейерът
+   четат едни и същи числа, за да не се разминават никога пак. */
+const MAXT = { digest: 6000, merge: 6000, map: 5000, list: 1500, concepts: 8000, trio: 5000, syn: 5000, cond: 8000, memo: 4000, expl: 4000, chat: 5000 };
+const CTX3_CAP_TOK = 7000;   /* колко от концепциите влизат в кеширания контекст */
+const CTX3_CAP_CH = 18000;
+
 const DEPTH = { light: { c: [5, 7] }, normal: { c: [7, 10] }, deep: { c: [10, 14] } };
 
 function buildPlan(text, scan, ov) {
@@ -601,11 +716,12 @@ function buildPlan(text, scan, ov) {
     ? (kind === "художествена" || kind === "мемоари" ? "light" : dens === "висока" ? "deep" : "normal")
     : CFG.depth;
 
-  /* модели: извличането е механична работа → Haiku; анализът иска повече ум */
+  /* модели: извличането е механична работа → Haiku; анализът иска повече ум.
+     Автоматичният режим никога не избира Opus сам — той е 2.5 пъти по-скъп
+     на изход и точно това вдигаше сметката без предупреждение. Стои като
+     изричен избор във варианта „Максимален“, където цената се вижда. */
   let read = CFG.auto ? "claude-haiku-4-5-20251001" : CFG.readModel;
-  let think = CFG.auto
-    ? (dens === "висока" && kind !== "художествена" ? "claude-opus-5" : "claude-sonnet-5")
-    : CFG.thinkModel;
+  let think = CFG.auto ? "claude-sonnet-5" : CFG.thinkModel;
   /* малка книга: няма смисъл от икономии, чети я направо с умния модел */
   if (CFG.auto && tok < 25000) read = think;
 
@@ -619,24 +735,47 @@ function buildPlan(text, scan, ov) {
   const chunkChars = Math.round((read.includes("haiku") ? 55000 : 40000) * (cpt / 3));
   const chunks = Math.max(1, Math.ceil(text.length / chunkChars));
 
-  /* прогноза */
-  const digOut = Math.min(6000, Math.round((tok / chunks) / 7));
-  const digIn = tok + chunks * 200;
+  /* ---- прогноза ----
+     Три неща правеха старата сметка два-три пъти по-ниска от истината:
+     изходът се броеше по 1500 токена на концепция (реално стигат тавана),
+     кешираният контекст се броеше веднъж, а той расте на три стъпки
+     (суровина → +карта → +концепции), и всеки нов префикс е нов запис. */
+  const inC = m => MODELS[m].in, outC = m => MODELS[m].out;
+
+  const digOut = Math.min(MAXT.digest, Math.round((tok / chunks) / 6));
+  const digIn = tok + chunks * 260;
   const digestTok = digOut * chunks;
-  const needMerge = digestTok > 26000;
-  const mergeGroups = needMerge ? Math.ceil(digestTok / 22000) : 0;
-  const shared = Math.min(26000, digestTok) + 2500;
-  const analysisCalls = Math.ceil(concepts / perCall) + 7;
-  const inCost = m => MODELS[m].in, outCost = m => MODELS[m].out;
+  const needMerge = digestTok * 3.2 > 78000;
+  const mergeGroups = needMerge ? Math.ceil((digestTok * 3.2) / 70000) : 0;
+  const digestKept = needMerge ? Math.min(digestTok, 26000) : digestTok;
+
+  const batches = Math.ceil(concepts / perCall);
+  /* реален изход: моделът пълни между 65% и 90% от тавана */
+  const REDO_F = 1.15; /* част от заявките се дописват веднъж */
+  const outMap = Math.round(MAXT.map * 0.8);
+  const outConcepts = batches * Math.min(MAXT.concepts, Math.round(2700 * perCall));
+  const outTrio = 3 * Math.round(MAXT.trio * 0.85);
+  const outFin = Math.round((MAXT.syn + MAXT.cond + MAXT.memo + MAXT.expl) * 0.8);
+  const outThink = Math.round((outMap + outConcepts + outTrio + outFin) * REDO_F);
+
+  /* три кеширани префикса, всеки със свой запис */
+  const ctx1 = digestKept + 400;
+  const ctx2 = ctx1 + outMap;
+  const ctx3 = ctx2 + Math.min(CTX3_CAP_TOK, Math.round(outConcepts * 0.45));
+  const writes = ctx1 + ctx2 + ctx3;
+  const reads = ctx2 * batches + ctx3 * 6;
 
   const cost =
-    (digIn * inCost(read) + digestTok * outCost(read)) / 1e6 +
-    (needMerge ? (digestTok * inCost(read) + digestTok * 0.6 * outCost(read)) / 1e6 : 0) +
-    (shared * 1.25 * inCost(think) + shared * 0.1 * (analysisCalls - 1) * inCost(think)) / 1e6 +
-    ((concepts * 1500 + 6 * 2600) * outCost(think)) / 1e6;
+    (digIn * inC(read) + digestTok * outC(read)) / 1e6 +
+    (needMerge ? (digestTok * inC(read) + digestTok * 0.55 * outC(read)) / 1e6 : 0) +
+    (writes * 1.25 * inC(think) + reads * 0.1 * inC(think)) / 1e6 +
+    (outThink * outC(think)) / 1e6 +
+    0.02; /* сканиране, сверяване на картата и дребни заявки */
 
+  const analysisCalls = batches + 8;
   const par = 6;
-  const secs = (chunks / par) * 22 * (MODELS[read].speed) + (mergeGroups / 3) * 25 + analysisCalls / 3 * 40 * MODELS[think].speed;
+  const secs = (chunks / par) * 22 * MODELS[read].speed + (mergeGroups / 3) * 25 +
+    (2 + batches + 2 + 3) * 16 * MODELS[think].speed;
 
   return {
     tok, kind, dens, depth, read, think, concepts, perCall, chunkChars, chunks,
@@ -677,12 +816,14 @@ function reasons(pl, scan) {
   r.push({
     t: "Анализ: " + MODELS[pl.think].name,
     d: pl.think.includes("opus")
-      ? "Плътността на идеите е висока — много нови понятия и аргументи на страница. При такъв текст разликата между моделите се вижда: по-слабият изрежда, по-силният свързва. Тук се плаща за връзките между идеите и за критиката на аргументацията."
+      ? "Изрично избран за плътен текст. Свързва идеите по-добре от Sonnet, но изходът му се плаща 2.5 пъти по-скъпо, а именно изходът е основната част от сметката при анализ. Струва си при теоретично натоварена книга, която ще ти трябва дълго."
       : pl.think.includes("haiku")
         ? "Избран е най-евтиният и за анализа. Ще получиш вярна карта и коректни концепции, но връзките между идеите и критичният раздел ще са по-плоски."
         : kind === "художествена" || kind === "мемоари"
           ? "Художественият текст няма аргументативен скелет за разплитане — има мотиви и случки. Sonnet се справя с това; Opus не би добавил достатъчно, за да оправдае двойната цена."
-          : "Балансът за практическа книга със средна плътност. Opus си струва само когато текстът е теоретично натоварен."
+          : dens === "висока"
+            ? "Плътността е висока и Opus би свързал идеите малко по-добре, но не го избирам сам — на изход е 2.5 пъти по-скъп, а изходът е главното в сметката. Ако книгата ти трябва задълго, пусни варианта „Максимален“."
+            : "Балансът за практическа книга със средна плътност. Opus си струва само когато текстът е теоретично натоварен."
   });
 
   r.push({
@@ -706,6 +847,52 @@ function reasons(pl, scan) {
 
   if (scan && scan.catch) r.push({ t: "Особеното при тази книга", d: String(scan.catch) });
   return r;
+}
+
+/* ---------- 6в. ТЪРСЕНЕ В ПЪЛНИЯ ТЕКСТ ----------
+   Работи изцяло в устройството, без заявка и без пари. Думите се режат
+   до корен, за да съвпаднат „срещи“, „среща“ и „срещите“. */
+
+const STOP = new Set(["това", "като", "която", "който", "което", "които", "защо", "какво", "каква", "какви", "мога", "трябва", "имам", "има", "съм", "бъде", "може", "след", "при", "över", "върху", "според", "тази", "този", "тези", "една", "един", "едно", "най", "все", "със", "без", "или", "ако", "тъй", "там", "тук", "той", "тя", "аз", "ми", "си", "се", "да", "на", "за", "от", "по", "до", "че", "но", "и", "в", "с", "а"]);
+
+function stem(w) {
+  w = w.toLowerCase().replace(/[^\wа-яё]/gi, "");
+  if (w.length < 4) return "";
+  if (STOP.has(w)) return "";
+  return w.slice(0, Math.max(4, Math.min(6, w.length - 1)));
+}
+
+function windows(text, size) {
+  const out = [];
+  const paras = text.split(/\n\s*\n/);
+  let buf = "";
+  for (const p of paras) {
+    if ((buf + p).length > size && buf) { out.push(buf); buf = ""; }
+    buf += (buf ? "\n\n" : "") + p;
+    while (buf.length > size * 1.8) { out.push(buf.slice(0, size)); buf = buf.slice(size); }
+  }
+  if (buf.trim()) out.push(buf);
+  return out;
+}
+
+async function retrieve(book, question, take) {
+  let full = null;
+  try { full = await DB.get("full:" + book.id); } catch (e) {}
+  if (!full) return null;
+  const qs = question.split(/\s+/).map(stem).filter(Boolean);
+  if (!qs.length) return null;
+  const want = new Set(qs);
+  const parts = windows(full, 1400);
+  const scored = parts.map((p, i) => {
+    const seen = new Set(p.split(/\s+/).map(stem).filter(Boolean));
+    let hit = 0;
+    want.forEach(w => { if (seen.has(w)) hit++; });
+    /* дребен бонус за откъс, който съдържа числа — там обикновено са доказателствата */
+    const num = /\d/.test(p) ? 0.4 : 0;
+    return { i, p, s: hit + num };
+  }).filter(x => x.s >= 1).sort((a, b) => b.s - a.s).slice(0, take || 4);
+  if (!scored.length) return null;
+  return scored.sort((a, b) => a.i - b.i).map(x => "…" + x.p.trim() + "…").join("\n\n---\n\n");
 }
 
 /* ---------- 7. КОНВЕЙЕР (с точки на възстановяване) ---------- */
@@ -739,6 +926,28 @@ async function addSection(sec) {
   await saveJob();
 }
 
+/* Първата заявка с нов кеширан контекст го записва, останалите го четат
+   на 10%. Пусне ли се цяла вълна наведнъж, всяка пише свое копие — затова
+   първата тръгва сама и чак после идват другите. */
+async function warmPool(items, limit, fn) {
+  if (!items.length) return [];
+  const first = await fn(items[0], 0);
+  const rest = await pool(items.slice(1), limit, (it, i) => fn(it, i + 1));
+  return [first].concat(rest);
+}
+
+/* Само същественото от концепциите влиза в кеша за последните раздели —
+   пълните текстове го надуваха с 40 000 знака. */
+function condenseConcepts(list) {
+  return list.map(c => {
+    const b = String(c.body || "");
+    const m = b.match(/###\s*Какво да запомниш\s*([\s\S]*?)(?=\n###|$)/);
+    const gist = m ? m[1].trim() : b.slice(0, 700);
+    const claim = (b.match(/###\s*Какво точно твърди авторът\s*([\s\S]*?)(?=\n###|$)/) || [, ""])[1].trim().slice(0, 700);
+    return "### " + c.name + "\n" + claim + "\n" + gist;
+  }).join("\n\n");
+}
+
 async function runJob() {
   const J = JOBDATA;
   const pl = J.plan;
@@ -756,10 +965,11 @@ async function runJob() {
     if (J.res.dig[i] != null) return;
     const t = Date.now();
     try {
-      J.res.dig[i] = await ask(pl.read, P.digest(c, i + 1, chunks.length), { max: 6000 });
+      J.res.dig[i] = await ask(pl.read, P.digest(c, i + 1, chunks.length), { max: MAXT.digest });
     } catch (e) {
       if (e.message === "__cancel__" || e.fatal) throw e;
       J.res.dig[i] = "";
+      J.res.missed = (J.res.missed || []).concat([i + 1]);
       log("Част " + (i + 1) + " не се прочете — продължавам без нея", "warn");
     }
     times.push(Date.now() - t);
@@ -784,7 +994,7 @@ async function runJob() {
     log("Сливам прочетеното: " + level.length + " → " + groups.length);
     stat("Сливам прочетеното");
     const rk = "mg" + round;
-    level = await once(rk, () => pool(groups, 3, g => ask(pl.read, P.merge(fit(g, 90000)), { max: 6000 })));
+    level = await once(rk, () => pool(groups, 3, g => ask(pl.read, P.merge(fit(g, 90000)), { max: MAXT.merge })));
     round++;
   }
   const digest = fit(level.join("\n\n"), 78000);
@@ -797,7 +1007,28 @@ async function runJob() {
   /* 3. Карта */
   stat("Картата на книгата");
   log("Изграждам картата на идеите с " + MODELS[pl.think].name);
-  const map = await once("map", () => ask(pl.think, P.map.replace("{{N}}", pl.depth === "light" ? "6-8" : pl.depth === "deep" ? "10-15" : "8-12"), { cache: CTX, max: 5000 }));
+  const map0 = await once("map", () => ask(pl.think, P.map.replace("{{N}}", pl.depth === "light" ? "6-8" : pl.depth === "deep" ? "10-15" : "8-12"), { cache: CTX, max: MAXT.map }));
+
+  /* Всичко нататък стъпва на картата, затова я сверяваме със суровината,
+     преди да е станала основа на петнайсет раздела. */
+  stat("Сверявам картата със суровината");
+  const map = await once("mapfix", async () => {
+    let v = null;
+    try {
+      v = parseJSON(await ask(pl.read, P.verify(map0), { cache: CTX, max: 900, cont: 0 }));
+    } catch (e) { return map0; }
+    if (!v || v.ok !== false || !Array.isArray(v.issues) || !v.issues.length) {
+      log("Картата съвпада със суровината");
+      J.res.mapIssues = [];
+      return map0;
+    }
+    J.res.mapIssues = v.issues.slice(0, 5);
+    log("Поправям " + J.res.mapIssues.length + " разминавания в картата", "warn");
+    try {
+      return await ask(pl.think, P.fixmap(map0, J.res.mapIssues), { cache: CTX, max: MAXT.map });
+    } catch (e) { return map0; }
+  });
+  J.book.mapIssues = J.res.mapIssues || [];
   await addSection({ id: "map", group: 0, title: "Карта на книгата", body: map });
   pct(54);
 
@@ -807,7 +1038,7 @@ async function runJob() {
   /* 4. Концепции — по няколко в една заявка */
   stat("Избирам концепциите");
   let list = await once("list", async () => {
-    const v = parseJSON(await ask(pl.think, P.list(pl.concepts), { cache: CTX2, max: 1500 }));
+    const v = parseJSON(await ask(pl.think, P.list(pl.concepts), { cache: CTX2, max: MAXT.list, cont: 0 }));
     return Array.isArray(v) && v.length ? v.filter(x => x && x.name).slice(0, 14) : [{ name: "Основната теза", why: "носещата идея" }];
   });
 
@@ -818,7 +1049,7 @@ async function runJob() {
   const parsedAll = [];
   for (let bi = 0; bi < batches.length; bi++) {
     const names = batches[bi].map(x => x.name);
-    const raw = await once("cb" + bi, () => ask(pl.think, P.concepts(names), { cache: CTX2, max: 8000 }));
+    const raw = await once("cb" + bi, () => ask(pl.think, P.concepts(names), { cache: CTX2, max: MAXT.concepts }));
     const parts = String(raw).split(/^@@\s*/m).map(s => s.trim()).filter(Boolean);
     for (let k = 0; k < names.length; k++) {
       const p = parts[k] || "";
@@ -831,34 +1062,50 @@ async function runJob() {
     stat("Концепции: " + bdone + "/" + list.length);
     pct(54 + (bdone / list.length) * 22);
   }
-  const conceptText = fit(parsedAll.map(c => "### " + c.name + "\n" + c.body).join("\n\n"), 40000);
-  const CTX3 = CTX2 + "\n\n=== АНАЛИЗИРАНИ КОНЦЕПЦИИ ===\n" + conceptText;
+  /* в кеша влиза само същественото от концепциите, не пълните текстове */
+  const CTX3 = CTX2 + "\n\n=== СЪЩНОСТТА НА КОНЦЕПЦИИТЕ ===\n" + fit(condenseConcepts(parsedAll), CTX3_CAP_CH);
 
-  /* 5. Връзки, аргументация, критика — паралелно, върху същия кеш */
+  /* 5. Връзки, аргументация, критика.
+     Първата загрява кеша, другите две вървят заедно. Всяка се записва
+     сама за себе си — падне ли една, останалите не се плащат наново. */
   stat("Връзки, аргументация, критика");
   log("Свързвам идеите и проверявам аргументацията");
-  const trio = await once("trio", () => pool(
-    [["links", P.links], ["arg", P.argument], ["crit", P.critique]], 3,
-    x => ask(pl.think, x[1], { cache: CTX3, max: 5000 })
-  ));
-  await addSection({ id: "links", group: 2, title: "Как се свързват идеите", body: trio[0] });
-  await addSection({ id: "arg", group: 2, title: "Структура на аргументацията", body: trio[1] });
-  await addSection({ id: "crit", group: 2, title: "Критичен анализ", body: trio[2] });
+  const links = await once("links", () => ask(pl.think, P.links, { cache: CTX3, max: MAXT.trio }));
+  await addSection({ id: "links", group: 2, title: "Как се свързват идеите", body: links });
+  const pair = await pool([["arg", P.argument], ["crit", P.critique]], 2,
+    x => once(x[0], () => ask(pl.think, x[1], { cache: CTX3, max: MAXT.trio })));
+  await addSection({ id: "arg", group: 2, title: "Структура на аргументацията", body: pair[0] });
+  await addSection({ id: "crit", group: 2, title: "Критичен анализ", body: pair[1] });
   pct(84);
 
   /* 6. Синтез и концентрат */
   stat("Пиша концентрата");
-  const fin = await once("fin", () => pool(
-    [["syn", P.synthesis], ["cond", P.condensed], ["memo", P.memory], ["expl", P.explain]], 4,
-    x => ask(pl.think, x[1], { cache: CTX3, max: 8000 })
-  ));
-  await addSection({ id: "syn", group: 2, title: "Книгата като цяло", body: fin[0] });
-  await addSection({ id: "cond", group: 3, title: "Книгата в 20 минути", body: fin[1] });
-  await addSection({ id: "memo", group: 3, title: "Какво трябва да запомниш", body: fin[2] });
-  await addSection({ id: "expl", group: 3, title: "Ако трябва да обясниш книгата на друг", body: fin[3] });
+  const syn = await once("syn", () => ask(pl.think, P.synthesis, { cache: CTX3, max: MAXT.syn }));
+  await addSection({ id: "syn", group: 2, title: "Книгата като цяло", body: syn });
+  const fin = await pool([
+    ["cond", P.condensed, MAXT.cond],
+    ["memo", P.memory, MAXT.memo],
+    ["expl", P.explain, MAXT.expl]
+  ], 3, x => once(x[0], () => ask(pl.think, x[1], { cache: CTX3, max: x[2] })));
+  await addSection({ id: "cond", group: 3, title: "Книгата в 20 минути", body: fin[0] });
+  await addSection({ id: "memo", group: 3, title: "Какво трябва да запомниш", body: fin[1] });
+  await addSection({ id: "expl", group: 3, title: "Ако трябва да обясниш книгата на друг", body: fin[2] });
 
+  /* остава за чата „Попитай книгата“ — суровината и картата, без пълния PDF */
+  J.book.ctx = fit(CTX2, 70000);
+  /* пълният текст се пази отделно: нужен е само при изрична проверка в оригинала */
+  try {
+    await DB.set("full:" + J.book.id, fit(text, 1600000));
+    J.book.hasFull = true;
+  } catch (e) { J.book.hasFull = false; }
+  J.book.coverage = {
+    parts: chunks.length,
+    missed: (J.res.missed || []).slice(),
+    merged: round > 0
+  };
   J.book.done = true;
   J.book.cost = USE.cost;
+  J.book.estimate = pl.cost;
   await persistBook(J.book);
   J.pct = 100;
   J.running = false;
@@ -870,6 +1117,63 @@ async function runJob() {
 
 function money(c) { return "$" + c.toFixed(2) + " (~" + (c * 0.92).toFixed(2) + " €)"; }
 
+/* ---------- 7б. ПРЕЗАРЕЖДАНЕ НА ЕДИН РАЗДЕЛ ----------
+   Контекстът се сглобява наново от вече запазеното, така че цената
+   е една заявка вместо целия анализ. */
+
+function ctxFor(b, id) {
+  const base = b.ctx || ("Ето анализа на книгата „" + b.title + "“.");
+  if (id === "map" || /^c\d+$/.test(id)) return base;
+  const con = b.sections.filter(s => s.group === 1)
+    .map(s => ({ name: s.title, body: s.body }));
+  return base + "\n\n=== СЪЩНОСТТА НА КОНЦЕПЦИИТЕ ===\n" + fit(condenseConcepts(con), CTX3_CAP_CH);
+}
+
+const REDO = {
+  map: () => P.map.replace("{{N}}", "8-12"),
+  links: () => P.links,
+  arg: () => P.argument,
+  crit: () => P.critique,
+  syn: () => P.synthesis,
+  cond: () => P.condensed,
+  memo: () => P.memory,
+  expl: () => P.explain
+};
+const REDO_MAX = { map: MAXT.map, links: MAXT.trio, arg: MAXT.trio, crit: MAXT.trio, syn: MAXT.syn, cond: MAXT.cond, memo: MAXT.memo, expl: MAXT.expl };
+
+async function redoSection(id) {
+  const b = BOOK;
+  if (!b) return;
+  const s = b.sections.find(x => x.id === id);
+  if (!s) return;
+  const model = (b.plan && b.plan.think) || CFG.thinkModel;
+  const isConcept = /^c\d+$/.test(id);
+  const prompt = isConcept ? P.concepts([s.title]) : (REDO[id] ? REDO[id]() : null);
+  if (!prompt) return toast("Този раздел не може да се пусне сам");
+
+  UI.redo = id;
+  paintReader();
+  const before = USE.cost;
+  try {
+    let out = await ask(model, prompt, { cache: ctxFor(b, id), max: isConcept ? MAXT.concepts : (REDO_MAX[id] || 5000) });
+    if (isConcept) {
+      const parts = String(out).split(/^@@\s*/m).map(x => x.trim()).filter(Boolean);
+      const p = parts[0] || out;
+      const nl = p.indexOf("\n");
+      out = nl > 0 && /^@@/.test("@@" + p) ? p.slice(nl + 1).trim() : p;
+    }
+    if (!out) throw new Error("празен отговор");
+    s.body = out;
+    b.cost = (b.cost || 0) + (USE.cost - before);
+    await persistBook(b);
+    toast("Разделът е презареден · " + money(USE.cost - before));
+  } catch (e) {
+    toast(e.needKey ? "Ключът не се приема" : "Не се получи: " + e.message);
+  }
+  UI.redo = null;
+  paintReader();
+}
+
 /* ---------- 8. КНИГИ ---------- */
 
 let INDEX = [];
@@ -877,6 +1181,7 @@ async function persistBook(b) {
   await DB.set(bkey(b.id), b);
   const e = {
     id: b.id, title: b.title, author: b.author, createdAt: b.createdAt,
+    category: b.category || "Друго",
     sections: b.sections.length, done: !!b.done, cost: b.cost || 0,
     favs: Object.values(b.ann.fav).filter(Boolean).length,
     notes: Object.values(b.ann.notes).reduce((a, c) => a + c.length, 0)
@@ -967,10 +1272,13 @@ function parseExport(text) {
   return book;
 }
 
-async function importFile(file) {
-  const text = await file.text();
-  if (/\.json$/i.test(file.name)) {
-    const data = parseJSON(text);
+/* Внасянето работи еднакво от файл и от залепен текст —
+   съдържанието е едно и също, различен е само носителят. */
+async function importText(text) {
+  const t = String(text || "").trim();
+  if (!t) return 0;
+  if (t[0] === "{" || t[0] === "[") {
+    const data = parseJSON(t);
     const arr = Array.isArray(data) ? data : data && data.books ? data.books : data ? [data] : [];
     let n = 0;
     for (const b of arr) {
@@ -981,23 +1289,66 @@ async function importFile(file) {
     }
     return n;
   }
-  const b = parseExport(text);
+  const b = parseExport(t);
   if (!b) return 0;
   await persistBook(b);
   return 1;
 }
 
-async function exportAll() {
+async function importFile(file) {
+  return importText(await file.text());
+}
+
+/* Някои четци (например Documents) блокират сваляне от HTML страница.
+   Тогава единственият изход е текстът да се покаже за копиране. */
+function showText(title, text, note) {
+  $("#modalBox").innerHTML = `
+    <h3>${esc(title)}</h3>
+    ${note ? '<p>' + note + "</p>" : ""}
+    <textarea class="f" id="dumpBox" readonly style="min-height:180px;font-size:12px;font-family:'JetBrains Mono',monospace"></textarea>
+    <button class="btn danger" data-act="copydump">Копирай всичко</button>
+    <button class="btn" data-act="delno">Затвори</button>`;
+  $("#dumpBox").value = text;
+  $("#modal").classList.add("show");
+}
+
+async function copyDump() {
+  const ta = $("#dumpBox");
+  if (!ta) return;
+  ta.focus();
+  ta.setSelectionRange(0, ta.value.length);
+  let ok = false;
+  try { await navigator.clipboard.writeText(ta.value); ok = true; } catch (e) {}
+  if (!ok) { try { ok = document.execCommand("copy"); } catch (e) {} }
+  toast(ok ? "Копирано — залепи го в бележка или файл" : "Копирането е блокирано. Маркирай текста и копирай на ръка.");
+}
+
+function download(name, text, mime) {
+  try {
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(new Blob([text], { type: mime }));
+    a.download = name;
+    a.rel = "noopener";
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(a.href), 1500);
+    return true;
+  } catch (e) { return false; }
+}
+
+async function exportAll(asText) {
   const books = [];
   for (const e of INDEX) {
     const b = await DB.get(bkey(e.id));
-    if (b) books.push(b);
+    if (b) books.push(b);  /* пълният текст остава извън копието — тежи и се възстановява с нов анализ */
   }
-  const a = document.createElement("a");
-  a.href = URL.createObjectURL(new Blob([JSON.stringify({ books }, null, 1)], { type: "application/json" }));
-  a.download = "dulbok-prochit-backup.json";
-  document.body.appendChild(a); a.click(); a.remove();
-  setTimeout(() => URL.revokeObjectURL(a.href), 1500);
+  const json = JSON.stringify({ books }, null, 1);
+  if (asText) {
+    return showText("Резервно копие", json,
+      "Маркирай и копирай текста, после го залепи в бележка или файл. Върни го през „Внеси готов анализ“.");
+  }
+  download("dulbok-prochit-backup.json", json, "application/json");
 }
 
 /* ---------- 9в. MARKDOWN ---------- */
@@ -1041,16 +1392,18 @@ function md(text) {
 /* ---------- 10. ЕКРАНИ ---------- */
 
 let SCREEN = "library";
-const VER = "2.1 · август 2026";
+const VER = "2.6 · август 2026";
 let STACK = [];
 let BOOK = null;
 let PEND = null;         /* подготвен план преди старт */
-let UI = { q: "", onlyFav: false, open: {}, armed: null, sel: null };
+let UI = { q: "", onlyFav: false, open: {}, armed: null, sel: null, rename: false, cat: "", redo: null };
+const CHAT = { book: null, busy: false, cost: 0, err: null, openTurn: null, draft: "", samplesBusy: false };
 
 function goto(s, push) {
   if (push !== false && SCREEN !== s) STACK.push(SCREEN);
   SCREEN = s;
   window.scrollTo(0, 0);
+  const tt = $("#toTop"); if (tt) tt.classList.remove("show");
   paint();
 }
 function back() {
@@ -1065,6 +1418,7 @@ function paint() {
     SCREEN === "reader" && BOOK ? BOOK.title :
     SCREEN === "run" && JOBDATA ? JOBDATA.book.title :
     SCREEN === "settings" ? "Настройки" :
+    SCREEN === "ask" ? "Попитай книгата" :
     SCREEN === "help" ? "Как се използва" :
     SCREEN === "about" ? "За този файл" :
     SCREEN === "advice" ? "Съвет" :
@@ -1073,6 +1427,7 @@ function paint() {
   paintNav();
   if (SCREEN === "library") paintLibrary();
   else if (SCREEN === "settings") paintSettings();
+  else if (SCREEN === "ask") paintAsk();
   else if (SCREEN === "help") paintHelp();
   else if (SCREEN === "about") paintAbout();
   else if (SCREEN === "advice") paintAdvice();
@@ -1082,32 +1437,81 @@ function paint() {
   else if (SCREEN === "notes") paintNotes();
 }
 
+const SVG = (d, extra) => '<svg viewBox="0 0 24 24" width="23" height="23" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">' + d + (extra || "") + "</svg>";
 const ICO = {
-  back: "&#8592;", lib: "&#9776;", gear: "&#9881;", note: "&#9998;", up: "&#8593;"
+  back: SVG('<path d="M15 5l-7 7 7 7"/>'),
+  lib: SVG('<path d="M4 5h5a2.5 2.5 0 012.5 2.5V19a2 2 0 00-2-2H4z"/><path d="M20 5h-5a2.5 2.5 0 00-2.5 2.5V19a2 2 0 012-2H20z"/>'),
+  ask: SVG('<path d="M20 14a2 2 0 01-2 2H8l-4 3V6a2 2 0 012-2h12a2 2 0 012 2z"/><path d="M9 10h6M9 13h3"/>'),
+  note: SVG('<path d="M4 5h16v11l-4 4H4z"/><path d="M20 16h-4v4"/><path d="M8 9h8M8 13h5"/>'),
+  gear: SVG('<circle cx="12" cy="12" r="3"/><path d="M12 3v2M12 19v2M4.2 7.5l1.7 1M18.1 15.5l1.7 1M4.2 16.5l1.7-1M18.1 8.5l1.7-1"/>'),
+  help: SVG('<circle cx="12" cy="12" r="8.5"/><path d="M9.6 9.5a2.5 2.5 0 114 2.2c-.9.6-1.6 1-1.6 2"/><path d="M12 17h.01"/>'),
+  run: SVG('<circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/>'),
+  star: SVG('<path d="M12 3.6l2.6 5.3 5.9.9-4.3 4.1 1 5.9L12 17l-5.2 2.8 1-5.9-4.3-4.1 5.9-.9z"/>'),
+  check: SVG('<path d="M4.5 12.5l5 5 10-11"/>'),
+  copy: SVG('<rect x="8.5" y="8.5" width="11.5" height="11.5" rx="2.5"/><path d="M15.5 8.5v-2a2.5 2.5 0 00-2.5-2.5h-7A2.5 2.5 0 003.5 6.5v7A2.5 2.5 0 006 16h2"/>'),
+  down: SVG('<path d="M12 4v11M7.5 11L12 15.5 16.5 11M4.5 20h15"/>'),
+  print: SVG('<path d="M7 9V4h10v5"/><rect x="3.5" y="9" width="17" height="7" rx="2"/><path d="M7 14h10v6H7z"/>'),
+  pen: SVG('<path d="M4 20l1-4L16.5 4.5a2.1 2.1 0 013 3L8 19z"/><path d="M14.5 6.5l3 3"/>'),
+  trash: SVG('<path d="M4 7h16M9.5 7V4.5h5V7M6.5 7l1 13h9l1-13"/>'),
+  plus: SVG('<path d="M12 5.5v13M5.5 12h13"/>'),
+  tag: SVG('<path d="M4 4h7l9 9-7 7-9-9z"/><circle cx="8" cy="8" r="1.2"/>'),
 };
 
 function paintNav() {
   const b = (id, label, icon, on, dis) =>
     '<button data-nav="' + id + '"' + (dis ? " disabled" : "") + ' class="' + (on ? "on" : "") + '">' +
-    '<span style="font-size:17px;line-height:1">' + icon + "</span>" + label + "</button>";
+    icon + "<span>" + label + "</span></button>";
   let html = "";
   html += b("back", "Назад", ICO.back, false, SCREEN === "library" && !STACK.length);
-  html += b("library", "Библиотека", ICO.lib, SCREEN === "library");
+  html += b("library", "Книги", ICO.lib, SCREEN === "library");
+  html += b("ask", "Попитай", ICO.ask, SCREEN === "ask");
   if (SCREEN === "reader") {
     html += b("notes", "Бележки", ICO.note, false);
-    html += b("top", "Нагоре", ICO.up, false);
   } else if (JOBDATA && JOBDATA.running) {
-    html += b("run", "Анализът", "&#9679;", SCREEN === "run");
+    html += b("run", "Анализът", ICO.run, SCREEN === "run");
   } else {
-    html += b("help", "Помощ", "?", SCREEN === "help" || SCREEN === "about");
+    html += b("help", "Помощ", ICO.help, SCREEN === "help" || SCREEN === "about");
   }
   html += b("settings", "Настройки", ICO.gear, SCREEN === "settings");
   $("#nav").innerHTML = html;
 }
 
 /* --- библиотека --- */
+/* Данните живеят само в браузъра. Напомняме, когато има какво да се загуби. */
+function backupNote() {
+  const saved = Number(ls("backupCount", "0"));
+  const when = Number(ls("backupWhen", "0"));
+  const days = when ? Math.floor((Date.now() - when) / 86400000) : 999;
+  const news = INDEX.length - saved;
+  if (INDEX.length < 2) return "";
+  if (news < 2 && days < 30) return "";
+  const spent = INDEX.reduce((a, b) => a + (b.cost || 0), 0);
+  return `<div class="card saf">
+    <b class="disp" style="font-size:17px">Направи резервно копие</b>
+    <p class="hint" style="margin-top:6px">
+      ${when ? news + " нови книги след последното копие." : "Още нямаш копие."}
+      Книгите живеят само в паметта на браузъра за този адрес — изчистиш ли данните или смениш адреса, изчезват
+      ${spent > 0.2 ? "заедно с $" + spent.toFixed(2) + ", които вече са платени за тях" : ""}.
+    </p>
+    <div class="row" style="margin-top:12px">
+      <button class="btn pri" data-act="backup">Изнеси всичко</button>
+      <button class="btn" data-act="backuptext">Като текст за копиране</button>
+      <button class="btn" data-act="backuphow">Къде отива</button>
+    </div>
+  </div>`;
+}
+
+function markBackup() {
+  lset("backupCount", String(INDEX.length));
+  lset("backupWhen", String(Date.now()));
+}
+
 function paintLibrary() {
   const resume = JOBDATA && !JOBDATA.finished;
+  const counts = {};
+  INDEX.forEach(b => { const c = b.category || "Друго"; counts[c] = (counts[c] || 0) + 1; });
+  const cats = Object.keys(counts).sort((a, b) => counts[b] - counts[a]);
+  const shown = UI.cat ? INDEX.filter(b => (b.category || "Друго") === UI.cat) : INDEX;
   $("#app").innerHTML = `
   <div class="wrap">
     <div class="lock">
@@ -1133,10 +1537,11 @@ function paintLibrary() {
         <button class="btn" data-act="dropjob">Откажи се</button>
       </div></div>` : ""}
 
+    ${backupNote()}
     <div class="drop" id="drop">
       <h3>Добави книга</h3>
       <p>PDF или текстов файл. Работи и с 800 страници.</p>
-      <button class="btn pri wide" data-act="pick">Избери файл</button>
+      <button class="btn pri wide" data-act="pick">${ICO.plus}Избери файл</button>
       <input type="file" id="file" accept=".pdf,.txt,.md,application/pdf,text/plain" hidden>
       <button class="btn wide" data-act="advise" style="margin-top:8px">Само съвет — коя настройка е най-подходяща</button>
       <p class="hint" id="note"></p>
@@ -1149,20 +1554,26 @@ function paintLibrary() {
     </details>
 
     <div class="row" style="margin-top:12px">
-      <button class="btn" data-act="import">Внеси готов анализ</button>
+      <button class="btn" data-act="import">Внеси от файл</button>
+      <button class="btn" data-act="importtext">Внеси от текст</button>
       <button class="btn" data-act="findold">Потърси стари книги</button>
     </div>
     <input type="file" id="impfile" accept=".md,.json,.txt" hidden>
     <p class="hint" id="impnote"></p>
 
     <div class="eyebrow" style="margin:28px 0 12px">Библиотека · ${INDEX.length}</div>
+    ${cats.length > 1 ? '<div class="tools">' +
+      '<button class="tool ' + (!UI.cat ? "on" : "") + '" data-cat="">Всички</button>' +
+      cats.map(c => '<button class="tool ' + (UI.cat === c ? "on" : "") + '" data-cat="' + esc(c) + '">' + esc(c) + " (" + counts[c] + ")</button>").join("") +
+      "</div>" : ""}
     <div class="list">
-      ${INDEX.length ? INDEX.map(b => `
+      ${shown.length ? shown.map(b => `
         <div class="bookrow ${b.done ? "" : "part"}">
           <button class="main" data-open="${b.id}">
             <h4>${esc(b.title)}</h4>
             <p class="aut">${esc(b.author || "неизвестен автор")}</p>
             <div class="meta">
+              <span class="cat">${esc(b.category || "Друго")}</span>
               <span>${b.sections} РАЗДЕЛА</span>
               ${b.done ? "" : "<span>НЕЗАВЪРШЕН</span>"}
               ${b.favs ? "<span>★ " + b.favs + "</span>" : ""}
@@ -1170,9 +1581,11 @@ function paintLibrary() {
               ${b.cost ? "<span>$" + b.cost.toFixed(2) + "</span>" : ""}
             </div>
           </button>
-          <button class="del ${UI.armed === b.id ? "armed" : ""}" data-del="${b.id}">${UI.armed === b.id ? "ИЗТРИЙ" : "✕"}</button>
+          <button class="del" data-del="${b.id}" aria-label="Изтрий">${ICO.trash}</button>
         </div>`).join("")
-      : '<div class="empty"><h3>Тук ще стоят анализираните книги</h3><p>Всяка пази бележките и любимите ти раздели, и се чете офлайн.</p></div>'}
+      : INDEX.length
+        ? '<div class="empty"><h3>Няма книги в тази категория</h3></div>'
+        : '<div class="empty"><h3>Тук ще стоят анализираните книги</h3><p>Всяка пази бележките и любимите ти раздели, и се чете офлайн.</p></div>'}
     </div>
 
     <div class="row" style="margin-top:30px">
@@ -1245,6 +1658,12 @@ function paintSettings() {
         ${opt("deep", CFG.depth, "Дълбока — 10-14 концепции")}
       </select>`}
 
+    <label class="f">Модел за „Попитай книгата“</label>
+    <select class="f" id="chatModel">
+      ${Object.keys(MODELS).map(m => opt(m, CFG.chatModel, MODELS[m].name + " — $" + MODELS[m].in + "/$" + MODELS[m].out)).join("")}
+    </select>
+    <p class="hint">Чатът ползва готовия анализ, не цялата книга, затова е евтин — няколко стотни на въпрос. Контекстът се кешира, така че следващите въпроси в същия разговор са още по-евтини.</p>
+
     <div class="row" style="margin-top:22px">
       <button class="btn pri" data-act="savecfg">Запази</button>
       <button class="btn" data-act="testcfg">Провери връзката</button>
@@ -1256,6 +1675,7 @@ function paintSettings() {
       <p class="hint" style="margin-top:8px">Пазят се в паметта на браузъра за този адрес. Смениш ли адреса или изчистиш ли данните, изчезват — затова си направи резервно копие.</p>
       <div class="row" style="margin-top:12px">
         <button class="btn" data-act="backup">Изнеси всичко</button>
+        <button class="btn" data-act="backuptext">Като текст</button>
         <button class="btn" data-act="findold">Потърси стари книги</button>
       </div>
     </div>
@@ -1342,6 +1762,190 @@ function paintAdvice() {
   </div>`;
 }
 
+/* --- попитай книгата --- */
+const CHAT_SYSTEM = `Ти отговаряш на въпроси за една конкретна книга, въз основа на подаден материал от нея.
+
+РЕД НА РАБОТА — спазваш го винаги:
+1. Първо изчерпваш книгата. Търсиш в материала всичко, което се отнася до въпроса — пряко или косвено — и градиш отговора от него. Назоваваш принципите и понятията с имената, които авторът им дава.
+2. Стигне ли книгата за пълен отговор, спираш дотук. Не добавяш нищо отвън.
+3. Не стигне ли, казваш го изрично и чак тогава допълваш от собствените си знания — под отделно заглавие **Извън книгата**, за да е ясно докъде свършва авторът и откъде започваш ти.
+4. Не съдържа ли книгата абсолютно нищо по темата, казваш го направо: „Книгата не разглежда това." Посочваш кое най-близко тя все пак казва, ясно отбелязано като най-близко, а не като отговор. Ако въпросът си заслужава, можеш да дадеш кратък отговор под **Извън книгата**.
+
+ТОЧНОСТ:
+- Не приписваш на автора нищо, което не е в материала. По-добре „книгата не казва", отколкото правдоподобно допълване.
+- Не превръщаш свое тълкуване в негово твърдение.
+- Ако книгата има особен или спорен ъгъл, предаваш нейния, не общоприетия.
+
+ФОРМА:
+- При въпрос за лична ситуация: кой принцип от книгата се отнася → какво значи той точно за описания случай → каква е следващата конкретна стъпка.
+- На български, кратко и по същество. Без увод и без завършващи любезности.`;
+
+function chatBook() { return CHAT.book; }
+
+function paintAsk() {
+  const done = INDEX.filter(b => b.sections > 0);
+  const b = CHAT.book;
+  const msgs = b && b.chat ? b.chat : [];
+
+  /* въпросите и отговорите се събират по двойки и се сгъват */
+  const turns = [];
+  for (let i = 0; i < msgs.length; i++) {
+    if (msgs[i].role === "user") {
+      const a = msgs[i + 1] && msgs[i + 1].role === "assistant" ? msgs[i + 1] : null;
+      turns.push({ q: msgs[i], a, i });
+      if (a) i++;
+    } else turns.push({ q: null, a: msgs[i], i });
+  }
+  if (CHAT.openTurn == null && turns.length) CHAT.openTurn = turns.length - 1;
+
+  const samples = (b && b.samples && b.samples.length) ? b.samples : [];
+
+  $("#app").innerHTML = `
+  <div class="wrap">
+    <h2 class="sec">${b ? esc(b.title) : "Попитай книгата"}</h2>
+    <p class="hint">Първо изчерпва информацията в самата книга. Ако тя не е достатъчна, допълва с общи знания, като ясно ги отделя в секция „Извън книгата“, за да е видно коя информация произлиза от книгата и коя е допълнителна.</p>
+
+    <label class="f">Книга</label>
+    <select class="f" id="askBook">
+      <option value="">— избери —</option>
+      ${done.map(x => '<option value="' + x.id + '"' + (b && b.id === x.id ? " selected" : "") + ">" + esc(x.title) + "</option>").join("")}
+    </select>
+    ${done.length ? "" : '<p class="hint">Първо анализирай книга.</p>'}
+
+    ${b ? `
+      ${turns.length ? `<div id="chatBox" style="margin-top:18px">
+        ${turns.map((t, ti) => {
+          const open = CHAT.openTurn === ti;
+          const q = t.q ? t.q.text : "(въпросът липсва)";
+          return `<div class="turn ${open ? "open" : ""}">
+            <button class="qhead" data-turn="${ti}">
+              <span class="qn">${String(ti + 1).padStart(2, "0")}</span>
+              <span class="qt">${esc(q)}</span>
+              <span class="qc">${open ? "−" : "+"}</span>
+            </button>
+            ${open ? '<div class="qbody">' + (t.a ? md(t.a.text) : '<p class="hint">Няма отговор — пусни въпроса пак.</p>') +
+              (t.a && t.a.deep ? '<p class="stat" style="margin-top:10px">проверено в пълния текст</p>' : "") +
+              (t.a && !t.a.deep && b.hasFull
+                ? '<button class="btn" data-deep="' + esc(t.q ? t.q.text : "") + '" style="margin-top:12px">' +
+                  (NOTFOUND.test(t.a.text)
+                    ? "Може да го има в книгата — провери в пълния текст"
+                    : "Провери в пълния текст") + "</button>"
+                : "") + "</div>" : ""}
+          </div>`;
+        }).join("")}
+      </div>` : `
+      <div class="card saf" style="margin-top:18px">
+        <b class="disp" style="font-size:17px">Питай за своя случай</b>
+        ${samples.length
+          ? '<p class="hint" style="margin-top:6px">Ето какво тази книга може да ти каже:</p>' +
+            samples.map(q => '<button class="btn wide" data-sample="' + esc(q) + '" style="margin-top:8px;text-align:left;justify-content:flex-start">' + esc(q) + "</button>").join("")
+          : '<p class="hint" style="margin-top:6px">' + (CHAT.samplesBusy ? "Подготвям примери за тази книга…" : "Опиши реална ситуация от твоята работа, а не общ въпрос за книгата.") + "</p>"}
+      </div>`}
+
+      <textarea class="f" id="askInput" placeholder="Твоят въпрос…" style="margin-top:12px">${esc(CHAT.draft || "")}</textarea>
+      <div class="row" style="margin-top:10px">
+        <button class="btn pri" data-act="asksend" ${CHAT.busy ? "disabled" : ""}>${CHAT.busy ? "Мисли…" : "Питай"}</button>
+        ${turns.length ? '<button class="btn" data-act="askclear">Изчисти</button>' : ""}
+      </div>
+      <div class="stat" style="margin-top:12px">${MODELS[CFG.chatModel].name} · разговорът дотук ${money(CHAT.cost)}${b.hasFull ? " · пълният текст е запазен" : ""}</div>
+      ${CHAT.err ? '<div class="err" style="margin-top:12px">' + esc(CHAT.err) + "</div>" : ""}
+    ` : ""}
+  </div>`;
+
+  const sel = $("#askBook");
+  if (sel) sel.onchange = async e => {
+    const id = e.target.value;
+    CHAT.openTurn = null; CHAT.err = null; CHAT.draft = "";
+    if (!id) { CHAT.book = null; return paintAsk(); }
+    const bk = await DB.get(bkey(id));
+    if (!bk) return toast("Книгата не се намери");
+    bk.ann = bk.ann || { fav: {}, notes: {}, read: {} };
+    CHAT.book = bk;
+    CHAT.cost = 0;
+    paintAsk();
+    ensureSamples(bk);
+  };
+  const ta = $("#askInput");
+  if (ta) ta.oninput = e => { CHAT.draft = e.target.value; };
+}
+
+/* Примерните въпроси се правят веднъж на книга и се пазят с нея. */
+async function ensureSamples(b) {
+  if (!b || (b.samples && b.samples.length) || CHAT.samplesBusy) return;
+  if (b.chat && b.chat.length) return;
+  CHAT.samplesBusy = true;
+  try {
+    const gist = fit(
+      (b.topic ? b.topic + "\n" : "") +
+      b.sections.filter(s => s.group === 1).map(s => s.title).join("; ") + "\n" +
+      (b.sections.find(s => s.id === "map") || { body: "" }).body,
+      4000
+    );
+    const v = parseJSON(await ask("claude-haiku-4-5-20251001", P.samples(b.title, gist), { max: 400, cont: 0 }));
+    if (Array.isArray(v) && v.length) {
+      b.samples = v.filter(x => typeof x === "string").slice(0, 3);
+      await persistBook(b);
+    }
+  } catch (e) { /* примери не са задължителни */ }
+  CHAT.samplesBusy = false;
+  if (SCREEN === "ask") paintAsk();
+}
+
+/* Контекстът е суровината и картата, събрани при анализа. За по-стари
+   книги, при които ги няма, се ползват самите раздели на анализа. */
+function chatContext(b) {
+  if (b.ctx) return fit(b.ctx, 70000);
+  return fit("Ето анализа на книгата „" + b.title + "“.\n\n" +
+    b.sections.map(s => "=== " + s.title + " ===\n" + s.body).join("\n\n"), 70000);
+}
+
+async function askSend(deep) {
+  const b = CHAT.book;
+  const ta = $("#askInput");
+  const q = ta ? ta.value.trim() : (CHAT.draft || "").trim();
+  if (!b || !q || CHAT.busy) return;
+  CHAT.busy = true; CHAT.err = null; CHAT.draft = "";
+  b.chat = (b.chat || []).concat([{ role: "user", text: q, ts: Date.now(), deep: !!deep }]);
+  await persistBook(b);
+  CHAT.openTurn = null;
+  paintAsk();
+
+  let extra = "";
+  if (deep) {
+    const found = await retrieve(b, q, 4);
+    if (found) extra = "\n\n=== ОТКЪСИ ОТ ОРИГИНАЛНИЯ ТЕКСТ, НАМЕРЕНИ ПО ТОЗИ ВЪПРОС ===\n" +
+      fit(found, 9000) +
+      "\n=== край на откъсите ===\nТези откъси са от самата книга и имат предимство пред обобщения материал. Ако съдържат конкретика — числа, имена, процедури — предай я точно.";
+    else extra = "\n\n(Търсенето в пълния текст не намери подходящ откъс по този въпрос.)";
+  }
+
+  const hist = b.chat.slice(-12).map(m => ({
+    role: m.role,
+    content: m.role === "user" ? P.chat(b.title, m.text) : m.text
+  }));
+  if (extra) hist[hist.length - 1].content += extra;
+
+  const before = USE.cost;
+  try {
+    const out = await ask(CFG.chatModel, hist, {
+      system: CHAT_SYSTEM, cache: chatContext(b), max: MAXT.chat, cont: 2
+    });
+    b.chat = b.chat.concat([{ role: "assistant", text: out, ts: Date.now(), deep: !!deep }]);
+    CHAT.cost += USE.cost - before;
+    await persistBook(b);
+  } catch (e) {
+    CHAT.err = e.needKey ? "Ключът не се приема. Провери го в Настройки." : e.message;
+  }
+  CHAT.busy = false;
+  CHAT.openTurn = null;
+  paintAsk();
+}
+
+/* Ако отговорът твърди, че книгата не разглежда нещо, това може да е
+   вярно — или просто да е отпаднало при свиването. Тогава предлагаме
+   проверка в оригинала. */
+const NOTFOUND = /не разглежда|не посочва|не дава|не съдържа|липсва в книгата|не се споменава|няма информация/i;
+
 /* --- помощ --- */
 function paintHelp() {
   $("#app").innerHTML = `
@@ -1364,7 +1968,10 @@ function paintHelp() {
       <p class="hint" style="margin-top:6px">Показва прогнозна цена, време и брой заявки, преди да е похарчено нещо. През „Съвет и варианти“ виждаш защо са избрани тези настройки и какво се променя при по-евтин или по-скъп вариант. Дръж екрана включен: свиеш ли приложението, телефонът спира кода — готовото се пази и има бутон „Продължи“.</p></div>
 
     <div class="card"><b class="disp" style="font-size:16px">4 · Чети и си води бележки</b>
-      <p class="hint" style="margin-top:6px">Маркирай пасаж с пръст и го запази като бележка, или пиши бележка под всеки раздел. Има любими, отметка „прочетено“, търсене, сваляне като файл и печат. A− и A+ менят големината на текста.</p></div>
+      <p class="hint" style="margin-top:6px">Маркирай пасаж с пръст и го запази като бележка, или пиши бележка под всеки раздел. Има любими, отметка „прочетено“, търсене, сваляне на анализа и печат. A− и A+ менят големината на текста, а „Преименувай“ сменя заглавието и автора — независимо от името на файла.</p></div>
+
+    <div class="card wine"><b class="disp" style="font-size:16px">5 · Попитай книгата</b>
+      <p class="hint" style="margin-top:6px">Отделен екран в долната лента. Избираш книга и питаш каквото те интересува — например „имам служител, който постоянно закъснява със задачите; какво според тази книга да направя“. Отговорът стъпва само на тази книга и назовава принципите ѝ по име. Не разглежда ли книгата въпроса, го казва, вместо да ти отговаря като общ съветник. Един въпрос струва стотни от долара, защото ползва готовия анализ, а не целия PDF.</p></div>
 
     <div class="eyebrow" style="margin:26px 0 10px">За API ключа</div>
     <div class="card">
@@ -1379,7 +1986,7 @@ function paintHelp() {
       <tr><td>Модел за четене</td><td>През него минава целият текст. Haiku стига — работата е извличане. Оттук идва основната икономия.</td></tr>
       <tr><td>Модел за анализа</td><td>Тук се мисли. Sonnet за практични книги, Opus при плътна теория.</td></tr>
       <tr><td>Дълбочина</td><td>Колко концепции да се разгърнат: 5-7, 7-10 или 10-14.</td></tr>
-      <tr><td>Изнеси всичко</td><td>Резервно копие на книгите. Струва си, защото данните живеят само в този браузър.</td></tr>
+      <tr><td>Изнеси всичко</td><td>Резервно копие на книгите — като файл или като текст за копиране. И двете се внасят обратно.</td></tr>
     </table>
 
     <div class="eyebrow" style="margin:26px 0 10px">Ако нещо заяжда</div>
@@ -1388,6 +1995,7 @@ function paintHelp() {
       <tr><td>Заявката не тръгва</td><td>Ако файлът е отворен направо от папката (адрес file://), браузърът я блокира. Пусни го през прост локален сървър или го качи някъде.</td></tr>
       <tr><td>HTTP 401 / 403</td><td>Ключът не се приема — провери го или виж дали има кредит в сметката.</td></tr>
       <tr><td>HTTP 429</td><td>Твърде много заявки наведнъж. Изчакай минута и натисни „Продължи“.</td></tr>
+      <tr><td>Свалянето е блокирано</td><td>Съобщение „resources outside the application“ идва от четеца. В Documents: Settings → изключи „Block external links in HTML viewer“. Или ползвай бутона „Като текст“ и копирай съдържанието.</td></tr>
       <tr><td>Книгите изчезнаха</td><td>Пазят се за адреса, от който отваряш файла. Смениш ли го или изчистиш данните на браузъра, ги няма. Затова има „Изнеси всичко“ и „Внеси готов анализ“.</td></tr>
     </table>
 
@@ -1448,6 +2056,16 @@ function paintPlan() {
     <h2 class="sec">${esc(p.title)}</h2>
     <p class="hint">${esc(p.author || "неизвестен автор")}${p.pages ? " · " + p.pages + " стр." : ""}</p>
 
+    <details style="margin-top:14px">
+      <summary class="stat" style="padding:10px 0">Поправи заглавието или автора</summary>
+      <label class="f">Заглавие</label>
+      <input class="f" id="pTitle" value="${esc(p.title)}">
+      <label class="f">Автор</label>
+      <input class="f" id="pAuthor" value="${esc(p.author)}">
+      <button class="btn wide" data-act="savemeta" style="margin-top:10px">Запази</button>
+      <p class="hint">Заглавието не зависи от името на файла — сложи каквото ще търсиш после.</p>
+    </details>
+
     <div class="card" style="margin-top:18px">
       <div style="display:flex;gap:22px;flex-wrap:wrap">
         <div><div class="stat">Прогнозна цена</div><div class="big-num">${money(pl.cost)}</div></div>
@@ -1481,7 +2099,13 @@ function paintRun() {
     <h2 class="sec">${esc(J.book.title)}</h2>
     <div class="bar"><span style="width:${J.pct}%"></span></div>
     <div class="stat">${J.pct}%${J.stat ? " · " + esc(J.stat) : ""}</div>
-    <div class="stat" style="margin-top:6px">${USE.calls} заявки · ${nf(USE.in + USE.cr + USE.cw)} вход · ${nf(USE.out)} изход · ${money(USE.cost)}</div>
+    <div class="stat" style="margin-top:6px">${USE.calls} заявки · ${nf(USE.in + USE.cr + USE.cw)} вход · ${nf(USE.out)} изход</div>
+    <div class="stat" style="margin-top:4px">
+      Похарчено <b style="color:var(--ink)">${money(USE.cost)}</b>
+      ${J.plan && J.plan.cost ? " · прогноза " + money(J.plan.cost) : ""}
+    </div>
+    ${J.plan && J.plan.cost && USE.cost > J.plan.cost * 1.25 && J.running
+      ? '<p class="hint" style="color:var(--wine);margin-top:8px">Разходът мина прогнозата. Ако не искаш да продължава, натисни „Спри“ — готовото се пази.</p>' : ""}
 
     ${J.running ? '<p class="hint" style="margin-top:12px">Дръж екрана включен. Свие ли се приложението, телефонът спира кода — но всичко готово е запазено и продължава оттам, щом се върнеш.</p>' : ""}
 
@@ -1513,6 +2137,32 @@ function visible() {
   });
 }
 
+/* Каквото не е стигнало до анализа, читателят няма как да усети сам —
+   затова непълното покритие се изписва, вместо да мълчи. */
+function coverageNote(b) {
+  let pre = "";
+  if (b.mapIssues && b.mapIssues.length) {
+    pre = '<div class="card"><p class="hint" style="margin:0"><b>Картата беше поправена.</b> Сверката със суровината намери ' +
+      b.mapIssues.length + ' разминавания и те бяха отстранени, преди останалите раздели да стъпят на нея: ' +
+      b.mapIssues.map(x => esc(String(x))).join(" · ") + "</p></div>";
+  }
+  const c = b.coverage;
+  if (!c) return pre;
+  const miss = (c.missed || []).length;
+  if (!miss && !c.merged) return pre;
+  let t = "";
+  if (miss) {
+    t += "<b>Непълно покритие.</b> " + miss + " от " + c.parts +
+      " части не се прочетоха (" + c.missed.join(", ") + ") и не участват в анализа. " +
+      "Каквото е било в тях, липсва навсякъде по-нататък. Пусни анализа наново, ако темата ти е важна.";
+  } else {
+    t += "<b>Как е стигнала книгата дотук.</b> Текстът е прочетен на " + c.parts +
+      " части и после свит на няколко нива, за да се събере в един анализ. Свиването пази тезите, " +
+      "понятията и най-силните примери, но подробности неизбежно отпадат — това е цената на компресията.";
+  }
+  return pre + '<div class="card ' + (miss ? "saf" : "") + '" style="margin-bottom:14px"><p class="hint" style="margin:0">' + t + "</p></div>";
+}
+
 function paintReader() {
   const b = BOOK;
   if (!b) return goto("library", false);
@@ -1541,10 +2191,11 @@ function paintReader() {
       </header>
       <div>${md(s.body)}</div>
       <div class="tools" style="margin-top:16px">
-        <button class="tool ${ann.fav[s.id] ? "saf" : ""}" data-fav="${s.id}">★ ${ann.fav[s.id] ? "В любими" : "Любимо"}</button>
-        <button class="tool ${open ? "on" : ""}" data-note="${s.id}">✎ Бележка${ns.length ? " (" + ns.length + ")" : ""}</button>
-        <button class="tool ${ann.read[s.id] ? "ok" : ""}" data-read="${s.id}">✓ Прочетено</button>
-        <button class="tool" data-copy="${s.id}">⧉ Копирай</button>
+        <button class="tool ${ann.fav[s.id] ? "saf" : ""}" data-fav="${s.id}">${ICO.star}${ann.fav[s.id] ? "В любими" : "Любимо"}</button>
+        <button class="tool ${open ? "on" : ""}" data-note="${s.id}">${ICO.pen}Бележка${ns.length ? " (" + ns.length + ")" : ""}</button>
+        <button class="tool ${ann.read[s.id] ? "ok" : ""}" data-read="${s.id}">${ICO.check}Прочетено</button>
+        <button class="tool" data-copy="${s.id}">${ICO.copy}Копирай</button>
+        <button class="tool" data-redo="${s.id}" ${UI.redo ? "disabled" : ""}>${UI.redo === s.id ? "Пише се…" : "↻ Пусни наново"}</button>
       </div>
       ${(open || ns.length) ? `<div class="notes">
         ${ns.map(n => `<div class="note">
@@ -1562,15 +2213,28 @@ function paintReader() {
   $("#app").innerHTML = `
   <div class="wrap">
     <div class="tools">
-      <button class="tool ${UI.onlyFav ? "on" : ""}" data-act="favfilter">★ Само любими${favs ? " (" + favs + ")" : ""}</button>
-      <button class="tool" data-act="export">↓ Свали</button>
-      <button class="tool" data-act="print">⎙ Печат</button>
+      <button class="tool ${UI.onlyFav ? "on" : ""}" data-act="favfilter">${ICO.star}Само любими${favs ? " (" + favs + ")" : ""}</button>
+      <button class="tool" data-act="export">${ICO.down}Свали</button>
+      <button class="tool" data-act="exporttext">${ICO.copy}Като текст</button>
+      <button class="tool" data-act="print">${ICO.print}Печат</button>
       <button class="tool" data-act="fminus">A−</button>
       <button class="tool" data-act="fplus">A+</button>
-      ${b.plan ? '<button class="tool" data-act="howmade">? Как е анализирана</button>' : ""}
+      ${b.plan ? '<button class="tool" data-act="howmade">' + ICO.help + 'Как е анализирана</button>' : ""}
+      <button class="tool" data-act="rename">${ICO.pen}Преименувай</button>
     </div>
+    ${UI.rename ? `<div class="card saf">
+      <label class="f">Заглавие</label>
+      <input class="f" id="rTitle" value="${esc(b.title)}">
+      <label class="f">Автор</label>
+      <input class="f" id="rAuthor" value="${esc(b.author || "")}">
+      <div class="row" style="margin-top:12px">
+        <button class="btn pri" data-act="saverename">Запази</button>
+        <button class="btn" data-act="cancelrename">Откажи</button>
+      </div>
+    </div>` : ""}
     <input class="f" id="q" placeholder="Търси в анализа…" value="${esc(UI.q)}" style="margin-bottom:14px">
     <div class="stat" style="margin-bottom:12px">${b.sections.length} раздела · ${readN} прочетени · ${notes} бележки${b.done ? "" : " · незавършен"}</div>
+    ${coverageNote(b)}
     <div class="toc">${toc}</div>
     ${shown.length ? arts : '<div class="empty"><h3>Няма съвпадения</h3></div>'}
   </div>`;
@@ -1612,7 +2276,7 @@ function paintNotes() {
 /* ---------- 11. ДЕЙСТВИЯ ---------- */
 
 document.addEventListener("click", async e => {
-  const t = e.target.closest("[data-nav],[data-act],[data-open],[data-del],[data-goto],[data-fav],[data-note],[data-read],[data-copy],[data-savenote],[data-delnote],[data-src],[data-auto],[data-jump],[data-run]");
+  const t = e.target.closest("[data-nav],[data-act],[data-open],[data-del],[data-goto],[data-fav],[data-note],[data-read],[data-copy],[data-savenote],[data-delnote],[data-src],[data-auto],[data-jump],[data-run],[data-cat],[data-sample],[data-turn],[data-redo],[data-deep]");
   if (!t) return;
   const d = t.dataset;
 
@@ -1623,6 +2287,12 @@ document.addEventListener("click", async e => {
     if (d.nav === "run") return goto("run");
     if (d.nav === "library") { STACK = []; return goto("library", false); }
     if (d.nav === "help") return goto("help");
+    if (d.nav === "ask") {
+      if (!CHAT.book && BOOK) { CHAT.book = BOOK; CHAT.openTurn = null; }
+      goto("ask");
+      if (CHAT.book) ensureSamples(CHAT.book);
+      return;
+    }
     if (d.nav === "settings") return goto("settings");
   }
 
@@ -1634,16 +2304,10 @@ document.addEventListener("click", async e => {
     return goto("reader");
   }
   if (d.del) {
-    if (UI.armed === d.del) {
-      UI.armed = null;
-      await DB.del(bkey(d.del));
-      INDEX = INDEX.filter(x => x.id !== d.del);
-      await DB.set(IDX, INDEX);
-    } else {
-      UI.armed = d.del;
-      setTimeout(() => { if (UI.armed === d.del) { UI.armed = null; if (SCREEN === "library") paintLibrary(); } }, 4000);
-    }
-    return paintLibrary();
+    const b = INDEX.find(x => x.id === d.del);
+    if (!b) return;
+    askDelete(b);
+    return;
   }
   if (d.goto) { const el = $("#s-" + d.goto); if (el) el.scrollIntoView({ behavior: "smooth", block: "start" }); return; }
   if (d.jump) {
@@ -1684,12 +2348,66 @@ document.addEventListener("click", async e => {
 
   if (d.run) { startJob(d.run); return; }
 
+  if (d.cat != null && t.hasAttribute("data-cat")) { UI.cat = d.cat; return paintLibrary(); }
+  if (d.turn != null && t.hasAttribute("data-turn")) {
+    const n = Number(d.turn);
+    CHAT.openTurn = CHAT.openTurn === n ? -1 : n;
+    return paintAsk();
+  }
+  if (d.redo) { redoSection(d.redo); return; }
+  if (d.deep != null && t.hasAttribute("data-deep")) {
+    CHAT.draft = d.deep;
+    askSend(true);
+    return;
+  }
+  if (d.sample) {
+    CHAT.draft = d.sample;
+    paintAsk();
+    const ta = $("#askInput");
+    if (ta) { ta.focus(); ta.setSelectionRange(ta.value.length, ta.value.length); }
+    return;
+  }
+
   switch (d.act) {
     case "pick": PICKMODE = "run"; $("#file").click(); break;
     case "advise": PICKMODE = "advice"; $("#file").click(); break;
     case "advice": goto("advice"); break;
+    case "delyes": doDelete(); break;
+    case "delno": closeModal(); break;
+    case "delsave": { const id = PENDING_DEL; closeModal(); if (id) saveCopyOf(id); break; }
     case "about": goto("about"); break;
     case "help": goto("help"); break;
+    case "savemeta": {
+      const t = $("#pTitle"), a = $("#pAuthor");
+      if (t && t.value.trim()) PEND.title = t.value.trim().slice(0, 140);
+      if (a) PEND.author = a.value.trim().slice(0, 90);
+      toast("Запазено");
+      paintPlan();
+      break;
+    }
+    case "rename": UI.rename = !UI.rename; paintReader(); break;
+    case "cancelrename": UI.rename = false; paintReader(); break;
+    case "saverename": {
+      const t = $("#rTitle"), a = $("#rAuthor");
+      if (t && t.value.trim()) BOOK.title = t.value.trim().slice(0, 140);
+      if (a) BOOK.author = a.value.trim().slice(0, 90);
+      UI.rename = false;
+      await persistBook(BOOK);
+      if (CHAT.book && CHAT.book.id === BOOK.id) CHAT.book = BOOK;
+      paint();
+      toast("Преименувано");
+      break;
+    }
+    case "asksend": askSend(false); break;
+    case "askclear": {
+      if (CHAT.book) {
+        CHAT.book.chat = [];
+        CHAT.cost = 0;
+        await persistBook(CHAT.book);
+        paintAsk();
+      }
+      break;
+    }
     case "tolib": STACK = []; goto("library", false); break;
     case "howmade": {
       if (!BOOK || !BOOK.plan) return toast("За тази книга няма запазен план");
@@ -1711,6 +2429,7 @@ document.addEventListener("click", async e => {
       const rm = $("#readModel"); if (rm) CFG.readModel = rm.value;
       const tm = $("#thinkModel"); if (tm) CFG.thinkModel = tm.value;
       const dp = $("#depth"); if (dp) CFG.depth = dp.value;
+      const cm = $("#chatModel"); if (cm) CFG.chatModel = cm.value;
       toast("Запазено");
       break;
     }
@@ -1719,12 +2438,31 @@ document.addEventListener("click", async e => {
       n.textContent = "Проверявам…";
       const k = $("#key"); if (k) CFG.key = k.value.trim();
       try {
-        await call("claude-haiku-4-5-20251001", "Отговори само с думата ОК.", { max: 16 });
+        await call("claude-haiku-4-5-20251001", "Отговори само с думата ОК.", { max: 16, cont: 0 });
         n.textContent = "Връзката работи.";
       } catch (err) { n.textContent = "Не става: " + err.message; }
       break;
     }
     case "import": $("#impfile").click(); break;
+    case "importtext":
+      $("#modalBox").innerHTML = '<h3>Внеси от текст</h3>' +
+        '<p>Залепи тук копието, което си запазил — резервно копие в JSON или свален анализ.</p>' +
+        '<textarea class="f" id="dumpBox" placeholder="Залепи тук…" style="min-height:180px;font-size:12px"></textarea>' +
+        '<button class="btn danger" data-act="doimporttext">Внеси</button>' +
+        '<button class="btn" data-act="delno">Откажи</button>';
+      $("#modal").classList.add("show");
+      break;
+    case "doimporttext": {
+      const ta = $("#dumpBox");
+      const v = ta ? ta.value : "";
+      closeModal();
+      try {
+        const n = await importText(v);
+        if (n) { toast("Внесени: " + n); paintLibrary(); }
+        else toast("Текстът не съдържа разпознат анализ");
+      } catch (err) { toast("Не се прочете: " + err.message); }
+      break;
+    }
     case "findold": {
       const note = $("#impnote");
       if (note) note.textContent = "Търся…";
@@ -1735,7 +2473,18 @@ document.addEventListener("click", async e => {
       if (n) { toast("Пренесени: " + n); paintLibrary(); }
       break;
     }
-    case "backup": exportAll(); break;
+    case "backup": exportAll(); markBackup(); toast("Копието е свалено"); paintLibrary(); break;
+    case "backuphow":
+      $("#modalBox").innerHTML = `
+        <h3>Къде отива копието</h3>
+        <p>„Изнеси всичко“ сваля файл <b>dulbok-prochit-backup.json</b> с всички книги, бележки и любими раздели.</p>
+        <p><b>Ако видиш „The page is trying to access resources outside the application“</b> — четецът блокира свалянето. В Documents се маха така: приложението Documents → Settings (зъбчатката) → изключи <b>Block external links in HTML viewer</b>. После пробвай пак.</p>
+        <p>Не искаш ли да пипаш настройки, натисни <b>„Като текст за копиране“</b> — копираш съдържанието и го залепваш в бележка или файл. Върши същата работа.</p>
+        <p><b>В Safari:</b> сваленото е във „Файлове“ → „На моя iPhone“ → „Downloads“. Премести го в iCloud Drive или Google Drive, за да оцелее при смяна на телефон.</p>
+        <p>Връщането става от началния екран: <b>„Внеси от файл“</b> или <b>„Внеси от текст“</b>, ако си копирал съдържанието. Двете дават еднакъв резултат.</p>
+        <button class="btn" data-act="delno">Разбрах</button>`;
+      $("#modal").classList.add("show");
+      break;
     case "startjob": startJob(false); break;
     case "resume": resumeJob(); break;
     case "dropjob": JOBDATA = null; await DB.del(JOB); paintLibrary(); break;
@@ -1743,6 +2492,9 @@ document.addEventListener("click", async e => {
     case "stopjob": CANCEL = true; JOBDATA.running = false; toast("Спирам…"); paintRun(); break;
     case "favfilter": UI.onlyFav = !UI.onlyFav; paintReader(); break;
     case "export": exportMd(); break;
+    case "exporttext": exportMd(true); break;
+    case "backuptext": exportAll(true); markBackup(); break;
+    case "copydump": copyDump(); break;
     case "print": window.print(); break;
     case "fplus": setFont(1); break;
     case "fminus": setFont(-1); break;
@@ -1762,12 +2514,11 @@ function setFont(d) {
   document.documentElement.style.setProperty("--fs", Math.min(22, Math.max(14, cur + d)) + "px");
 }
 
-function exportMd() {
-  const b = BOOK;
+function buildMd(b) {
   let out = "# " + b.title + "\n\n" + (b.author || "") + "\n\n---\n\n";
   b.sections.forEach(s => {
     out += "## " + (b.ann.fav[s.id] ? "★ " : "") + s.title + "\n\n" + s.body + "\n\n";
-    const ns = b.ann.notes[s.id] || [];
+    const ns = (b.ann.notes || {})[s.id] || [];
     if (ns.length) {
       out += "**Мои бележки:**\n\n";
       ns.forEach(n => { if (n.quote) out += "> " + n.quote + "\n\n"; if (n.text) out += "- " + n.text + "\n"; });
@@ -1775,12 +2526,66 @@ function exportMd() {
     }
     out += "---\n\n";
   });
-  const a = document.createElement("a");
-  a.href = URL.createObjectURL(new Blob([out], { type: "text/markdown;charset=utf-8" }));
-  a.download = (b.title || "analiz").replace(/[^\wа-яА-Я\s-]/gi, "").slice(0, 60) + ".md";
-  document.body.appendChild(a); a.click(); a.remove();
-  setTimeout(() => URL.revokeObjectURL(a.href), 1500);
+  return out;
 }
+
+function exportMd(asText) {
+  const b = BOOK;
+  if (!b) return;
+  const out = buildMd(b);
+  if (asText) return showText(b.title, out, "Маркирай и копирай текста, ако свалянето е блокирано.");
+  download((b.title || "analiz").replace(/[^\wа-яА-Я\s-]/gi, "").slice(0, 60) + ".md", out, "text/markdown;charset=utf-8");
+}
+
+/* ---------- 11б. ПОТВЪРЖДЕНИЕ ЗА ИЗТРИВАНЕ ---------- */
+
+let PENDING_DEL = null;
+
+function closeModal() {
+  PENDING_DEL = null;
+  $("#modal").classList.remove("show");
+  $("#modalBox").innerHTML = "";
+}
+
+function askDelete(entry) {
+  PENDING_DEL = entry.id;
+  $("#modalBox").innerHTML = `
+    <h3>Да изтрия ли „${esc(entry.title)}“?</h3>
+    <p>Изчезват анализът, бележките и любимите раздели. Върне ли ти се книгата, трябва да я анализираш наново — с ново плащане${entry.cost ? " (тази струваше $" + entry.cost.toFixed(2) + ")" : ""}.</p>
+    <p><b>Това не може да се върне.</b></p>
+    <button class="btn" data-act="delsave">Първо свали копие</button>
+    <button class="btn danger" data-act="delyes">Да, изтрий</button>
+    <button class="btn" data-act="delno">Откажи</button>`;
+  $("#modal").classList.add("show");
+}
+
+async function doDelete() {
+  const id = PENDING_DEL;
+  if (!id) return;
+  closeModal();
+  await DB.del(bkey(id));
+  await DB.del("full:" + id);
+  INDEX = INDEX.filter(x => x.id !== id);
+  await DB.set(IDX, INDEX);
+  if (BOOK && BOOK.id === id) BOOK = null;
+  if (CHAT.book && CHAT.book.id === id) { CHAT.book = null; CHAT.openTurn = null; }
+  toast("Изтрито");
+  paintLibrary();
+}
+
+async function saveCopyOf(id) {
+  const b = await DB.get(bkey(id));
+  if (!b) return toast("Книгата не се намери");
+  b.ann = b.ann || { fav: {}, notes: {}, read: {} };
+  const md = buildMd(b);
+  const ok = download((b.title || "analiz").replace(/[^\wа-яА-Я\s-]/gi, "").slice(0, 60) + ".md",
+    md, "text/markdown;charset=utf-8");
+  if (ok) toast("Копието е свалено — книгата остава");
+  setTimeout(() => showText(b.title, md,
+    "Ако свалянето е блокирано от четеца, копирай текста оттук. Книгата остава непокътната."), 400);
+}
+
+$("#modal").addEventListener("click", e => { if (e.target.id === "modal") closeModal(); });
 
 /* ---------- 12. ПОДГОТОВКА И СТАРТ ---------- */
 
@@ -1805,7 +2610,7 @@ async function prepare(source) {
   say("Разглеждам книгата…");
   let scan = {};
   try {
-    scan = parseJSON(await ask("claude-haiku-4-5-20251001", P.scan(fit(text, 6000)), { max: 300 })) || {};
+    scan = parseJSON(await ask("claude-haiku-4-5-20251001", P.scan(fit(text, 6000)), { max: 300, cont: 0 })) || {};
   } catch (e) {
     if (e.needKey) { say(""); toast("Първо въведи API ключ"); return goto("settings"); }
     say("Проверката не мина: " + e.message); return;
@@ -1817,6 +2622,7 @@ async function prepare(source) {
     title: (scan2.title || "").trim() || name.replace(/\.[^.]+$/, ""),
     author: (scan2.author || "").trim(),
     topic: (scan2.topic || "").trim(),
+    category: (scan2.category || "").trim() || "Друго",
     scan: scan2,
     plan: buildPlan(text, scan2),
     vars: variants(text, scan2)
@@ -1844,6 +2650,7 @@ async function startJob(which) {
     error: null,
     book: {
       id: uid(), title: PEND.title, author: PEND.author, topic: PEND.topic,
+      category: PEND.category || "Друго",
       createdAt: Date.now(), sections: [], ann: { fav: {}, notes: {}, read: {} }, done: false,
       plan: pl, scan: PEND.scan || {},
       vars: PEND.vars ? {
@@ -1925,6 +2732,20 @@ $("#float").onclick = async () => {
   try { window.getSelection().removeAllRanges(); } catch (e) {}
   await addNote(s.sid, "", s.text);
 };
+
+/* ---------- 13б. БУТОН „НАГОРЕ“ ---------- */
+
+(function () {
+  const btn = $("#toTop");
+  btn.innerHTML = SVG('<path d="M12 19V6"/><path d="M6 11.5L12 5.5l6 6"/>');
+  btn.querySelector("svg").setAttribute("width", "24");
+  btn.querySelector("svg").setAttribute("height", "24");
+  btn.onclick = () => window.scrollTo({ top: 0, behavior: "smooth" });
+  const upd = () => btn.classList.toggle("show", window.scrollY > 420);
+  document.addEventListener("scroll", upd, { passive: true });
+  window.addEventListener("resize", upd);
+  upd();
+})();
 
 /* ---------- 14. СТАРТ ---------- */
 
