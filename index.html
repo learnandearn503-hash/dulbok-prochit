@@ -196,8 +196,12 @@ code{font-family:'JetBrains Mono',monospace;font-size:.86em;background:var(--sun
 .turn{background:var(--raised);border:1px solid var(--rule);border-radius:3px;
   margin-bottom:9px;box-shadow:var(--shadow);overflow:hidden}
 .turn.open{border-left:4px solid var(--wine)}
-.qhead{display:flex;width:100%;text-align:left;border:none;background:none;
-  padding:13px 12px;gap:10px;align-items:flex-start}
+.qrow{display:flex;align-items:stretch}
+.qhead{display:flex;flex:1;text-align:left;border:none;background:none;
+  padding:13px 6px 13px 12px;gap:10px;align-items:flex-start}
+.qdel{border:none;border-left:1px solid var(--sunk);background:none;color:var(--ink3);
+  padding:0 13px;display:flex;align-items:center}
+.qdel:active{background:var(--sunk);color:var(--wine)}
 .qhead .qn{font-family:'JetBrains Mono',monospace;font-size:10.5px;color:var(--ink3);padding-top:3px}
 .qhead .qt{flex:1;font-size:15px;line-height:1.4}
 .turn.open .qhead .qt{font-weight:600}
@@ -1337,6 +1341,29 @@ function download(name, text, mime) {
   } catch (e) { return false; }
 }
 
+/* Версия за споделяне: анализите остават, личното отпада —
+   въпросите към чата, бележките, любимите и отметките са твои. */
+async function exportSeed(asText, withChat) {
+  const books = [];
+  for (const e of INDEX) {
+    const b = await DB.get(bkey(e.id));
+    if (!b || !b.sections || !b.sections.length) continue;
+    books.push({
+      id: b.id, title: b.title, author: b.author, topic: b.topic,
+      category: b.category || "Друго", createdAt: b.createdAt,
+      sections: b.sections, done: true,
+      plan: b.plan, scan: b.scan, coverage: b.coverage, mapIssues: b.mapIssues,
+      samples: b.samples,
+      chat: withChat && Array.isArray(b.chat) ? b.chat : [],
+      ann: { fav: {}, notes: {}, read: {} }
+    });
+  }
+  const json = JSON.stringify({ books }, null, 1);
+  if (asText) return showText("books.json за споделяне", json,
+    "Копирай и запази като файл с име <b>books.json</b> до index.html в репозиторито.");
+  download("books.json", json, "application/json");
+}
+
 async function exportAll(asText) {
   const books = [];
   for (const e of INDEX) {
@@ -1392,7 +1419,7 @@ function md(text) {
 /* ---------- 10. ЕКРАНИ ---------- */
 
 let SCREEN = "library";
-const VER = "2.6 · август 2026";
+const VER = "2.8 · август 2026";
 let STACK = [];
 let BOOK = null;
 let PEND = null;         /* подготвен план преди старт */
@@ -1681,6 +1708,18 @@ function paintSettings() {
     </div>
 
     <div class="card" style="margin-top:16px">
+      <div class="stat">Споделяне на библиотеката</div>
+      <p class="hint" style="margin-top:8px">Прави файл <b>books.json</b>. Сложиш ли го до index.html, всеки нов посетител отваря приложението с тези книги вече вътре. Бележките и отметките ти остават само при теб.</p>
+      <p class="hint">Въпросите от „Попитай книгата“ можеш да включиш или не. Преди да ги включиш, мини през тях и изтрий личните — всеки въпрос има кошче до себе си.</p>
+      <div class="row" style="margin-top:12px">
+        <button class="btn" data-act="seedq">С въпросите</button>
+        <button class="btn" data-act="seed">Без въпросите</button>
+        <button class="btn" data-act="seedtext">Като текст</button>
+        <button class="btn" data-act="seedhow">Как се качва</button>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:16px">
       <div class="stat">Как се пести</div>
       <p class="hint" style="margin-top:8px">
         Общата суровина се праща веднъж и се <b>кешира</b> — всяка следваща заявка я чете на 10% от цената.
@@ -1792,9 +1831,9 @@ function paintAsk() {
   for (let i = 0; i < msgs.length; i++) {
     if (msgs[i].role === "user") {
       const a = msgs[i + 1] && msgs[i + 1].role === "assistant" ? msgs[i + 1] : null;
-      turns.push({ q: msgs[i], a, i });
+      turns.push({ q: msgs[i], a, at: i, len: a ? 2 : 1 });
       if (a) i++;
-    } else turns.push({ q: null, a: msgs[i], i });
+    } else turns.push({ q: null, a: msgs[i], at: i, len: 1 });
   }
   if (CHAT.openTurn == null && turns.length) CHAT.openTurn = turns.length - 1;
 
@@ -1818,11 +1857,14 @@ function paintAsk() {
           const open = CHAT.openTurn === ti;
           const q = t.q ? t.q.text : "(въпросът липсва)";
           return `<div class="turn ${open ? "open" : ""}">
-            <button class="qhead" data-turn="${ti}">
-              <span class="qn">${String(ti + 1).padStart(2, "0")}</span>
-              <span class="qt">${esc(q)}</span>
-              <span class="qc">${open ? "−" : "+"}</span>
-            </button>
+            <div class="qrow">
+              <button class="qhead" data-turn="${ti}">
+                <span class="qn">${String(ti + 1).padStart(2, "0")}</span>
+                <span class="qt">${esc(q)}</span>
+                <span class="qc">${open ? "−" : "+"}</span>
+              </button>
+              <button class="qdel" data-delturn="${ti}" aria-label="Изтрий въпроса">${ICO.trash}</button>
+            </div>
             ${open ? '<div class="qbody">' + (t.a ? md(t.a.text) : '<p class="hint">Няма отговор — пусни въпроса пак.</p>') +
               (t.a && t.a.deep ? '<p class="stat" style="margin-top:10px">проверено в пълния текст</p>' : "") +
               (t.a && !t.a.deep && b.hasFull
@@ -2276,7 +2318,7 @@ function paintNotes() {
 /* ---------- 11. ДЕЙСТВИЯ ---------- */
 
 document.addEventListener("click", async e => {
-  const t = e.target.closest("[data-nav],[data-act],[data-open],[data-del],[data-goto],[data-fav],[data-note],[data-read],[data-copy],[data-savenote],[data-delnote],[data-src],[data-auto],[data-jump],[data-run],[data-cat],[data-sample],[data-turn],[data-redo],[data-deep]");
+  const t = e.target.closest("[data-nav],[data-act],[data-open],[data-del],[data-goto],[data-fav],[data-note],[data-read],[data-copy],[data-savenote],[data-delnote],[data-src],[data-auto],[data-jump],[data-run],[data-cat],[data-sample],[data-turn],[data-redo],[data-deep],[data-delturn]");
   if (!t) return;
   const d = t.dataset;
 
@@ -2355,6 +2397,7 @@ document.addEventListener("click", async e => {
     return paintAsk();
   }
   if (d.redo) { redoSection(d.redo); return; }
+  if (d.delturn != null && t.hasAttribute("data-delturn")) { askDeleteTurn(Number(d.delturn)); return; }
   if (d.deep != null && t.hasAttribute("data-deep")) {
     CHAT.draft = d.deep;
     askSend(true);
@@ -2373,6 +2416,7 @@ document.addEventListener("click", async e => {
     case "advise": PICKMODE = "advice"; $("#file").click(); break;
     case "advice": goto("advice"); break;
     case "delyes": doDelete(); break;
+    case "delturnyes": doDeleteTurn(); break;
     case "delno": closeModal(); break;
     case "delsave": { const id = PENDING_DEL; closeModal(); if (id) saveCopyOf(id); break; }
     case "about": goto("about"); break;
@@ -2494,6 +2538,20 @@ document.addEventListener("click", async e => {
     case "export": exportMd(); break;
     case "exporttext": exportMd(true); break;
     case "backuptext": exportAll(true); markBackup(); break;
+    case "seed": exportSeed(false, false); break;
+    case "seedq": exportSeed(false, true); break;
+    case "seedtext": exportSeed(true, true); break;
+    case "seedhow":
+      $("#modalBox").innerHTML = `
+        <h3>Библиотека наготово</h3>
+        <p>1. Натисни <b>„Направи books.json“</b>.</p>
+        <p>2. Качи файла в същото репозитори, до <b>index.html</b>, без да променяш името.</p>
+        <p>3. Готово. Всеки, който отвори адреса за пръв път, получава книгите вътре. Който вече е ползвал приложението, не губи нищо — своите книги си остават, а тези не се добавят.</p>
+        <p><b>Преди да го направиш:</b> анализите са производни на чужди книги. Личното ползване и споделянето с познати е едно; публичен адрес, от който всеки може да ги чете, е разпространение. Прецени сам, особено ако книгите са нови и в продажба.</p>
+        <p>Включиш ли и въпросите, те стават публични заедно с всичко останало. Мини през тях преди това — всеки въпрос има кошче до номера си.</p>
+        <button class="btn" data-act="delno">Разбрах</button>`;
+      $("#modal").classList.add("show");
+      break;
     case "copydump": copyDump(); break;
     case "print": window.print(); break;
     case "fplus": setFont(1); break;
@@ -2586,6 +2644,44 @@ async function saveCopyOf(id) {
 }
 
 $("#modal").addEventListener("click", e => { if (e.target.id === "modal") closeModal(); });
+
+let PENDING_TURN = null;
+
+function askDeleteTurn(ti) {
+  const b = CHAT.book;
+  if (!b || !b.chat) return;
+  const msgs = b.chat;
+  let idx = 0, count = 1, text = "";
+  for (let i = 0, k = 0; i < msgs.length; i++) {
+    const isU = msgs[i].role === "user";
+    const hasA = isU && msgs[i + 1] && msgs[i + 1].role === "assistant";
+    if (k === ti) { idx = i; count = hasA ? 2 : 1; text = msgs[i].text || ""; break; }
+    if (hasA) i++;
+    k++;
+  }
+  PENDING_TURN = { idx, count };
+  $("#modalBox").innerHTML = `
+    <h3>Да изтрия ли този въпрос?</h3>
+    <p style="font-style:italic;color:var(--ink2);border-left:2px solid var(--sunk);padding-left:10px">${esc(text.slice(0, 200))}</p>
+    <p>Изтриват се въпросът и отговорът към него. Останалият разговор не се пипа.</p>
+    <p><b>Това не може да се върне.</b></p>
+    <button class="btn danger" data-act="delturnyes">Да, изтрий</button>
+    <button class="btn" data-act="delno">Откажи</button>`;
+  $("#modal").classList.add("show");
+}
+
+async function doDeleteTurn() {
+  const t = PENDING_TURN;
+  PENDING_TURN = null;
+  closeModal();
+  const b = CHAT.book;
+  if (!t || !b) return;
+  b.chat.splice(t.idx, t.count);
+  CHAT.openTurn = null;
+  await persistBook(b);
+  toast("Изтрито");
+  paintAsk();
+}
 
 /* ---------- 12. ПОДГОТОВКА И СТАРТ ---------- */
 
@@ -2749,6 +2845,20 @@ $("#float").onclick = async () => {
 
 /* ---------- 14. СТАРТ ---------- */
 
+/* Ако до index.html стои books.json, новият посетител го получава наготово.
+   Само веднъж и само при празна библиотека — чуждите книги не се трият
+   и не се презаписват. */
+async function loadSeed() {
+  if (INDEX.length || ls("seeded", "") === "1") return 0;
+  try {
+    const res = await fetch("books.json", { cache: "no-store" });
+    if (!res.ok) return 0;
+    const n = await importText(await res.text());
+    lset("seeded", "1");
+    return n;
+  } catch (e) { return 0; }
+}
+
 (async function init() {
   INDEX = (await DB.get(IDX)) || [];
   const j = await DB.get(JOB);
@@ -2756,6 +2866,11 @@ $("#float").onclick = async () => {
   /* първо отваряне: показваме инструкциите, вместо празен екран */
   if (!INDEX.length && !CFG.key && ls("seen", "") !== "1") { lset("seen", "1"); SCREEN = "help"; STACK = ["library"]; }
   paint();
+  /* книги, доставени заедно с файла */
+  try {
+    const seeded = await loadSeed();
+    if (seeded) { toast("Заредени " + seeded + " книги"); if (SCREEN === "library") paintLibrary(); }
+  } catch (e) {}
   /* книгите от предишната версия се пренасят сами, ако са на същия адрес */
   try {
     const n = await importOld();
